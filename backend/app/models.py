@@ -4,6 +4,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 db = SQLAlchemy()
 
 
+game_player = db.Table(
+    'GamePlayer',
+    db.Column('game_id', db.ForeignKey("games.id"), primary_key=True),
+    db.Column('book_id', db.ForeignKey("players.id"), primary_key=True)
+)
+
+
 class Player(db.Model):
     __tablename__ = 'players'
 
@@ -23,6 +30,9 @@ class Player(db.Model):
         return check_password_hash(self.password, password)
 
     rounds = db.relationship('Round', back_populates='player')
+    games = db.relationship("Game",
+                            secondary=game_player,
+                            back_populates="players")
 
 
 class Game(db.Model):
@@ -31,6 +41,10 @@ class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     bank_start = db.Column(db.Integer, nullable=False)
     bank_reserve = db.Column(db.Integer)
+
+    players = db.relationship("Player",
+                              secondary=game_player,
+                              back_populates="games")
 
 
 class Round(db.Model):
