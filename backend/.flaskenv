@@ -1,3 +1,3 @@
-FLASK_APP=app.py
+FLASK_APP=food_chain_api.py
 FLASK_ENV=development
 FLASK_DEBUG=1
