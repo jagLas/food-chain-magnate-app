@@ -1,14 +1,18 @@
-from flask import Flask, jsonify
+from flask import Flask
 from flask_migrate import Migrate
 from app.models import db
 from .config import Configuration
+from .routes.main import bp
 
+# initialize Flask app
 app = Flask(__name__)
 app.config.from_object(Configuration)
+
+# configure app to use SQLAlchemy
 db.init_app(app)
+
+# configure Alembic
 migrate = Migrate(app, db)
 
-
-@app.route('/')
-def index():
-    return jsonify('The server is up and running')
+# register routes
+app.register_blueprint(bp)
