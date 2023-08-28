@@ -72,6 +72,7 @@ class Round(db.Model):
     player = db.relationship('Player', back_populates='rounds')
     sales = db.relationship('Sale', back_populates='round')
 
+
 class Sale(db.Model):
     __tablename__ = 'sales'
 
