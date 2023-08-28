@@ -51,6 +51,7 @@ class Round(db.Model):
     __tablename__ = 'rounds'
 
     id = db.Column(db.Integer, primary_key=True)
+    game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
     round = db.Column(db.Integer, nullable=False)
     player_id = db.Column(db.Integer, db.ForeignKey('players.id'))
     first_burger = db.Column(db.Boolean)
@@ -69,3 +70,17 @@ class Round(db.Model):
     # marketers = db.Column(db.Integer, default=0, nullable=False)
 
     player = db.relationship('Player', back_populates='rounds')
+    sales = db.relationship('Sale', back_populates='round')
+
+class Sale(db.Model):
+    __tablename__ = 'sales'
+
+    id = db.Column(db.Integer, primary_key=True)
+    round_id = db.Column(db.Integer, db.ForeignKey('rounds.id'))
+    house_number = db.Column(db.Integer)
+    garden = db.Column(db.Boolean)
+    burgers = db.Column(db.Integer, default=0, nullable=False)
+    pizzas = db.Column(db.Integer, default=0, nullable=False)
+    drinks = db.Column(db.Integer, default=0, nullable=False)
+
+    round = db.relationship('Round', back_populates='sales')
