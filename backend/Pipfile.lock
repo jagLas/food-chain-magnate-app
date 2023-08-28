@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "af17348032fc349d10c124a3d6faa15e35ce0954d8e056a1e7167d1406ba1005"
+            "sha256": "dfee58b71d7345bc2bbe3c1de128ff26635c310574a68f32675dc7cfdcb966b9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -22,7 +22,6 @@
                 "sha256:d6c96c2482740592777c400550a523bc7a9aada4e210cae2e733354ddae6f6f8"
             ],
             "index": "pypi",
-            "markers": "python_version >= '3.7'",
             "version": "==1.11.3"
         },
         "blinker": {
@@ -47,7 +46,6 @@
                 "sha256:f69fcd559dc907ed196ab9df0e48471709175e696d6e698dd4dbe940f96ce66b"
             ],
             "index": "pypi",
-            "markers": "python_version >= '3.8'",
             "version": "==2.3.3"
         },
         "flask-migrate": {
@@ -56,7 +54,6 @@
                 "sha256:77580f27ab39bc68be4906a43c56d7674b45075bc4f883b1d0b985db5164d58f"
             ],
             "index": "pypi",
-            "markers": "python_version >= '3.6'",
             "version": "==4.0.4"
         },
         "flask-sqlalchemy": {
@@ -65,7 +62,6 @@
                 "sha256:cabb6600ddd819a9f859f36515bb1bd8e7dbf30206cc679d2b081dff9e383283"
             ],
             "index": "pypi",
-            "markers": "python_version >= '3.7'",
             "version": "==3.0.5"
         },
         "greenlet": {
@@ -278,7 +274,6 @@
                 "sha256:fdca0511458d26cf39b827a663d7d87db6f32b93efc22442a742035728603d5f"
             ],
             "index": "pypi",
-            "markers": "python_version >= '3.6'",
             "version": "==2.9.7"
         },
         "python-dotenv": {
@@ -287,7 +282,6 @@
                 "sha256:f5971a9226b701070a4bf2c38c89e5a3f0d64de8debda981d1db98583009122a"
             ],
             "index": "pypi",
-            "markers": "python_version >= '3.8'",
             "version": "==1.0.0"
         },
         "sqlalchemy": {
@@ -334,7 +328,7 @@
                 "sha256:ea8186be85da6587456c9ddc7bf480ebad1a0e6dcbad3967c4821233a4d4df57",
                 "sha256:eefebcc5c555803065128401a1e224a64607259b5eb907021bf9b175f315d2a6"
             ],
-            "markers": "python_version >= '3.7'",
+            "index": "pypi",
             "version": "==2.0.20"
         },
         "typing-extensions": {
