@@ -16,3 +16,4 @@ python-dotenv = "*"
 sqlalchemy = "*"
 
 [dev-packages]
+pycodestyle = "*"
