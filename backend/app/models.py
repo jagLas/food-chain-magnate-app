@@ -7,7 +7,7 @@ db = SQLAlchemy()
 game_player = db.Table(
     'GamePlayer',
     db.Column('game_id', db.ForeignKey("games.id"), primary_key=True),
-    db.Column('book_id', db.ForeignKey("players.id"), primary_key=True)
+    db.Column('player_id', db.ForeignKey("players.id"), primary_key=True)
 )
 
 
@@ -52,7 +52,7 @@ class Round(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     round = db.Column(db.Integer, nullable=False)
-    player_id = db.Column(db.String(50), db.ForeignKey('players.id'))
+    player_id = db.Column(db.Integer, db.ForeignKey('players.id'))
     first_burger = db.Column(db.Boolean)
     first_pizza = db.Column(db.Boolean)
     first_drink = db.Column(db.Boolean)
