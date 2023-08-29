@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql import functions as func
+from sqlalchemy import case
 
 db = SQLAlchemy()
 
@@ -108,43 +109,57 @@ class Round(db.Model):
         }
 
     def get_totals(self):
+        """Returns itself as_dict but appends total sales"""
         base_data = self.as_dict()
+
+        query_case = case(
+            (Sale.garden == True, self.unit_price * 2 *
+             (Sale.burgers + Sale.pizzas + Sale.drinks)),
+            else_=self.unit_price * (Sale.burgers + Sale.pizzas + Sale.drinks)
+        )
+
         totals = db.session.query(
             (Round.game_id).label('game_id'),
             (Sale.round_id).label('round_id'),
             (Sale.garden).label('garden'),
             func.sum(Sale.burgers).label('burger_total'),
             func.sum(Sale.pizzas).label('pizza_total'),
-            func.sum(Sale.drinks).label('drink_total')
+            func.sum(Sale.drinks).label('drink_total'),
+            func.sum(query_case.label('revenue')).label('revenue_total')
             ) \
             .group_by(Sale.round_id, Round.game_id, Sale.garden).join(Round).\
-            filter_by(game_id=self.game_id, id=self.id).all()
+            filter_by(id=self.id).all()
 
         base_data['totals'] = {
             'total': {
                 'burgers': 0,
                 'pizzas': 0,
-                'drinks': 0
+                'drinks': 0,
+                'revenue': 0
             }
         }
 
         # Separates totals into those with and those without gardens
         for total in totals:
-            print(total)
             if total.garden is True:
                 base_data['totals']['garden'] = {
                     'burgers': total.burger_total,
                     'pizzas': total.pizza_total,
-                    'drinks': total.drink_total
+                    'drinks': total.drink_total,
+                    'revenue': total.revenue_total
                 }
             else:
                 base_data['totals']['plain'] = {
                     'burgers': total.burger_total,
                     'pizzas': total.pizza_total,
-                    'drinks': total.drink_total
+                    'drinks': total.drink_total,
+                    'revenue': total.revenue_total
                 }
             # creates combined total for garden and non-garden sales
             base_data['totals']['total']['burgers'] += total.burger_total
+            base_data['totals']['total']['pizzas'] += total.pizza_total
+            base_data['totals']['total']['drinks'] += total.drink_total
+            base_data['totals']['total']['revenue'] += total.revenue_total
 
         return base_data
 
