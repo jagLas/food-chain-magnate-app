@@ -18,6 +18,9 @@ def get_games():
 @bp.route('/games', methods=['POST'])
 def create_game():
     data = request.json
+    data['players'] = Player.query.filter(Player.id.in_(data['player_ids'])) \
+        .all()
+    data.pop('player_ids')
     game = Game(**data)
     db.session.add(game)
     db.session.commit()
@@ -36,5 +39,4 @@ def create_player():
     player = Player(**data)
     db.session.add(player)
     db.session.commit()
-
     return player.as_dict()

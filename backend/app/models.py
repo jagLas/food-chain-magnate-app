@@ -56,7 +56,8 @@ class Game(db.Model):
         return {
             'id': self.id,
             'bank_start': self.bank_start,
-            'bank_reserve': self.bank_reserve
+            'bank_reserve': self.bank_reserve,
+            'players': [player.as_dict() for player in self.players]
         }
 
 
