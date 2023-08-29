@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from ..models import db, Game, Player
+from ..models import db, Game, Player, Round
 
 bp = Blueprint('test', __name__)
 
@@ -25,6 +25,12 @@ def create_game():
     db.session.add(game)
     db.session.commit()
     return game.as_dict()
+
+
+@bp.route('/games/<int:id>/rounds')
+def get_rounds(id):
+    rounds = Round.query.filter_by(game_id=id).all()
+    return [round.as_dict() for round in rounds]
 
 
 @bp.route('/players',)
