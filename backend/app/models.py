@@ -102,7 +102,8 @@ class Round(db.Model):
             'cfo': self.cfo,
             'unit_price': self.unit_price,
             'waitresses': self.waitresses,
-            'salaries_paid': self.salaries_paid
+            'salaries_paid': self.salaries_paid,
+            'sales': [sale.as_dict() for sale in self.sales]
         }
 
 
@@ -118,3 +119,13 @@ class Sale(db.Model):
     drinks = db.Column(db.Integer, default=0, nullable=False)
 
     round = db.relationship('Round', back_populates='sales')
+
+    def as_dict(self):
+        return {
+            'sale_id': self.id,
+            'house_number': self.house_number,
+            'garden': self.garden,
+            'burgers': self.burgers,
+            'pizzas': self.pizzas,
+            'drinks': self.drinks,
+        }
