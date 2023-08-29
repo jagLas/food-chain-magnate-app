@@ -26,7 +26,8 @@ with app.app_context():
     db.session.add(round1)
     db.session.add(round2)
 
-    sale1 = Sale(round=round1, house_number=6, burgers=1, pizzas=2)
+    sale1 = Sale(round=round1, house_number=6, burgers=1, pizzas=2,
+                 garden=True)
     sale5 = Sale(round=round1, house_number=3, burgers=2, drinks=1)
     sale2 = Sale(round=round2, house_number=5, pizzas=2, drinks=2)
     sale3 = Sale(round=round3, house_number=5, drinks=1)
