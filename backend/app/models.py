@@ -46,6 +46,13 @@ class Game(db.Model):
                               secondary=game_player,
                               back_populates="games")
 
+    def as_dict(self):
+        return {
+            'id': self.id,
+            'bank_start': self.bank_start,
+            'bank_reserve': self.bank_reserve
+        }
+
 
 class Round(db.Model):
     __tablename__ = 'rounds'
