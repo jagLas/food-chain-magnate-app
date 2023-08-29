@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.sql import functions as func
 
 db = SQLAlchemy()
 
@@ -105,6 +106,28 @@ class Round(db.Model):
             'salaries_paid': self.salaries_paid,
             'sales': [sale.as_dict() for sale in self.sales]
         }
+
+    def get_totals(self):
+        base_data = self.as_dict()
+        totals = db.session.query(
+            (Round.game_id).label('game_id'),
+            (Sale.round_id).label('round_id'),
+            func.sum(Sale.burgers).label('burger_total'),
+            func.sum(Sale.pizzas).label('pizza_total'),
+            func.sum(Sale.drinks).label('drink_total')
+            ) \
+            .group_by(Sale.round_id, Round.game_id).join(Round).\
+            filter_by(game_id=self.game_id, id=self.id).all()
+
+        totals = [{
+            'game_id': total.game_id,
+            'round_id': total.round_id,
+            'burger_total': total.burger_total,
+            'pizza_total': total.pizza_total,
+            'drink_total': total.drink_total
+        } for total in totals]
+        base_data['totals'] = totals
+        return base_data
 
 
 class Sale(db.Model):
