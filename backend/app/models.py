@@ -112,21 +112,40 @@ class Round(db.Model):
         totals = db.session.query(
             (Round.game_id).label('game_id'),
             (Sale.round_id).label('round_id'),
+            (Sale.garden).label('garden'),
             func.sum(Sale.burgers).label('burger_total'),
             func.sum(Sale.pizzas).label('pizza_total'),
             func.sum(Sale.drinks).label('drink_total')
             ) \
-            .group_by(Sale.round_id, Round.game_id).join(Round).\
+            .group_by(Sale.round_id, Round.game_id, Sale.garden).join(Round).\
             filter_by(game_id=self.game_id, id=self.id).all()
 
-        totals = [{
-            'game_id': total.game_id,
-            'round_id': total.round_id,
-            'burger_total': total.burger_total,
-            'pizza_total': total.pizza_total,
-            'drink_total': total.drink_total
-        } for total in totals]
-        base_data['totals'] = totals
+        base_data['totals'] = {
+            'total': {
+                'burgers': 0,
+                'pizzas': 0,
+                'drinks': 0
+            }
+        }
+
+        # Separates totals into those with and those without gardens
+        for total in totals:
+            print(total)
+            if total.garden is True:
+                base_data['totals']['garden'] = {
+                    'burgers': total.burger_total,
+                    'pizzas': total.pizza_total,
+                    'drinks': total.drink_total
+                }
+            else:
+                base_data['totals']['plain'] = {
+                    'burgers': total.burger_total,
+                    'pizzas': total.pizza_total,
+                    'drinks': total.drink_total
+                }
+            # creates combined total for garden and non-garden sales
+            base_data['totals']['total']['burgers'] += total.burger_total
+
         return base_data
 
 
