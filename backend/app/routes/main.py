@@ -27,6 +27,12 @@ def create_game():
     return game.as_dict()
 
 
+@bp.route('/games/<int:game_id>/rounds/<int:round>')
+def get_rounds_by_num(game_id, round):
+    rounds = Round.query.filter_by(game_id=game_id, round=round).all()
+    return [round.as_dict() for round in rounds]
+
+
 @bp.route('/games/<int:id>/rounds')
 def get_rounds(id):
     rounds = Round.query.filter_by(game_id=id).all()
