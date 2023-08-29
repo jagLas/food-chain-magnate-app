@@ -52,6 +52,8 @@ class Game(db.Model):
                               secondary=game_player,
                               back_populates="games")
 
+    rounds = db.relationship('Round', back_populates='game')
+
     def as_dict(self):
         return {
             'id': self.id,
@@ -85,6 +87,23 @@ class Round(db.Model):
 
     player = db.relationship('Player', back_populates='rounds')
     sales = db.relationship('Sale', back_populates='round')
+    game = db.relationship('Game', back_populates='rounds')
+
+    def as_dict(self):
+        return {
+            'id': self.id,
+            'game_id': self.game_id,
+            'round': self.round,
+            'player_id': self.player_id,
+            'first_burger': self.first_burger,
+            'first_pizza': self.first_pizza,
+            'first_drink': self.first_drink,
+            'first_waitress': self.first_waitress,
+            'cfo': self.cfo,
+            'unit_price': self.unit_price,
+            'waitresses': self.waitresses,
+            'salaries_paid': self.salaries_paid
+        }
 
 
 class Sale(db.Model):
