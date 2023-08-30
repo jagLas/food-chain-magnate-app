@@ -48,6 +48,109 @@ def get_rounds(id):
     rounds = Round.query.filter_by(game_id=id).all()
     return [round.as_dict() for round in rounds]
 
+@bp.route('/games/<int:id>/player_totals')
+def get_player_totals(id):
+
+    # Case to calculate revenue from sales accounting for gardens
+    sales_case = case(
+        (Sale.garden == True, Round.unit_price * 2 * (Sale.burgers +
+                                                      Sale.pizzas +
+                                                      Sale.drinks)),
+        else_=Round.unit_price * (Sale.burgers + Sale.pizzas + Sale.drinks)
+    )
+
+    # Case to calculate waitress income accounting for first waitress milestone
+    waitress_case = case(
+        (Round.first_waitress == True, Round.waitresses * 5),
+        else_=Round.waitresses * 3
+    )
+
+    burger_bonus = case(
+        (Round.first_burger == True, Sale.burgers * 5),
+        else_=0
+    )
+
+    pizza_bonus = case(
+        (Round.first_pizza == True, Sale.pizzas * 5),
+        else_=0
+    )
+
+    drink_bonus = case(
+        (Round.first_drink == True, Sale.drinks * 5),
+        else_=0
+    )
+
+    # Subquery to that will be used to combine waitress income with sales
+    waitresses_subquery = db.session.query(
+            (Round.game_id).label('game_id'),
+            (Round.player_id).label('player_id'),
+            (Player.name).label('player_name'),
+            func.sum(waitress_case).label('waitress_income')
+        ).filter_by(game_id=id).join(Player).group_by(Round.game_id, Round.player_id, Player.name).subquery()
+
+    # print(waitresses_subquery)
+    # Query for necessary info to make calculations
+    rounds = db.session.query(
+            (Round.game_id).label('game_id'),
+            func.sum(Sale.burgers).label('burgers'),
+            func.sum(Sale.pizzas).label('pizzas'),
+            func.sum(Sale.drinks).label('drinks'),
+            func.sum(sales_case).label('sales'),
+            func.sum(burger_bonus).label('burger_bonus'),
+            func.sum(pizza_bonus).label('pizza_bonus'),
+            func.sum(drink_bonus).label('drink_bonus'),
+            waitresses_subquery.c.waitress_income,
+            waitresses_subquery.c.player_id,
+            waitresses_subquery.c.player_name,
+            (
+                func.sum(sales_case).label('sales') +
+                func.sum(burger_bonus) +
+                func.sum(pizza_bonus) +
+                func.sum(drink_bonus) +
+                waitresses_subquery.c.waitress_income
+            ).label('revenue')
+        ).select_from(Sale).join(Round).group_by(
+            Round.game_id,
+            waitresses_subquery.c.waitress_income,
+            waitresses_subquery.c.player_id,
+            waitresses_subquery.c.player_name
+        ).filter_by(game_id=id)\
+        .join(
+            waitresses_subquery,
+            Round.player_id == waitresses_subquery.c.player_id
+        ).all()
+    
+    print(rounds)
+
+    # def calculate_cfo_bonus(revenue):
+    #     revenue = ceil(revenue * .5)
+    #     return revenue
+
+    # # turn into dict to return as json
+    round_info = [{
+        'income_details': {
+            'base_sales': round.sales,
+            'burger_bonus': round.burger_bonus,
+            'pizza_bonus': round.pizza_bonus,
+            'drink_bonus': round.drink_bonus,
+            'waitress_income': round.waitress_income,
+
+            'pre_cfo_total': round.revenue,
+
+        },
+        'Qty': {
+            'burgers': round.burgers,
+            'pizzas': round.pizzas,
+            'drinks': round.drinks,
+        },
+
+        'game_id': round.game_id,
+        'player_name': round.player_name
+
+    } for round in rounds]
+
+    return round_info
+
 
 @bp.route('/games/<int:id>/bank')
 def get_bank(id):
