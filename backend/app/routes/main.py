@@ -97,6 +97,7 @@ def get_bank(id):
             Round.first_drink,
             Round.first_waitress,
             Round.waitresses,
+            Round.salaries_paid,
             func.sum(Sale.burgers).label('burgers'),
             func.sum(Sale.pizzas).label('pizzas'),
             func.sum(Sale.drinks).label('drinks'),
@@ -120,6 +121,7 @@ def get_bank(id):
             Round.first_drink,
             Round.first_waitress,
             Round.waitresses,
+            Round.salaries_paid,
             waitresses_subquery.c.waitress_income
         ).filter_by(game_id=id)\
         .join(
@@ -153,6 +155,7 @@ def get_bank(id):
             'pizzas': round.pizzas,
             'drinks': round.drinks,
             'waitresses': round.waitresses,
+            'salaries_paid': round.salaries_paid
         },
         'revenue': calculate_cfo_bonus(round.revenue) + round.revenue,
         'game_id': round.game_id,
@@ -160,6 +163,12 @@ def get_bank(id):
 
     } for round in rounds]
 
+    bank_total = db.session.query(Game.bank_reserve + Game.bank_start).first()[0]
+    for info in round_info:
+        print('bank now', bank_total)
+        bank_total -= info['revenue']
+
+    print(bank_total)
     return round_info
 
 
