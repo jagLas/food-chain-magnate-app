@@ -1,20 +1,21 @@
-from dotenv import load_dotenv
-load_dotenv()
-
-from app import app, db
-from app.models import Game, Player, Round, Sale
+from flask import Blueprint, jsonify, request
+from ..models import db, Game, Player, Round, Sale
 
 
-with app.app_context():
+bp = Blueprint('seed', __name__)
 
-    game = Game(bank_start=100, bank_reserve=150)
-    db.session.add(game)
+
+@bp.route('/seed-db')
+def seed_db():
 
     player1 = Player(name='Gloria', password='password')
     player2 = Player(name='Jean', password='password')
 
     db.session.add(player1)
     db.session.add(player2)
+
+    game = Game(bank_start=100, bank_reserve=150, players=[player1, player2])
+    db.session.add(game)
 
     round1 = Round(game=game, round=1, player=player1)
     round2 = Round(game=game, round=1, player=player2, first_burger=True,
@@ -35,3 +36,4 @@ with app.app_context():
     db.session.add_all([sale1, sale2, sale3, sale4, sale5])
 
     db.session.commit()
+    return jsonify('Database successfully seeded')

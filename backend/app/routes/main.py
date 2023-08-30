@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from ..models import db, Game, Player, Round, Sale
 from sqlalchemy.sql import functions as func
 
-bp = Blueprint('test', __name__)
+bp = Blueprint('main', __name__)
 
 
 @bp.route('/')
