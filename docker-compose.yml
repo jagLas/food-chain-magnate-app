@@ -32,6 +32,8 @@ services:
     networks:
       default:
       foodapi:
+    restart: on-failure
+
 
 volumes:
   db-data:
