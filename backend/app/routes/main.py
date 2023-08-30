@@ -141,14 +141,16 @@ def get_bank(id):
             'first_drink': round.first_drink,
             'first_waitress': round.first_waitress
         },
-        'revenue_details': {
+        'income_details': {
             'base_sales': round.sales,
             'burger_bonus': round.burger_bonus,
             'pizza_bonus': round.pizza_bonus,
             'drink_bonus': round.drink_bonus,
             'waitress_income': round.waitress_income,
             'cfo_bonus': calculate_cfo_bonus(round.revenue),
-            'pre_cfo_total': round.revenue
+            'pre_cfo_total': round.revenue,
+            'revenue': calculate_cfo_bonus(round.revenue) + round.revenue,
+            'salary_expense': round.salaries_paid * -5
         },
         'Qty': {
             'burgers': round.burgers,
@@ -157,19 +159,19 @@ def get_bank(id):
             'waitresses': round.waitresses,
             'salaries_paid': round.salaries_paid
         },
-        'revenue': calculate_cfo_bonus(round.revenue) + round.revenue,
+        'income': (calculate_cfo_bonus(round.revenue) + round.revenue +
+                   round.salaries_paid * -5),
         'game_id': round.game_id,
         'round_id': round.round_id,
 
     } for round in rounds]
 
-    bank_total = db.session.query(Game.bank_reserve + Game.bank_start).first()[0]
+    bank_total = db.session.query(Game.bank_reserve + Game.bank_start)\
+        .first()[0]
     for info in round_info:
-        print('bank now', bank_total)
-        bank_total -= info['revenue']
+        bank_total -= info['income']
 
-    print(bank_total)
-    return round_info
+    return jsonify(bank_total)
 
 
 @bp.route('/players',)
