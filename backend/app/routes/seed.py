@@ -18,13 +18,13 @@ def seed_db():
     db.session.add(game)
 
     round1 = Round(game=game, round=1, player=player1, first_waitress=True,
-                   waitresses=2)
+                   waitresses=2, cfo=True)
     round2 = Round(game=game, round=1, player=player2, first_burger=True,
                    unit_price=9, waitresses=1)
     round3 = Round(game=game, round=2, player=player1, first_waitress=True,
-                   waitresses=1)
+                   waitresses=1, cfo=True)
     round4 = Round(game=game, round=2, player=player2, first_burger=True,
-                   first_pizza=True, unit_price=9, waitresses=1)
+                   first_pizza=True, unit_price=9, waitresses=1, cfo=True)
 
     db.session.add(round1)
     db.session.add(round2)
