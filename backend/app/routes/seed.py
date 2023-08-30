@@ -17,12 +17,14 @@ def seed_db():
     game = Game(bank_start=100, bank_reserve=150, players=[player1, player2])
     db.session.add(game)
 
-    round1 = Round(game=game, round=1, player=player1)
+    round1 = Round(game=game, round=1, player=player1, first_waitress=True,
+                   waitresses=2)
     round2 = Round(game=game, round=1, player=player2, first_burger=True,
-                   unit_price=9)
-    round3 = Round(game=game, round=2, player=player1)
+                   unit_price=9, waitresses=1)
+    round3 = Round(game=game, round=2, player=player1, first_waitress=True,
+                   waitresses=1)
     round4 = Round(game=game, round=2, player=player2, first_burger=True,
-                   first_pizza=True, unit_price=9)
+                   first_pizza=True, unit_price=9, waitresses=1)
 
     db.session.add(round1)
     db.session.add(round2)
