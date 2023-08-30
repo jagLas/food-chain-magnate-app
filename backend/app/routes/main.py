@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from ..models import db, Game, Player, Round, Sale
 from sqlalchemy.sql import functions as func
+from sqlalchemy import case
 
 bp = Blueprint('main', __name__)
 
@@ -45,6 +46,44 @@ def get_rounds_by_num(game_id, round):
 def get_rounds(id):
     rounds = Round.query.filter_by(game_id=id).all()
     return [round.as_dict() for round in rounds]
+
+
+@bp.route('/games/<int:id>/bank')
+def get_bank(id):
+    # rounds = Sale.query.join(Round).filter_by(game_id=id).all()
+    # print(rounds)
+    sales_case = case(
+        (Sale.garden == True, Round.unit_price * 2 * (Sale.burgers +
+                                                      Sale.pizzas +
+                                                      Sale.drinks)),
+        else_=Round.unit_price * (Sale.burgers + Sale.pizzas + Sale.drinks)
+    )
+
+    waitress_case = case(
+        (Round.first_waitress == True, Round.waitresses * 5),
+        else_= Round.waitresses * 3
+    )
+
+    sales_totals = db.session.query(
+        (Round.game_id).label('game_id'),
+        # (Sale.round_id).label('round_id'),
+        # (Sale.garden).label('garden'),
+        # func.sum(Sale.burgers).label('burger_total'),
+        # func.sum(Sale.pizzas).label('pizza_total'),
+        # func.sum(Sale.drinks).label('drink_total'),
+        func.sum(sales_case.label('revenue')).label('revenue_total')
+        ).select_from(Sale).join(Sale.round) \
+        .group_by(Round.game_id).filter_by(game_id=id).all()
+
+    waitress_totals = db.session.query(
+        (Round.game_id).label('game_id'),
+        func.sum(waitress_case.label('revenue')).label('revenue_total')
+        ).group_by(Round.game_id).filter_by(game_id=id).all()
+
+    print(sales_totals)
+    print(waitress_totals)
+
+    return 'bank route'
 
 
 @bp.route('/players',)
