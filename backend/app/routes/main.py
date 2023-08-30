@@ -105,7 +105,7 @@ def get_bank(id):
         if obj.first_pizza is True:
             total += obj.pizzas * 5
         if obj.first_drink is True:
-            tota += obj.drinks * 5
+            total += obj.drinks * 5
         return total
 
     # turn into dict to return as json
