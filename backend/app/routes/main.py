@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from ..models import db, Game, Player, Round, Sale
 from sqlalchemy.sql import functions as func
-from sqlalchemy import case, and_, select
+from sqlalchemy import case
 
 bp = Blueprint('main', __name__)
 
