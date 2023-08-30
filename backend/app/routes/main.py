@@ -65,11 +65,26 @@ def get_bank(id):
         else_=Round.waitresses * 3
     )
 
+    burger_bonus = case(
+        (Round.first_burger == True, Sale.burgers * 5),
+        else_=0
+    )
+
+    pizza_bonus = case(
+        (Round.first_pizza == True, Sale.pizzas * 5),
+        else_=0
+    )
+
+    drink_bonus = case(
+        (Round.first_drink == True, Sale.drinks * 5),
+        else_=0
+    )
+
     # Subquery to that will be used to combine waitress income with sales
     waitresses_subquery = db.session.query(
             (Round.game_id).label('game_id'),
             (Round.id).label('round_id'),
-            func.sum(waitress_case).label('waitresses')
+            func.sum(waitress_case).label('waitress_income')
         ).filter_by(game_id=id).group_by(Round.game_id, Round.id).subquery()
 
     # Query for necessary info to make calculations
@@ -79,48 +94,63 @@ def get_bank(id):
             Round.first_burger,
             Round.first_pizza,
             Round.first_drink,
+            Round.first_waitress,
+            Round.waitresses,
             func.sum(Sale.burgers).label('burgers'),
             func.sum(Sale.pizzas).label('pizzas'),
             func.sum(Sale.drinks).label('drinks'),
             func.sum(sales_case).label('sales'),
-            waitresses_subquery.c.waitresses
+            func.sum(burger_bonus).label('burger_bonus'),
+            func.sum(pizza_bonus).label('pizza_bonus'),
+            func.sum(drink_bonus).label('drink_bonus'),
+            waitresses_subquery.c.waitress_income,
+            (
+                func.sum(sales_case).label('sales') +
+                func.sum(burger_bonus) +
+                func.sum(pizza_bonus) +
+                func.sum(drink_bonus) +
+                waitresses_subquery.c.waitress_income
+            ).label('revenue')
         ).select_from(Sale).join(Round).group_by(
             Round.game_id,
             Sale.round_id,
             Round.first_burger,
             Round.first_pizza,
             Round.first_drink,
-            waitresses_subquery.c.waitresses
+            Round.first_waitress,
+            Round.waitresses,
+            waitresses_subquery.c.waitress_income
         ).filter_by(game_id=id)\
         .join(
             waitresses_subquery,
             Sale.round_id == waitresses_subquery.c.round_id
         ).all()
 
-    # helper function to calculate "first" milestone bonuses
-    def calc_milestone_bonus(obj):
-        total = 0
-        if obj.first_burger is True:
-            total += obj.burgers * 5
-        if obj.first_pizza is True:
-            total += obj.pizzas * 5
-        if obj.first_drink is True:
-            total += obj.drinks * 5
-        return total
-
     # turn into dict to return as json
     round_info = [{
+        'milestones': {
+            'first_burger': round.first_burger,
+            'first_pizza': round.first_pizza,
+            'first_drink': round.first_drink,
+            'first_waitress': round.first_waitress
+        },
+        'revenue_details': {
+            'base_sales': round.sales,
+            'burger_bonus': round.burger_bonus,
+            'pizza_bonus': round.pizza_bonus,
+            'drink_bonus': round.drink_bonus,
+            'waitress_income': round.waitress_income,
+        },
+        'Qty': {
+            'burgers': round.burgers,
+            'pizzas': round.pizzas,
+            'drinks': round.drinks,
+            'waitresses': round.waitresses
+        },
+        'revenue': round.revenue,
         'game_id': round.game_id,
         'round_id': round.round_id,
-        'first_burger': round.first_burger,
-        'first_pizza': round.first_pizza,
-        'first_drink': round.first_drink,
-        'sales': round.sales,
-        'burgers': round.burgers,
-        'pizzas': round.pizzas,
-        'drinks': round.drinks,
-        'waitresses': round.waitresses,
-        'milestone_bonus': calc_milestone_bonus(round)
+
     } for round in rounds]
 
     return round_info
