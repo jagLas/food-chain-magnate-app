@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from ..models import db, Game, Player, Round, Sale
 from sqlalchemy.sql import functions as func
 from sqlalchemy import case
+from math import ceil
 
 bp = Blueprint('main', __name__)
 
@@ -126,6 +127,10 @@ def get_bank(id):
             Sale.round_id == waitresses_subquery.c.round_id
         ).all()
 
+    def calculate_cfo_bonus(revenue):
+        revenue = ceil(revenue * .5)
+        return revenue
+
     # turn into dict to return as json
     round_info = [{
         'milestones': {
@@ -140,14 +145,16 @@ def get_bank(id):
             'pizza_bonus': round.pizza_bonus,
             'drink_bonus': round.drink_bonus,
             'waitress_income': round.waitress_income,
+            'cfo_bonus': calculate_cfo_bonus(round.revenue),
+            'pre_cfo_total': round.revenue
         },
         'Qty': {
             'burgers': round.burgers,
             'pizzas': round.pizzas,
             'drinks': round.drinks,
-            'waitresses': round.waitresses
+            'waitresses': round.waitresses,
         },
-        'revenue': round.revenue,
+        'revenue': calculate_cfo_bonus(round.revenue) + round.revenue,
         'game_id': round.game_id,
         'round_id': round.round_id,
 
