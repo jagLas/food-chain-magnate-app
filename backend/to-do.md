@@ -1,10 +1,10 @@
-* Food Chain Magnate Companion API README
+# Food Chain Magnate Companion API README
 
 - Placeholder for documentation on how to use the api server
 
-** To-do and future development
+## To-do and future development
 
-*** Routes:
+### Routes:
 
 - [x] Get a list of all Games
 - [x] Make a new Game
@@ -15,10 +15,10 @@
 - [] Make a new round
 - [] Make a new sale
 - [] Routes to edit entries
--- [] Edit a sale
--- [] Edit a round
--- [] Edit a game
--- [] Edit a player
+ - [] Edit a sale
+ - [] Edit a round
+ - [] Edit a game
+ - [] Edit a player
 
-*** Features
+### Features
 - [] Authentication
