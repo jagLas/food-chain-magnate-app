@@ -12,13 +12,13 @@
 - [x] Create a new player
 - [x] Get player totals for a game
 - [x] Get bank totals for a game
-- [] Make a new round
-- [] Make a new sale
-- [] Routes to edit entries
- - [] Edit a sale
- - [] Edit a round
- - [] Edit a game
- - [] Edit a player
+- [ ] Make a new round
+- [ ] Make a new sale
+- [ ] Routes to edit entries
+ - [ ] Edit a sale
+ - [ ] Edit a round
+ - [ ] Edit a game
+ - [ ] Edit a player
 
 ### Features
-- [] Authentication
+- [ ] Authentication

@@ -1,8 +1,8 @@
+"""Blueprint for game api routes"""
+
 from flask import Blueprint, jsonify, request
-from ..models import db, Game, Player, Round, Sale
-from sqlalchemy.sql import functions as func
-from sqlalchemy import case, desc
-from math import ceil
+from sqlalchemy import desc
+from ..models import db, Game, Player, Round
 from ..queries import player_total_sales, result_to_dict
 
 bp = Blueprint('main', __name__)
@@ -10,11 +10,15 @@ bp = Blueprint('main', __name__)
 
 @bp.route('/')
 def index():
+    """Route to test that server is running"""
+
     return jsonify('The api server is running')
 
 
 @bp.route('/games')
 def get_games():
+    """Retrieves all games in db"""
+
     games = Game.query.all()
     return [game.as_dict() for game in games]
 
@@ -33,45 +37,52 @@ def create_game():
     return game.as_dict()
 
 
-@bp.route('/games/<int:game_id>/rounds/<int:round>/total')
-def get_total_by_round(game_id, round):
-    rounds = Round.query.filter_by(game_id=game_id, round=round).all()
-    data = [round.get_totals() for round in rounds]
+@bp.route('/games/<int:game_id>/rounds/<int:round_num>/total')
+def get_total_by_round(game_id, round_num):
+    """Retreive player totals per game_id and round number"""
+
+    rounds = Round.query.filter_by(game_id=game_id, round=round_num).all()
+    data = [record.get_totals() for record in rounds]
     return data
 
 
-@bp.route('/games/<int:game_id>/rounds/<int:round>')
-def get_rounds_by_num(game_id, round):
-    rounds = Round.query.filter_by(game_id=game_id, round=round).all()
-    return [round.as_dict() for round in rounds]
+@bp.route('/games/<int:game_id>/rounds/<int:round_num>')
+def get_rounds_by_num(game_id, round_num):
+    """Route to retrieve records for each game_id and round number"""
+
+    rounds = Round.query.filter_by(game_id=game_id, round=round_num).all()
+    return [record.as_dict() for record in rounds]
 
 
 @bp.route('/games/<int:id>/rounds')
-def get_rounds(id):
-    rounds = Round.query.filter_by(game_id=id).all()
+def get_rounds(game_id):
+    """Retrieves all round records for a given game_id"""
+
+    rounds = Round.query.filter_by(game_id=game_id).all()
     return [round.as_dict() for round in rounds]
 
 
-@bp.route('/games/<int:id>/player_totals')
-def get_player_totals(id):
+@bp.route('/games/<int:game_id>/player_totals')
+def get_player_totals(game_id):
 
     """Returns the game_id, player_id,
     and total income for each player"""
 
-    player_totals = player_total_sales(id).all()
+    player_totals = player_total_sales(game_id).all()
     return result_to_dict(player_totals)
 
 
-@bp.route('/games/<int:id>/bank')
-def get_bank(id):
+@bp.route('/games/<int:game_id>/bank')
+def get_bank(game_id):
     """Returns how much money is left in the bank for a supplied game"""
 
     # Retrives bank funds
     bank_total = db.session.query(Game.bank_reserve + Game.bank_start)\
-        .filter_by(id=id).first()[0]
+        .filter_by(id=game_id).first()[0]
 
     # Calculates how much income players have generated
-    player_totals = player_total_sales(id).order_by(desc('player_id')).first()
+    player_totals = player_total_sales(game_id).order_by(desc('player_id'))\
+        .first()
     bank_result = bank_total - player_totals.total_income
 
     return jsonify(bank_result)
