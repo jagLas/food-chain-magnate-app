@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify
 from ..models import db, Game, Player, Round, Sale
 
 

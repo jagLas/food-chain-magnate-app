@@ -1,11 +1,14 @@
+"""Contains queries and helper functions to help processes routes"""
 
-from .models import db, Player, Round, Game, Sale
 from sqlalchemy.sql import functions as func
+from sqlalchemy.sql.expression import true
 from sqlalchemy import case
+from .models import db, Player, Round, Sale
+
 
 # Case to calculate revenue from sales accounting for gardens
 sales_case = case(
-    (Sale.garden == True, Round.unit_price * 2 * (Sale.burgers +
+    (Sale.garden == true(), Round.unit_price * 2 * (Sale.burgers +
                                                     Sale.pizzas +
                                                     Sale.drinks)),
     else_=Round.unit_price * (Sale.burgers + Sale.pizzas + Sale.drinks)
@@ -13,22 +16,22 @@ sales_case = case(
 
 # Case to calculate waitress income accounting for first waitress milestone
 waitress_case = case(
-    (Round.first_waitress == True, Round.waitresses * 5),
+    (Round.first_waitress == true(), Round.waitresses * 5),
     else_=Round.waitresses * 3
 )
 
 burger_bonus = case(
-    (Round.first_burger == True, Sale.burgers * 5),
+    (Round.first_burger == true(), Sale.burgers * 5),
     else_=0
 )
 
 pizza_bonus = case(
-    (Round.first_pizza == True, Sale.pizzas * 5),
+    (Round.first_pizza == true(), Sale.pizzas * 5),
     else_=0
 )
 
 drink_bonus = case(
-    (Round.first_drink == True, Sale.drinks * 5),
+    (Round.first_drink == true(), Sale.drinks * 5),
     else_=0
 )
 
@@ -56,8 +59,10 @@ def result_to_dict(data):
 
 # Query for sum of sales for each round
 def house_sales_sum_query(game_id):
+
     """Creates a query that returns the aggregate sum of sales to houses
        grouping by each round_id in a given game_id"""
+
     sales_query = db.session.query(
         Round.game_id.label('game_id'),
         Sale.round_id.label('round_id'),
@@ -75,8 +80,11 @@ def house_sales_sum_query(game_id):
     return sales_query
 
 
-# Query for waitress income and cfo bonus (needs to be added)
 def round_info_query(game_id):
+
+    """Creates a query that returns the aggregate sum of sales to houses
+       grouping by each round_id in a given game_id"""
+
     round_query = db.session.query(
             Round.game_id.label('game_id'),
             Round.id.label('round_id'),
@@ -100,6 +108,9 @@ def round_info_query(game_id):
 
 
 def round_total_sales(game_id):
+
+    """Combines the round income queries and house sales queries"""
+
     waitresses_subquery = round_info_query(game_id).subquery()
     sales_subquery = house_sales_sum_query(game_id).subquery()
     round_sales = db.session.query(
@@ -134,6 +145,10 @@ def round_total_sales(game_id):
 
 
 def player_total_sales(game_id):
+
+    """Query to sum each players sales together and provide
+    a total between players"""
+
     round_subquery = round_total_sales(game_id).subquery()
     player_totals = db.session.query(
         # round_subquery.c.game_id,
@@ -147,8 +162,7 @@ def player_total_sales(game_id):
         # round_subquery.c.game_id,
         round_subquery.c.player_id,
         # round_subquery.c.player_name,
-    )
-
+        )
     )
 
     return player_totals

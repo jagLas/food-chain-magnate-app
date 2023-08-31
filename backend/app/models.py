@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql import functions as func
+from sqlalchemy.sql.expression import true
 from sqlalchemy import case
 
 db = SQLAlchemy()
@@ -109,11 +110,13 @@ class Round(db.Model):
         }
 
     def get_totals(self):
+
         """Returns itself as_dict but appends total sales"""
+
         base_data = self.as_dict()
 
         query_case = case(
-            (Sale.garden == True, self.unit_price * 2 *
+            (Sale.garden == true(), self.unit_price * 2 *
              (Sale.burgers + Sale.pizzas + Sale.drinks)),
             else_=self.unit_price * (Sale.burgers + Sale.pizzas + Sale.drinks)
         )
