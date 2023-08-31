@@ -77,8 +77,8 @@ def get_bank(game_id):
     """Returns how much money is left in the bank for a supplied game"""
 
     # Retrives bank funds
-    bank_total = db.session.query(Game.bank_reserve + Game.bank_start)\
-        .filter_by(id=game_id).first()[0]
+    bank = Game.query.get_or_404(game_id)
+    bank_total = bank.bank_start + bank.bank_reserve
 
     # Calculates how much income players have generated
     player_totals = player_total_sales(game_id).order_by(desc('player_id'))\
