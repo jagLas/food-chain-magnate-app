@@ -81,8 +81,8 @@ def get_player_totals(id):
     )
 
     # Query for sum of sales for each round
-    sales = db.session.query(
-            (Round.game_id).label('game_id'),
+    sales_subquery = db.session.query(
+            Round.game_id.label('game_id'),
             Sale.round_id.label('round_id'),
             Round.player_id.label('player_id'),
             func.sum(sales_case).label('revenue'),
@@ -93,26 +93,57 @@ def get_player_totals(id):
             Round.game_id,
             Sale.round_id,
             Round.player_id
-        ).all()
+        ).subquery()
 
-    print(sales)
+    print(sales_subquery)
 
     # Query for waitress income and cfo bonus (needs to be added)
     waitresses_subquery = db.session.query(
-            (Round.game_id).label('game_id'),
-            (Round.player_id).label('player_id'),
-            (Player.name).label('player_name'),
+            Round.game_id.label('game_id'),
+            Round.id.label('round_id'),
+            Round.player_id.label('player_id'),
+            Player.name.label('player_name'),
             Round.cfo.label('cfo'),
-            func.sum(waitress_case).label('waitress_income')
+            func.sum(waitress_case).label('waitress_income'),
         ).filter_by(game_id=id).join(Player)\
         .group_by(
             Round.game_id,
+            Round.id,
             Round.player_id,
             Player.name,
             Round.cfo
-        ).all()
+        ).subquery()
 
     print(waitresses_subquery)
+
+    round_sales = db.session.query(
+        waitresses_subquery.c.game_id,
+        waitresses_subquery.c.round_id,
+        waitresses_subquery.c.player_id,
+        waitresses_subquery.c.cfo,
+        waitresses_subquery.c.waitress_income,
+        sales_subquery.c.revenue,
+        sales_subquery.c.burger_bonus,
+        sales_subquery.c.pizza_bonus,
+        sales_subquery.c.drink_bonus,
+        (
+            waitresses_subquery.c.waitress_income +
+            sales_subquery.c.revenue +
+            sales_subquery.c.burger_bonus +
+            sales_subquery.c.pizza_bonus +
+            sales_subquery.c.drink_bonus
+        ).label('sub_total'),
+        (
+            (waitresses_subquery.c.waitress_income +
+             sales_subquery.c.revenue +
+             sales_subquery.c.burger_bonus +
+             sales_subquery.c.pizza_bonus +
+             sales_subquery.c.drink_bonus
+             ) * 1.5
+        ).label('round_total')
+    ).join(sales_subquery).all()
+
+    print(round_sales)
 
     # def calculate_cfo_bonus(revenue):
     #     revenue = ceil(revenue * .5)
