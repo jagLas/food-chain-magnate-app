@@ -78,12 +78,13 @@ def house_sales_sum_query(game_id):
 # Query for waitress income and cfo bonus (needs to be added)
 def round_info_query(game_id):
     round_query = db.session.query(
-            (Round.game_id).label('game_id'),
+            Round.game_id.label('game_id'),
             Round.id.label('round_id'),
-            (Round.player_id).label('player_id'),
-            (Player.name).label('player_name'),
+            Round.player_id.label('player_id'),
+            Player.name.label('player_name'),
             Round.cfo.label('cfo'),
             func.sum(waitress_case).label('waitress_income'),
+            (Round.salaries_paid * 5).label('salaries_expense')
         ) \
         .filter_by(game_id=game_id).join(Player)\
         .group_by(
@@ -91,7 +92,8 @@ def round_info_query(game_id):
             Round.id,
             Round.player_id,
             Player.name,
-            Round.cfo
+            Round.cfo,
+            Round.salaries_paid * 5
         )
 
     return round_query
@@ -105,8 +107,8 @@ def round_total_sales(game_id):
         waitresses_subquery.c.round_id,
         waitresses_subquery.c.player_id,
         waitresses_subquery.c.player_name,
-        waitresses_subquery.c.cfo,
         waitresses_subquery.c.waitress_income,
+        waitresses_subquery.c.salaries_expense,
         sales_subquery.c.revenue,
         sales_subquery.c.burger_bonus,
         sales_subquery.c.pizza_bonus,
@@ -134,14 +136,19 @@ def round_total_sales(game_id):
 def player_total_sales(game_id):
     round_subquery = round_total_sales(game_id).subquery()
     player_totals = db.session.query(
-        round_subquery.c.game_id,
+        # round_subquery.c.game_id,
         round_subquery.c.player_id,
-        round_subquery.c.player_name,
-        func.sum(round_subquery.c.round_total).label('total_income')
-    ).group_by(
-        round_subquery.c.game_id,
+        # round_subquery.c.player_name,
+        func.sum(round_subquery.c.round_total).label('total_revenue'),
+        func.sum(round_subquery.c.salaries_expense).label('total_expenses'),
+        (func.sum(round_subquery.c.round_total) -
+         func.sum(round_subquery.c.salaries_expense)).label('total_income'),
+    ).group_by(func.rollup(
+        # round_subquery.c.game_id,
         round_subquery.c.player_id,
-        round_subquery.c.player_name,
+        # round_subquery.c.player_name,
+    )
+
     )
 
     return player_totals
