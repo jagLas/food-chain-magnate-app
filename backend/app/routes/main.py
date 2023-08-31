@@ -21,6 +21,8 @@ def get_games():
 
 @bp.route('/games', methods=['POST'])
 def create_game():
+    """create a new game. Use JSON Encoded data"""
+
     data = request.json
     data['players'] = Player.query.filter(Player.id.in_(data['player_ids'])) \
         .all()
@@ -53,7 +55,7 @@ def get_rounds(id):
 @bp.route('/games/<int:id>/player_totals')
 def get_player_totals(id):
 
-    """Returns the game_id, player_id, player_name,
+    """Returns the game_id, player_id,
     and total income for each player"""
 
     player_totals = player_total_sales(id).all()
@@ -62,25 +64,31 @@ def get_player_totals(id):
 
 @bp.route('/games/<int:id>/bank')
 def get_bank(id):
+    """Returns how much money is left in the bank for a supplied game"""
 
+    # Retrives bank funds
     bank_total = db.session.query(Game.bank_reserve + Game.bank_start)\
         .filter_by(id=id).first()[0]
 
+    # Calculates how much income players have generated
     player_totals = player_total_sales(id).order_by(desc('player_id')).first()
-    player_totals = result_to_dict(player_totals)
-    bank_result = bank_total - player_totals['total_income']
+    bank_result = bank_total - player_totals.total_income
 
     return jsonify(bank_result)
 
 
 @bp.route('/players',)
 def get_players():
+    """Returns a list of players and their ids"""
+
     players = Player.query.all()
     return [player.as_dict() for player in players]
 
 
 @bp.route('/players', methods=['POST'])
 def create_player():
+    """Creates a new player"""
+
     data = request.json
     player = Player(**data)
     db.session.add(player)
