@@ -3,7 +3,7 @@ from ..models import db, Game, Player, Round, Sale
 from sqlalchemy.sql import functions as func
 from sqlalchemy import case
 from math import ceil
-from ..queries import round_total_sales
+from ..queries import player_total_sales
 
 bp = Blueprint('main', __name__)
 
@@ -49,35 +49,23 @@ def get_rounds(id):
     rounds = Round.query.filter_by(game_id=id).all()
     return [round.as_dict() for round in rounds]
 
+
 @bp.route('/games/<int:id>/player_totals')
 def get_player_totals(id):
+    """Returns the game_id, player_id, player_name,
+    and total income for each player"""
 
-    round_sales = round_total_sales(id).all()
+    player_totals = player_total_sales(id).all()
 
-    # # turn into dict to return as json
-    # round_info = [{
-    #     'income_details': {
-    #         'base_sales': round.sales,
-    #         'burger_bonus': round.burger_bonus,
-    #         'pizza_bonus': round.pizza_bonus,
-    #         'drink_bonus': round.drink_bonus,
-    #         'waitress_income': round.waitress_income,
+    results = []
 
-    #         'pre_cfo_total': round.revenue,
+    for row in player_totals:
+        dictionary = {}
+        for field in row._fields:
+            dictionary[field] = row.__getattr__(field)
+        results.append(dictionary)
 
-    #     },
-    #     'Qty': {
-    #         'burgers': round.burgers,
-    #         'pizzas': round.pizzas,
-    #         'drinks': round.drinks,
-    #     },
-
-    #     'game_id': round.game_id,
-    #     'player_name': round.player_name
-
-    # } for round in rounds]
-
-    return 'test'
+    return results
 
 
 @bp.route('/games/<int:id>/bank')

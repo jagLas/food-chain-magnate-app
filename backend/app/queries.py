@@ -76,7 +76,6 @@ def round_info_query(game_id):
     return round_query
 
 
-# print(waitresses_subquery)
 def round_total_sales(game_id):
     waitresses_subquery = round_info_query(game_id).subquery()
     sales_subquery = house_sales_sum_query(game_id).subquery()
@@ -84,6 +83,7 @@ def round_total_sales(game_id):
         waitresses_subquery.c.game_id,
         waitresses_subquery.c.round_id,
         waitresses_subquery.c.player_id,
+        waitresses_subquery.c.player_name,
         waitresses_subquery.c.cfo,
         waitresses_subquery.c.waitress_income,
         sales_subquery.c.revenue,
@@ -108,3 +108,19 @@ def round_total_sales(game_id):
         ).join(sales_subquery)
 
     return round_sales
+
+
+def player_total_sales(game_id):
+    round_subquery = round_total_sales(game_id).subquery()
+    player_totals = db.session.query(
+        round_subquery.c.game_id,
+        round_subquery.c.player_id,
+        round_subquery.c.player_name,
+        func.sum(round_subquery.c.round_total).label('total_income')
+    ).group_by(
+        round_subquery.c.game_id,
+        round_subquery.c.player_id,
+        round_subquery.c.player_name,
+    )
+
+    return player_totals
