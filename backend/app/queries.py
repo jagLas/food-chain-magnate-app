@@ -33,6 +33,27 @@ drink_bonus = case(
 )
 
 
+def result_to_dict(data):
+
+    """Takes each key in a query result and returns it as a dictionary
+    to send as JSON"""
+
+    results = []
+    if isinstance(data, list):
+        for row in data:
+            dictionary = {}
+            for field in row._fields:
+                dictionary[field] = row.__getattr__(field)
+            results.append(dictionary)
+    else:
+        dictionary = {}
+        for field in data._fields:
+            dictionary[field] = data.__getattr__(field)
+        results = dictionary
+
+    return results
+
+
 # Query for sum of sales for each round
 def house_sales_sum_query(game_id):
     """Creates a query that returns the aggregate sum of sales to houses

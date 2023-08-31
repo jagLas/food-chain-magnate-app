@@ -3,7 +3,7 @@ from ..models import db, Game, Player, Round, Sale
 from sqlalchemy.sql import functions as func
 from sqlalchemy import case
 from math import ceil
-from ..queries import player_total_sales
+from ..queries import player_total_sales, result_to_dict
 
 bp = Blueprint('main', __name__)
 
@@ -52,20 +52,12 @@ def get_rounds(id):
 
 @bp.route('/games/<int:id>/player_totals')
 def get_player_totals(id):
+
     """Returns the game_id, player_id, player_name,
     and total income for each player"""
 
     player_totals = player_total_sales(id).all()
-
-    results = []
-
-    for row in player_totals:
-        dictionary = {}
-        for field in row._fields:
-            dictionary[field] = row.__getattr__(field)
-        results.append(dictionary)
-
-    return results
+    return result_to_dict(player_totals)
 
 
 @bp.route('/games/<int:id>/bank')
