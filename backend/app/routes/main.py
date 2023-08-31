@@ -80,76 +80,68 @@ def get_player_totals(id):
         else_=0
     )
 
-    # Subquery to that will be used to combine waitress income with sales
+    # Query for sum of sales for each round
+    sales = db.session.query(
+            (Round.game_id).label('game_id'),
+            Sale.round_id.label('round_id'),
+            Round.player_id.label('player_id'),
+            func.sum(sales_case).label('revenue'),
+            func.sum(burger_bonus).label('burger_bonus'),
+            func.sum(pizza_bonus).label('pizza_bonus'),
+            func.sum(drink_bonus).label('drink_bonus'),
+        ).select_from(Round).filter_by(game_id=id).join(Sale).group_by(
+            Round.game_id,
+            Sale.round_id,
+            Round.player_id
+        ).all()
+
+    print(sales)
+
+    # Query for waitress income and cfo bonus (needs to be added)
     waitresses_subquery = db.session.query(
             (Round.game_id).label('game_id'),
             (Round.player_id).label('player_id'),
             (Player.name).label('player_name'),
+            Round.cfo.label('cfo'),
             func.sum(waitress_case).label('waitress_income')
-        ).filter_by(game_id=id).join(Player).group_by(Round.game_id, Round.player_id, Player.name).subquery()
-
-    # print(waitresses_subquery)
-    # Query for necessary info to make calculations
-    rounds = db.session.query(
-            (Round.game_id).label('game_id'),
-            func.sum(Sale.burgers).label('burgers'),
-            func.sum(Sale.pizzas).label('pizzas'),
-            func.sum(Sale.drinks).label('drinks'),
-            func.sum(sales_case).label('sales'),
-            func.sum(burger_bonus).label('burger_bonus'),
-            func.sum(pizza_bonus).label('pizza_bonus'),
-            func.sum(drink_bonus).label('drink_bonus'),
-            waitresses_subquery.c.waitress_income,
-            waitresses_subquery.c.player_id,
-            waitresses_subquery.c.player_name,
-            (
-                func.sum(sales_case).label('sales') +
-                func.sum(burger_bonus) +
-                func.sum(pizza_bonus) +
-                func.sum(drink_bonus) +
-                waitresses_subquery.c.waitress_income
-            ).label('revenue')
-        ).select_from(Sale).join(Round).group_by(
+        ).filter_by(game_id=id).join(Player)\
+        .group_by(
             Round.game_id,
-            waitresses_subquery.c.waitress_income,
-            waitresses_subquery.c.player_id,
-            waitresses_subquery.c.player_name
-        ).filter_by(game_id=id)\
-        .join(
-            waitresses_subquery,
-            Round.player_id == waitresses_subquery.c.player_id
+            Round.player_id,
+            Player.name,
+            Round.cfo
         ).all()
-    
-    print(rounds)
+
+    print(waitresses_subquery)
 
     # def calculate_cfo_bonus(revenue):
     #     revenue = ceil(revenue * .5)
     #     return revenue
 
     # # turn into dict to return as json
-    round_info = [{
-        'income_details': {
-            'base_sales': round.sales,
-            'burger_bonus': round.burger_bonus,
-            'pizza_bonus': round.pizza_bonus,
-            'drink_bonus': round.drink_bonus,
-            'waitress_income': round.waitress_income,
+    # round_info = [{
+    #     'income_details': {
+    #         'base_sales': round.sales,
+    #         'burger_bonus': round.burger_bonus,
+    #         'pizza_bonus': round.pizza_bonus,
+    #         'drink_bonus': round.drink_bonus,
+    #         'waitress_income': round.waitress_income,
 
-            'pre_cfo_total': round.revenue,
+    #         'pre_cfo_total': round.revenue,
 
-        },
-        'Qty': {
-            'burgers': round.burgers,
-            'pizzas': round.pizzas,
-            'drinks': round.drinks,
-        },
+    #     },
+    #     'Qty': {
+    #         'burgers': round.burgers,
+    #         'pizzas': round.pizzas,
+    #         'drinks': round.drinks,
+    #     },
 
-        'game_id': round.game_id,
-        'player_name': round.player_name
+    #     'game_id': round.game_id,
+    #     'player_name': round.player_name
 
-    } for round in rounds]
+    # } for round in rounds]
 
-    return round_info
+    return 'test'
 
 
 @bp.route('/games/<int:id>/bank')
