@@ -8,6 +8,9 @@ from .routes import main, seed
 app = Flask(__name__)
 app.config.from_object(Configuration)
 
+# sorting causes errors in jsonify for /games/<game_id>/player_totals route
+app.json.sort_keys = False
+
 # configure app to use SQLAlchemy
 db.init_app(app)
 

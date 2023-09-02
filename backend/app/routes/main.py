@@ -69,7 +69,20 @@ def get_player_totals(game_id):
     and total income for each player"""
 
     player_totals = player_total_sales(game_id).all()
-    return result_to_dict(player_totals)
+    player_totals = result_to_dict(player_totals)
+
+    # normalizes data to make searching by key faster on frontend
+    normal_dict = {}
+    for record in player_totals:
+        if record['player_id'] is not None:
+            normal_dict[record['player_id']] = record
+            normal_dict[record['player_id']].pop('player_id')
+
+        else:
+            normal_dict['total'] = record
+            normal_dict['total'].pop('player_id')
+
+    return normal_dict
 
 
 @bp.route('/games/<int:game_id>/bank')
