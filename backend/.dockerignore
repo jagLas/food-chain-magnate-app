@@ -2,3 +2,5 @@
 *pycache*
 .env
 .vscode
+*Dockerfile*
+.git

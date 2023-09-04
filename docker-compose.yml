@@ -40,6 +40,21 @@ services:
       foodapi:
     restart: on-failure
 
+  frontend:
+    build:
+      context: ./frontend
+    image: food_chain_frontend
+    ports:
+      - 3000:3000
+    depends_on:
+      - api
+      - db
+    networks:
+      default:
+    volumes:
+      - ./frontend:/app:delegated
+      - /app/node_modules
+    stdin_open: true
 
 volumes:
   db-data:
