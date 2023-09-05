@@ -76,11 +76,11 @@ def get_player_totals(game_id):
     for record in player_totals:
         if record['player_id'] is not None:
             normal_dict[record['player_id']] = record
-            normal_dict[record['player_id']].pop('player_id')
+            # normal_dict[record['player_id']].pop('player_id')
 
         else:
             normal_dict['total'] = record
-            normal_dict['total'].pop('player_id')
+            # normal_dict['total'].pop('player_id')
 
     return normal_dict
 
