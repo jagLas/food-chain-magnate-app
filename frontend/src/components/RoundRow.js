@@ -2,7 +2,7 @@ const RoundRow = ({round}) => {
     return (
         <>
             <tr>
-                <td>{round.player.name}</td>
+                <td>{round.player_name}</td>
                 <td>{round.cfo ? 'X' : ''}</td>
                 <td>{round.first_burger ? 'X' : ''}</td>
                 <td>{round.first_pizza ? 'X' : ''}</td>

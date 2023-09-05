@@ -86,18 +86,25 @@ def round_info_query(game_id):
        grouping by each round_id in a given game_id"""
 
     round_query = db.session.query(
-            Round.game_id.label('game_id'),
             Round.id.label('round_id'),
-            Round.player_id.label('player_id'),
+            Round.round.label('round'),
+            Round.first_burger,
+            Round.first_pizza,
+            Round.first_drink,
+            Round.first_waitress,
+            Round.cfo,
+            Round.player_id,
             Player.name.label('player_name'),
-            Round.cfo.label('cfo'),
+            Round.unit_price,
+            Round.waitresses,
             func.sum(waitress_case).label('waitress_income'),
+            Round.salaries_paid,
             (Round.salaries_paid * 5).label('salaries_expense')
         ) \
         .filter_by(game_id=game_id).join(Player)\
         .group_by(
             Round.game_id,
-            Round.id,
+            Round.id.label('round_id'),
             Round.player_id,
             Player.name,
             Round.cfo,
@@ -114,12 +121,7 @@ def round_total_sales(game_id):
     waitresses_subquery = round_info_query(game_id).subquery()
     sales_subquery = house_sales_sum_query(game_id).subquery()
     round_sales = db.session.query(
-        waitresses_subquery.c.game_id,
-        waitresses_subquery.c.round_id,
-        waitresses_subquery.c.player_id,
-        waitresses_subquery.c.player_name,
-        waitresses_subquery.c.waitress_income,
-        waitresses_subquery.c.salaries_expense,
+        waitresses_subquery,
         sales_subquery.c.revenue,
         sales_subquery.c.burger_bonus,
         sales_subquery.c.pizza_bonus,
@@ -130,7 +132,14 @@ def round_total_sales(game_id):
             sales_subquery.c.burger_bonus +
             sales_subquery.c.pizza_bonus +
             sales_subquery.c.drink_bonus
-        ).label('sub_total'),
+        ).label('sub_total'),        (
+            (waitresses_subquery.c.waitress_income +
+             sales_subquery.c.revenue +
+             sales_subquery.c.burger_bonus +
+             sales_subquery.c.pizza_bonus +
+             sales_subquery.c.drink_bonus
+             ) * .5
+        ).label('cfo_bonus'),
         (
             (waitresses_subquery.c.waitress_income +
              sales_subquery.c.revenue +

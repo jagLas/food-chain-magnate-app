@@ -2,8 +2,8 @@
 
 from flask import Blueprint, jsonify, request
 from sqlalchemy import desc
-from ..models import db, Game, Player, Round
-from ..queries import player_total_sales, result_to_dict
+from ..models import db, Game, Player
+from ..queries import player_total_sales, round_total_sales, result_to_dict
 
 bp = Blueprint('main', __name__)
 
@@ -37,32 +37,31 @@ def create_game():
     return game.as_dict()
 
 
-@bp.route('/games/<int:game_id>/rounds/<int:round_num>/total')
-def get_total_by_round(game_id, round_num):
-    """Retreive player totals per game_id and round number"""
+# @bp.route('/games/<int:game_id>/rounds/<int:round_num>/total')
+# def get_total_by_round(game_id, round_num):
+#     """Retreive player totals per game_id and round number"""
 
-    rounds = Round.query.filter_by(game_id=game_id, round=round_num).all()
-    data = [record.get_totals() for record in rounds]
-    return data
+#     rounds = Round.query.filter_by(game_id=game_id, round=round_num).all()
+#     data = [record.get_totals() for record in rounds]
+#     return data
 
 
-@bp.route('/games/<int:game_id>/rounds/<int:round_num>')
-def get_rounds_by_num(game_id, round_num):
-    """Route to retrieve records for each game_id and round number"""
+# @bp.route('/games/<int:game_id>/rounds/<int:round_num>')
+# def get_rounds_by_num(game_id, round_num):
+#     """Route to retrieve records for each game_id and round number"""
 
-    rounds = Round.query.filter_by(game_id=game_id, round=round_num).all()
-    return [record.as_dict() for record in rounds]
+#     rounds = Round.query.filter_by(game_id=game_id, round=round_num).all()
+#     return [record.as_dict() for record in rounds]
 
 
 @bp.route('/games/<int:game_id>/rounds')
 def get_rounds(game_id):
     """Retrieves all round records for a given game_id"""
 
-    rounds = Round.query.filter_by(game_id=game_id)\
-        .order_by(Round.round, Round.player_id).all()
-    for round in rounds:
-        print(round.player)
-    return [round.as_dict() for round in rounds]
+    rounds = round_total_sales(game_id).all()
+    # for round in rounds:
+    #     print(round.player)
+    return result_to_dict(rounds)
 
 
 @bp.route('/games/<int:game_id>/player_totals')
