@@ -25,13 +25,15 @@ const Totals = () => {
       <>
         <h2>Game Summary</h2>
         <table id='total-summary'>
-          <tr className="table-header">
-            <th>Name</th>
-            <th>Revenue</th>
-            <th>Expenses</th>
-            <th>Income</th>
-          </tr>
-          {rows}
+          <thead>
+            <tr className="table-header">
+              <th>Name</th>
+              <th>Revenue</th>
+              <th>Expenses</th>
+              <th>Income</th>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
         </table>
       </>
 

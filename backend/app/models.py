@@ -106,7 +106,8 @@ class Round(db.Model):
             'unit_price': self.unit_price,
             'waitresses': self.waitresses,
             'salaries_paid': self.salaries_paid,
-            'sales': [sale.as_dict() for sale in self.sales]
+            'sales': [sale.as_dict() for sale in self.sales],
+            'player': self.player.as_dict()
         }
 
     def get_totals(self):

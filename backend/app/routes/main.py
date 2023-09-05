@@ -54,11 +54,14 @@ def get_rounds_by_num(game_id, round_num):
     return [record.as_dict() for record in rounds]
 
 
-@bp.route('/games/<int:id>/rounds')
+@bp.route('/games/<int:game_id>/rounds')
 def get_rounds(game_id):
     """Retrieves all round records for a given game_id"""
 
-    rounds = Round.query.filter_by(game_id=game_id).all()
+    rounds = Round.query.filter_by(game_id=game_id)\
+        .order_by(Round.round, Round.player_id).all()
+    for round in rounds:
+        print(round.player)
     return [round.as_dict() for round in rounds]
 
 
