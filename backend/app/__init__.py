@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_migrate import Migrate
 from app.models import db
 from .config import Configuration
@@ -6,6 +7,7 @@ from .routes import main, seed
 
 # initialize Flask app
 app = Flask(__name__)
+CORS(app)
 app.config.from_object(Configuration)
 
 # sorting causes errors in jsonify for /games/<game_id>/player_totals route
