@@ -68,7 +68,9 @@ def get_player_totals(game_id):
     """Returns the game_id, player_id,
     and total income for each player"""
 
-    player_totals = player_total_sales(game_id).all()
+    player_totals_sub = player_total_sales(game_id).subquery()
+    player_totals = db.session.query(player_totals_sub, Player.name)\
+        .outerjoin(Player).all()
     player_totals = result_to_dict(player_totals)
 
     # normalizes data to make searching by key faster on frontend

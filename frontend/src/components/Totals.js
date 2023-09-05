@@ -22,15 +22,19 @@ const Totals = () => {
     }
 
     return (
+      <>
+        <h2>Game Summary</h2>
         <table id='total-summary'>
           <tr className="table-header">
-            <th>Player Id</th>
-            <th>Total Revenue</th>
-            <th>Total Expenses</th>
-            <th>Total Income</th>
+            <th>Name</th>
+            <th>Revenue</th>
+            <th>Expenses</th>
+            <th>Income</th>
           </tr>
           {rows}
         </table>
+      </>
+
     )
 }
 
