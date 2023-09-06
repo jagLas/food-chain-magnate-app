@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import PlayerField from "./PlayerField"
+import { useNavigate } from "react-router-dom"
 
 const CreateGameForm = () => {
     const [playerList, setPlayerList] = useState([])
@@ -15,6 +16,11 @@ const CreateGameForm = () => {
         setPlayerList(data)
     }
 
+    useEffect(() => {
+        fetchPlayers()
+    }, [])
+
+
     const createGame = async (payload) => {
         let data = await fetch('http://host.docker.internal:5000/games', {
             method: 'POST',
@@ -28,11 +34,8 @@ const CreateGameForm = () => {
         return data
     }
 
-    useEffect(() => {
-        fetchPlayers()
-    }, [])
-
-    const formHandler = (event) => {
+    const navigate = useNavigate();
+    const formHandler = async (event) => {
         event.preventDefault()
         
         let player_ids = players.filter((player) => {
@@ -50,12 +53,14 @@ const CreateGameForm = () => {
             bank_start: player_ids.length * 50
         }
         try{
-            createGame(JSON.stringify(payload))
+            const data = await createGame(JSON.stringify(payload));
+            navigate(`/games/${data.id}`);
         } catch(error){
             console.log(error)
         }
     }
 
+    
     // variables to dynamically create select field for form
     const players = [player1, player2, player3, player4, player5]
     const setPlayers = [setPlayer1, setPlayer2, setPlayer3, setPlayer4, setPlayer5]
