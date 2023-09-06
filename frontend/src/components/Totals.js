@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react"
 import TotalRow from "./TotalRow"
+import { useParams, useSearchParams } from "react-router-dom"
 
 const Totals = () => {
-    const [incomeSummary, setIncomeSummary] = useState({})
 
-    let getData = async () => {
-      let data = await fetch('http://host.docker.internal:5000/games/1/player_totals')
+    const [incomeSummary, setIncomeSummary] = useState({})
+    const {gameId} = useParams()
+
+    const getData = async () => {
+      let data = await fetch(`http://host.docker.internal:5000/games/${gameId}/player_totals`)
   
       data = await data.json()
       setIncomeSummary(data)
@@ -15,8 +18,8 @@ const Totals = () => {
       getData()
     },[])
 
-    const rows = [];
 
+    const rows = [];
     for (const [key, value] of Object.entries(incomeSummary)) {
         rows.push(<TotalRow obj={value} key={key} />)
     }

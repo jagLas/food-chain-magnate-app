@@ -12,7 +12,7 @@ function App() {
       <h1>Food Chain Companion App</h1>
       <Routes>
         <Route path='/create-game' element={<CreateGameForm />}></Route>
-        <Route path='/games/:id' element={<><Totals /><Rounds /></>}></Route>
+        <Route path='/games/:gameId' element={<><Totals /><Rounds /></>}></Route>
         <Route path='/' element={<LandingPage />}></Route>
       </Routes>
     </div>
