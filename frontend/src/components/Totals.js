@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import TotalRow from "./TotalRow"
-import { useParams, useSearchParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 
 const Totals = () => {
 
