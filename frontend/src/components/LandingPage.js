@@ -7,7 +7,7 @@ const LandingPage = () => {
                 <li><Link to={'games/create-game'}>Create Game</Link></li>
                 <li><Link to={'games'}>Load Game</Link></li>
                 <li><Link to={'players'}>View Players</Link></li>
-                <li><Link to={'create-player'}>Create Player</Link></li>
+                <li><Link to={'players/create-player'}>Create Player</Link></li>
             </ul>
         </>
     )
