@@ -75,18 +75,26 @@ def get_player_totals(game_id):
         .outerjoin(Player).all()
     player_totals = result_to_dict(player_totals)
 
-    # normalizes data to make searching by key faster on frontend
-    normal_dict = {}
-    for record in player_totals:
-        if record['player_id'] is not None:
-            normal_dict[record['player_id']] = record
-            # normal_dict[record['player_id']].pop('player_id')
+    # processing in the event that no rounds have been created
+    if len(player_totals) == 1:
+        players = Game.query.get(game_id).players
+        # sorting by reverse puts them in alphabetical order when appended to
+        # front
+        players.sort(key=lambda x: x.name, reverse=True)
+        for player in players:
+            player_totals.insert(0, {
+                'player_id': player.id,
+                'total_revenue': 0,
+                'total_expenses': 0,
+                'total_income': 0,
+                'name': player.name
+            })
 
-        else:
-            normal_dict['total'] = record
-            # normal_dict['total'].pop('player_id')
+        player_totals[-1]['total_revenue'] = 0
+        player_totals[-1]['total_expenses'] = 0
+        player_totals[-1]['total_income'] = 0
 
-    return normal_dict
+    return player_totals
 
 
 @bp.route('/games/<int:game_id>/bank')
