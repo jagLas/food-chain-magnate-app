@@ -13,7 +13,19 @@ const CreateGameForm = () => {
         let data = await fetch('http://host.docker.internal:5000/players');
         data = await data.json();
         setPlayerList(data)
+    }
 
+    const createGame = async (payload) => {
+        let data = await fetch('http://host.docker.internal:5000/games', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: payload
+        })
+
+        data = await data.json()
+        return data
     }
 
     useEffect(() => {
@@ -29,11 +41,19 @@ const CreateGameForm = () => {
             }
         })
 
+        player_ids = player_ids.map(playerId => {
+            return parseInt(playerId)
+        })
+
         const payload = {
             player_ids,
             bank_start: player_ids.length * 50
         }
-        console.log(payload)
+        try{
+            createGame(JSON.stringify(payload))
+        } catch(error){
+            console.log(error)
+        }
     }
 
     // variables to dynamically create select field for form
