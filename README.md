@@ -7,3 +7,7 @@ This repository holds the code for a full stack app to manage and store game inf
 ## How to run
 
 This project requires [Docker](https://www.docker.com/) to run. Once Docker has been installed, copy the repisotory and run docker-compose up to start up the db, api, and frontend in a development environment.
+
+## Work in Progress
+
+This app's development is still in progress and does not currently have all features necessary to use it in a game.
