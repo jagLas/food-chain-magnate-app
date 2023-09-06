@@ -2,7 +2,7 @@
 
 from sqlalchemy.sql import functions as func
 from sqlalchemy.sql.expression import true
-from sqlalchemy import case
+from sqlalchemy import case, cast, Integer
 from .models import db, Player, Round, Sale
 
 
@@ -132,21 +132,24 @@ def round_total_sales(game_id):
             sales_subquery.c.burger_bonus +
             sales_subquery.c.pizza_bonus +
             sales_subquery.c.drink_bonus
-        ).label('sub_total'),        (
+        ).label('sub_total'),
+        # cast used to round the cfo bonus to nearest whole
+        cast(
             (waitresses_subquery.c.waitress_income +
              sales_subquery.c.revenue +
              sales_subquery.c.burger_bonus +
              sales_subquery.c.pizza_bonus +
              sales_subquery.c.drink_bonus
-             ) * .5
+             ) * .5, Integer
         ).label('cfo_bonus'),
-        (
+        # cast used to round the game round's total up to nearest whole
+        cast(
             (waitresses_subquery.c.waitress_income +
              sales_subquery.c.revenue +
              sales_subquery.c.burger_bonus +
              sales_subquery.c.pizza_bonus +
              sales_subquery.c.drink_bonus
-             ) * 1.5
+             ) * 1.5, Integer
         ).label('round_total')
         ).join(sales_subquery)
 
