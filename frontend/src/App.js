@@ -4,6 +4,7 @@ import Rounds from './components/Rounds';
 import CreateGameForm from './components/CreateGame/CreateGame';
 import {Route, Routes} from 'react-router-dom'
 import LandingPage from './components/LandingPage';
+import LoadGames from './components/LoadGames/LoadGames';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path='/' element={<LandingPage />}></Route>
         <Route path='games'>
+          <Route path='' element={<LoadGames />}></Route>
           <Route path='create-game' element={<CreateGameForm />}></Route>
           <Route path=':gameId' element={<><Totals /><Rounds /></>}></Route>
         </Route>
