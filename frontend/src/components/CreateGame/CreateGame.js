@@ -16,6 +16,10 @@ const CreateGameForm = () => {
 
     }
 
+    useEffect(() => {
+        fetchPlayers()
+    }, [])
+
     const formHandler = (event) => {
         event.preventDefault()
         
@@ -32,24 +36,23 @@ const CreateGameForm = () => {
         console.log(payload)
     }
 
-    useEffect(() => {
-        fetchPlayers()
-    }, [])
-
+    // variables to dynamically create select field for form
     const players = [player1, player2, player3, player4, player5]
     const setPlayers = [setPlayer1, setPlayer2, setPlayer3, setPlayer4, setPlayer5]
     const playerFields= []
     
+    // loop to iterate through each player option
     for (let i = 0; i < 5; i++) {
         playerFields.push(
             <PlayerField
-                player={players[i]}
-                setPlayer={setPlayers[i]}
-                playerList={playerList}
+                player={players[i]}  //the player variable
+                selectedPlayers={players.slice(0, i).concat(players.slice(i + 1))}  //players selected in other fields
+                setPlayer={setPlayers[i]}  //the player variable setting function
+                playerList={playerList}  //list of all players in db
                 key={i}
-                playerNum={i}/>)
+                playerNum={i}/>)  //which player number it is for
     }
-    
+
 
     return (
         <>
@@ -58,7 +61,6 @@ const CreateGameForm = () => {
                 <button onClick={formHandler}>Create Game</button>
             </form>
         </>
-
     )
 }
 
