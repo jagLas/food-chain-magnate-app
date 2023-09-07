@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import SaleRow from "./SaleRow";
+import AddSaleForm from "./AddSaleForm";
 
 export default function SalesView() {
     const [sales, setSales] = useState([]);
@@ -23,6 +24,7 @@ export default function SalesView() {
     return (
         <div id='sale-view'>
             <h2>Sales</h2>
+            <AddSaleForm />
             <table>
                 <thead>
                     <tr>
