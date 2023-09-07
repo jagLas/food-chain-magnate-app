@@ -2,7 +2,7 @@
 
 from flask import Blueprint, jsonify, request
 from sqlalchemy import desc
-from ..models import db, Game, Player
+from ..models import db, Game, Player, Sale, Round
 from ..queries import player_total_sales, round_total_sales, \
     house_sales_query, result_to_dict
 
@@ -75,6 +75,41 @@ def get_sales(game_id):
 
     sales = house_sales_query(game_id).all()
     return result_to_dict(sales)
+
+
+@bp.route('/games/<int:game_id>/sales', methods=['POST'])
+def add_sale(game_id):
+    """adds a sale record to given game_id. JSON must be formated as per the
+    following example:
+    {
+        "player_id": 1,
+        "round": 2,
+        "house_number": 3,
+        "garden": true,
+        "burgers": 1,
+        "pizzas": 2,
+        "drinks": 3
+    }
+    """
+
+    data = request.json
+
+    # finds the corresponding Round record given
+    # the player_id, game_id, and round number
+    game_round = Round.query.filter_by(game_id=game_id,
+                                       player_id=data['player_id'],
+                                       round=data['round']
+                                       ).first()
+
+    # removes unnecessary entries from data
+    data.pop('round')
+    data.pop('player_id')
+
+    # creates and commits record
+    sale = Sale(round=game_round, **data)
+    db.session.add(sale)
+    db.session.commit()
+    return sale.as_dict()
 
 
 @bp.route('/games/<int:game_id>/player_totals')
