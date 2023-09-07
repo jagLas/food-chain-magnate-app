@@ -3,7 +3,8 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy import desc
 from ..models import db, Game, Player
-from ..queries import player_total_sales, round_total_sales, result_to_dict
+from ..queries import player_total_sales, round_total_sales, \
+    house_sales_query, result_to_dict
 
 bp = Blueprint('main', __name__)
 
@@ -59,9 +60,21 @@ def get_rounds(game_id):
     """Retrieves all round records for a given game_id"""
 
     rounds = round_total_sales(game_id).all()
-    # for round in rounds:
-    #     print(round.player)
     return result_to_dict(rounds)
+
+
+@bp.route('/games/<int:game_id>/rounds', methods=['POST'])
+def add_round(game_id):
+    """Adds a round records for a given game_id"""
+    pass
+
+
+@bp.route('/games/<int:game_id>/sales')
+def get_sales(game_id):
+    """Retrieves all sale records for a given game_id"""
+
+    sales = house_sales_query(game_id).all()
+    return result_to_dict(sales)
 
 
 @bp.route('/games/<int:game_id>/player_totals')
