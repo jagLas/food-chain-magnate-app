@@ -7,21 +7,22 @@ const Totals = () => {
     const [incomeSummary, setIncomeSummary] = useState({})
     const {gameId} = useParams()
 
-    const getData = async () => {
-      try{
-        let data = await fetch(`http://host.docker.internal:5000/games/${gameId}/player_totals`)
-  
-        data = await data.json()
-        setIncomeSummary(data)
-      } catch (error) {
-        console.log(error)
-        setIncomeSummary([])
-      }
-    }
+
   
     useEffect(()=>{
+      const getData = async () => {
+        try{
+          let data = await fetch(`http://host.docker.internal:5000/games/${gameId}/player_totals`)
+    
+          data = await data.json()
+          setIncomeSummary(data)
+        } catch (error) {
+          console.log(error)
+          setIncomeSummary([])
+        }
+      }
       getData()
-    },[])
+    },[gameId])
 
 
     const rows = [];

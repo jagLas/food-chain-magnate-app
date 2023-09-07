@@ -1,16 +1,14 @@
 import {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 
-const LoadGameLink = ({key, game}) => {
+const LoadGameLink = ({game}) => {
     return (
-        <>
-            <li key={key}>
+            <li>
                 <span>
                     <Link to={`${game.id}`}>Id: {game.id} <span>Players: </span>
                     <span>{game.players.length}</span></Link>
                 </span>  
             </li>
-        </>
     )
 }
 
