@@ -11,9 +11,13 @@ const CreateGameForm = () => {
     const [player5, setPlayer5] = useState('')
 
     const fetchPlayers = async () => {
-        let data = await fetch('http://host.docker.internal:5000/players');
-        data = await data.json();
-        setPlayerList(data)
+        try {
+            let data = await fetch('http://host.docker.internal:5000/players');
+            data = await data.json();
+            setPlayerList(data)
+        } catch(error) {
+            console.log(error)
+        }
     }
 
     useEffect(() => {

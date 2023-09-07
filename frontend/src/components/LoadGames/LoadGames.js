@@ -7,9 +7,14 @@ const LoadGames = () => {
     // console.log(games)
 
     const fetchGames = async () => {
-        let data = await fetch('http://host.docker.internal:5000/games')
-        data = await data.json()
-        setGames(data)
+        try{
+            let data = await fetch('http://host.docker.internal:5000/games')
+            data = await data.json()
+            setGames(data)
+        } catch(error){
+            console.log(error)
+        }
+
     }
 
     useEffect(() => {

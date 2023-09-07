@@ -8,10 +8,15 @@ const Totals = () => {
     const {gameId} = useParams()
 
     const getData = async () => {
-      let data = await fetch(`http://host.docker.internal:5000/games/${gameId}/player_totals`)
+      try{
+        let data = await fetch(`http://host.docker.internal:5000/games/${gameId}/player_totals`)
   
-      data = await data.json()
-      setIncomeSummary(data)
+        data = await data.json()
+        setIncomeSummary(data)
+      } catch (error) {
+        console.log(error)
+        setIncomeSummary([])
+      }
     }
   
     useEffect(()=>{

@@ -1,15 +1,22 @@
 import { useState, useEffect } from "react"
 import SaleRow from "./SaleRow";
 import AddSaleForm from "./AddSaleForm";
+import { useParams } from "react-router-dom";
 
 export default function SalesView() {
     const [sales, setSales] = useState([]);
+    const {gameId} = useParams()
 
     const fetchSales = async () => {
-        let data = await fetch('http://host.docker.internal:5000/games/1/sales')
+        try{
+            let data = await fetch(`http://host.docker.internal:5000/games/${gameId}/sales`)
 
-        data = await data.json()
-        setSales(data)
+            data = await data.json()
+            setSales(data)
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 
     useEffect(() => {

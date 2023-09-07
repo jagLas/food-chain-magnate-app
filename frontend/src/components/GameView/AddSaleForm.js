@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useParams } from "react-router-dom"
 
 export default function AddSaleForm() {
     const [burgers, setBurgers] = useState('')
@@ -6,11 +7,40 @@ export default function AddSaleForm() {
     const [drinks, setDrinks] = useState('')
     const [pizzas, setPizzas] = useState('')
     const [garden, setGarden] = useState(false)
+    const [roundNum, setRoundNum] = useState('')
+    const [houseNum, setHouseNum] = useState('')
 
-    const formHandler = () => {
+    const {gameId} = useParams()
+
+    const formHandler = async (event) => {
+        event.preventDefault()
+
         const payload = {
-            
+            player_id: parseInt(playerId),
+            round: parseInt(roundNum),
+            house_number: parseInt(houseNum),
+            garden: garden,
+            burgers: parseInt(burgers),
+            pizzas: parseInt(pizzas),
+            drinks: parseInt(drinks)
         }
+        console.log(payload)
+
+        try{
+            let data = await fetch(`http://host.docker.internal:5000/games/${gameId}/sales`,{
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+    
+            data = await data.json()
+        } catch (error){
+            console.log(error)
+        }
+
+        
     }
 
     return (
@@ -22,6 +52,25 @@ export default function AddSaleForm() {
                     onChange={(e) => setPlayerId(e.target.value)}
                     type="number"
                     id="player-id-field"
+                ></input>
+            </label>
+            <label>Round #:
+                <input
+                    value={roundNum}
+                    onChange={(e) => setRoundNum(e.target.value)}
+                    type="number"
+                    id="round-num-field"
+                ></input>
+            </label>
+            <label>House #:
+                <input 
+                    value={houseNum}
+                    onChange={(e) => setHouseNum(e.target.value)}
+                    type="number"
+                    id="house-num-field"
+                    min="0"
+                    max="30"
+                    step="1"
                 ></input>
             </label>
             <label>Garden:
@@ -62,7 +111,7 @@ export default function AddSaleForm() {
                     step="1"
                 ></input>
             </label>
-            <input type="submit"></input>
+            <input type="submit" onClick={formHandler}></input>
         </form>
     )
 }

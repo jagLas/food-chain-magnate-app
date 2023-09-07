@@ -1,14 +1,20 @@
 import { useState, useEffect } from "react"
 import RoundRow from "./RoundRow"
+import { useParams } from "react-router-dom"
 
 const Rounds = () => {
     const [rounds, setRounds] = useState([])
+    const {gameId} = useParams()
 
     const fetchRounds = async () => {
-        let data = await fetch('http://host.docker.internal:5000/games/1/rounds')
+      try{
+        let data = await fetch(`http://host.docker.internal:5000/games/${gameId}/rounds`)
 
         data = await data.json()
         setRounds(data)
+      } catch(error) {
+        console.log(error)
+      }
     }
 
     useEffect(() => {
@@ -16,7 +22,6 @@ const Rounds = () => {
     },[])
 
     const rows = [];
-
     for (const [key, value] of Object.entries(rounds)) {
         rows.push(<RoundRow round={value} key={key} />)
     }
