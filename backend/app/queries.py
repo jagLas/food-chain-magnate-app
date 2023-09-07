@@ -6,12 +6,17 @@ from sqlalchemy import case, cast, Integer
 from .models import db, Player, Round, Sale
 
 
-# Case to calculate revenue from sales accounting for gardens
+# Case to total revenue from sales accounting for gardens
 sales_case = case(
-    (Sale.garden == true(), Round.unit_price * 2 * (Sale.burgers +
-                                                    Sale.pizzas +
-                                                    Sale.drinks)),
+    (Sale.garden == true(), Round.unit_price * 2
+     * (Sale.burgers + Sale.pizzas + Sale.drinks)),
     else_=Round.unit_price * (Sale.burgers + Sale.pizzas + Sale.drinks)
+)
+
+garden_case = case(
+    (Sale.garden == true(), Round.unit_price
+     * (Sale.burgers + Sale.pizzas + Sale.drinks)),
+    else_=0
 )
 
 # Case to calculate waitress income accounting for first waitress milestone
@@ -62,14 +67,29 @@ def house_sales_query(game_id):
         Round.game_id.label('game_id'),
         Sale.round_id.label('round_id'),
         Round.player_id.label('player_id'),
-        sales_case.label('revenue'),
+        Round.round,
+        Round.unit_price,
+        Sale.house_number,
+        Sale.garden,
+        Sale.burgers,
+        Sale.pizzas,
+        Sale.drinks,
+        ((Sale.burgers + Sale.pizzas + Sale.drinks) * Round.unit_price
+         ).label('base_revenue'),
+        garden_case.label('garden_bonus'),
         burger_bonus.label('burger_bonus'),
         pizza_bonus.label('pizza_bonus'),
         drink_bonus.label('drink_bonus'),
+        (
+            (Sale.burgers + Sale.pizzas + Sale.drinks) * Round.unit_price +
+            garden_case.label('garden_bonus') +
+            burger_bonus.label('burger_bonus') +
+            pizza_bonus.label('pizza_bonus') +
+            drink_bonus
+        ).label('sale_total'),
     ).join(Round).filter(Round.game_id == game_id)
 
     return query
-    pass
 
 
 # Query for sum of sales for each round
@@ -86,10 +106,10 @@ def house_sales_sum_query(game_id):
         func.sum(burger_bonus).label('burger_bonus'),
         func.sum(pizza_bonus).label('pizza_bonus'),
         func.sum(drink_bonus).label('drink_bonus'),
-        (func.sum(sales_case).label('revenue') +
-         func.sum(burger_bonus).label('burger_bonus') +
-         func.sum(pizza_bonus).label('pizza_bonus') +
-         func.sum(drink_bonus).label('drink_bonus')).label('sale_total')
+        (func.sum(sales_case) +
+         func.sum(burger_bonus) +
+         func.sum(pizza_bonus) +
+         func.sum(drink_bonus)).label('sale_total')
     ).select_from(Round).filter_by(game_id=game_id).join(Sale).group_by(
         Round.game_id,
         Sale.round_id,
@@ -106,7 +126,7 @@ def round_info_query(game_id):
 
     round_query = db.session.query(
             Round.id.label('round_id'),
-            Round.round.label('round'),
+            Round.round,
             Round.first_burger,
             Round.first_pizza,
             Round.first_drink,
