@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-const CreatePlayer = () => {
+export default function CreatePlayer() {
     const [playerName, setPlayerName] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate();
@@ -30,7 +30,7 @@ const CreatePlayer = () => {
         console.log(payload)
         try{
             const data = await createPlayer(JSON.stringify(payload));
-            // navigate(`/players/${data.id}`);
+            navigate(`/games/create-game`);
         } catch(error){
             console.log(error)
         }
@@ -53,4 +53,4 @@ const CreatePlayer = () => {
     )
 }
 
-export default CreatePlayer
+// export default CreatePlayer
