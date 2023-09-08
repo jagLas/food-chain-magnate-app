@@ -13,14 +13,13 @@ export default function SalesView() {
         for (const [key, sale] of Object.entries(sales)) {
             rows.push(<SaleRow sale={sale} key={key} />)
         }
-        if (roundNum == 'all') {
+        if (roundNum === 'all') {
             return rows
         }
         return rows.filter(row => {
-
-            return row.props.sale.round_id == roundNum
+            return row.props.sale.round_id === parseInt(roundNum)
           })
-    })
+    },[sales, roundNum])
 
 
     return (

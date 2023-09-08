@@ -13,14 +13,14 @@ const Rounds = () => {
           rows.push(<RoundRow round={value} key={key} />)
       }
 
-      if (roundNum == 'all') {
+      if (roundNum === 'all') {
         return rows
       }
 
       return rows.filter(row => {
-        return row.props.round.round == roundNum
+        return row.props.round.round === parseInt(roundNum)
       })
-    })
+    }, [rounds, roundNum])
 
     return (
       <>

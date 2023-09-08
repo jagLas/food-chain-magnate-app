@@ -1,4 +1,4 @@
-import { NavLink, useParams } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import Rounds from "./Rounds"
 import SalesView from "./SalesView"
 import { useMemo } from "react"
@@ -16,7 +16,7 @@ export default function RoundView () {
             roundsArray.push(navLink)
         }
         return roundsArray
-    })
+    }, [rounds.length, players.length])
 
     return (
         <div>
