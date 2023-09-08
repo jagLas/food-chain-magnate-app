@@ -9,7 +9,8 @@ const GameDispatchContext = createContext(null);
 const initialGameState = {
     rounds: [],
     sales: [],
-    totals: []
+    totals: [],
+    players: [],
 };
 
 export function GameProvider({ children }) {
@@ -25,18 +26,19 @@ export function GameProvider({ children }) {
         const fetchRounds = async () => {
             try{
                 let roundData = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/rounds`)
-
                 roundData = await roundData.json()
 
                 let salesData = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/sales`)
-            
                 salesData = await salesData.json()
 
                 let totalsData = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/player_totals`)
-            
                 totalsData = await totalsData.json()
 
-                dispatch({type: actions.FETCH_DATA, payload: {salesData, roundData, totalsData}})
+                let playersData = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/players`)
+                playersData = await playersData.json()
+
+                dispatch({type: actions.FETCH_DATA,
+                    payload: {salesData, roundData, totalsData, playersData}})
             } catch(error) {
                 console.log(error)
             }

@@ -10,7 +10,8 @@ export default function gameReducer(game, action) {
             return {
                 rounds: payload.roundData,
                 sales: payload.salesData,
-                totals: payload.totalsData
+                totals: payload.totalsData,
+                players: payload.playersData
             }
         case actions.ADD_SALE:
             return {

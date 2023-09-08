@@ -13,7 +13,6 @@ const Rounds = () => {
 
     return (
       <>
-        <h2>Round Summary</h2>
         <table id='total-summary'>
           <thead>
             <tr className="table-header">
