@@ -7,7 +7,7 @@ export default function CreatePlayer() {
     const navigate = useNavigate();
 
     const createPlayer = async (payload) => {
-        let data = await fetch('http://host.docker.internal:5000/players', {
+        let data = await fetch(`${process.env.REACT_APP_DB_URL}/players`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

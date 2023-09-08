@@ -8,7 +8,7 @@ const Rounds = () => {
 
     const fetchRounds = async () => {
       try{
-        let data = await fetch(`http://host.docker.internal:5000/games/${gameId}/rounds`)
+        let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/rounds`)
 
         data = await data.json()
         setRounds(data)

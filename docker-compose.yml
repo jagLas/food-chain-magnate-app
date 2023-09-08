@@ -44,6 +44,8 @@ services:
     build:
       context: ./frontend
     image: food_chain_frontend
+    environment:
+      - REACT_APP_DB_URL=${DB_URL}
     ports:
       - 3000:3000
     depends_on:

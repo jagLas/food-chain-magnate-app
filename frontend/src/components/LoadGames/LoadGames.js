@@ -1,14 +1,12 @@
 import {useEffect, useState} from 'react'
-import {Link} from 'react-router-dom'
 import LoadGameLink from './LoadGameRow'
 
 const LoadGames = () => {
     const [games, setGames] = useState([])
-    // console.log(games)
 
     const fetchGames = async () => {
         try{
-            let data = await fetch('http://host.docker.internal:5000/games')
+            let data = await fetch(`${process.env.REACT_APP_DB_URL}/games`)
             data = await data.json()
             setGames(data)
         } catch(error){
@@ -28,8 +26,6 @@ const LoadGames = () => {
             <LoadGameLink key={key} game={value} />
         )
     }
-
-    console.log(rows)
 
     return (
         <>

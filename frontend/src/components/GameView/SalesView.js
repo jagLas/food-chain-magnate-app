@@ -9,7 +9,7 @@ export default function SalesView() {
 
     const fetchSales = async () => {
         try{
-            let data = await fetch(`http://host.docker.internal:5000/games/${gameId}/sales`)
+            let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/sales`)
 
             data = await data.json()
             setSales(data)

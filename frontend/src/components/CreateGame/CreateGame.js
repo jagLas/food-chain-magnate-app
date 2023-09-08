@@ -12,7 +12,7 @@ const CreateGameForm = () => {
 
     const fetchPlayers = async () => {
         try {
-            let data = await fetch('http://host.docker.internal:5000/players');
+            let data = await fetch(`${process.env.REACT_APP_DB_URL}/players`);
             data = await data.json();
             setPlayerList(data)
         } catch(error) {
@@ -26,7 +26,7 @@ const CreateGameForm = () => {
 
 
     const createGame = async (payload) => {
-        let data = await fetch('http://host.docker.internal:5000/games', {
+        let data = await fetch(`${process.env.REACT_APP_DB_URL}/games`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

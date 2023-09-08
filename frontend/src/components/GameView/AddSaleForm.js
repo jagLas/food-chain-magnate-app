@@ -27,7 +27,7 @@ export default function AddSaleForm() {
         console.log(payload)
 
         try{
-            let data = await fetch(`http://host.docker.internal:5000/games/${gameId}/sales`,{
+            let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/sales`,{
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"
