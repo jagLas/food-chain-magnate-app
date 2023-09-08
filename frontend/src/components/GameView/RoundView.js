@@ -18,10 +18,15 @@ export default function RoundView () {
         return roundsArray
     }, [rounds.length, players.length])
 
+    const formHandler = async () => {
+        
+    }
+
     return (
         <div>
             <h2>Round Summary</h2>
             {roundList}
+            <button onClick={formHandler}>New Round</button>
             <Rounds />
             <SalesView/>
         </div>
