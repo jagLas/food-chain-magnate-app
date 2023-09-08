@@ -39,17 +39,20 @@ export default function AddSaleForm() {
     
             data = await data.json()
 
-            console.log('data received', data)
             dispatch({
                 type: actions.ADD_SALE,
                 payload: data
             })
 
+            for (const setter of [setBurgers, setPlayerId, setDrinks, setPizzas, setRoundNum, setHouseNum].values()){
+                setter('')
+            }
+
+            setGarden(false)
+
         } catch (error){
             console.log(error)
         }
-
-        
     }
 
     return (
@@ -84,8 +87,8 @@ export default function AddSaleForm() {
             </label>
             <label>Garden:
                 <input 
-                    value={garden}
-                    onChange={() => setGarden(!garden)}
+                    checked={garden}
+                    onClick={() => setGarden(!garden)}
                     type="checkbox"
                     id="garden-field"
                 ></input>
