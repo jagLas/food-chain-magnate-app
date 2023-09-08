@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react"
 import RoundRow from "./RoundRow"
-import { useParams } from "react-router-dom"
 import { useGame } from "../GameContext"
 
 const Rounds = () => {

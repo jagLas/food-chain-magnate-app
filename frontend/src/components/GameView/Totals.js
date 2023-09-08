@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react"
 import TotalRow from "./TotalRow"
-import { useParams } from "react-router-dom"
 import { useGame } from "../GameContext"
 
 const Totals = () => {

@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react"
 import SaleRow from "./SaleRow";
 import AddSaleForm from "./AddSaleForm";
-import { useParams } from "react-router-dom";
 import { useGame } from "../GameContext";
 
 export default function SalesView() {
