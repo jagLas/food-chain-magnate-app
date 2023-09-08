@@ -65,7 +65,6 @@ export default function AddSaleForm() {
     }
 
     const options = []
-    console.log(game.players)
     for (const player of game.players.values()){
         options.push(<SalePlayerfield key={player.id} player={player}/>)
     }
