@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { useParams } from "react-router-dom"
+import { useGameDispatch } from "../GameContext"
+import { actions } from "../GameReducer"
 
 export default function AddSaleForm() {
     const [burgers, setBurgers] = useState('')
@@ -11,6 +13,7 @@ export default function AddSaleForm() {
     const [houseNum, setHouseNum] = useState('')
 
     const {gameId} = useParams()
+    const dispatch = useGameDispatch()
 
     const formHandler = async (event) => {
         event.preventDefault()
@@ -34,7 +37,14 @@ export default function AddSaleForm() {
                 body: JSON.stringify(payload)
             })
     
-            await data.json()
+            data = await data.json()
+
+            console.log('data received', data)
+            dispatch({
+                type: actions.ADD_SALE,
+                payload: data
+            })
+
         } catch (error){
             console.log(error)
         }
