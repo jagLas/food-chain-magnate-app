@@ -1,6 +1,6 @@
 """Blueprint for game api routes"""
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, abort
 from sqlalchemy import desc
 from ..models import db, Game, Player, Sale, Round
 from ..queries import player_total_sales, round_total_sales, \
@@ -72,10 +72,21 @@ def get_rounds(game_id):
     return result_to_dict(rounds)
 
 
-@bp.route('/games/<int:game_id>/rounds', methods=['POST'])
-def add_round(game_id):
-    """Adds a round records for a given game_id"""
-    pass
+@bp.route('/games/<int:game_id>/rounds/<int:round_num>',
+        #   methods=['POST']
+          )
+def add_round(game_id, round_num):
+    # checks if the round has already been created and returns a bad response if it has
+    rounds = Round.query.filter_by(round=round_num, game_id=game_id).all()
+    if len(rounds) != 0:
+        abort(400,
+              description=f'Round number: {round_num} already exists for gameid: {game_id}')
+
+
+    prevRound = Round.query.filter_by(round=round_num-1, game_id=game_id).all()
+    data = request.json
+
+    return 'test'
 
 
 @bp.route('/games/<int:game_id>/sales')
