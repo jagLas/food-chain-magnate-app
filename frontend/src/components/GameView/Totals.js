@@ -1,28 +1,12 @@
 import { useState, useEffect } from "react"
 import TotalRow from "./TotalRow"
 import { useParams } from "react-router-dom"
+import { useGame } from "../GameContext"
 
 const Totals = () => {
 
-    const [incomeSummary, setIncomeSummary] = useState({})
-    const {gameId} = useParams()
+    const incomeSummary = useGame().totals;
   
-    useEffect(()=>{
-      const getData = async () => {
-        try{
-          let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/player_totals`)
-    
-          data = await data.json()
-          setIncomeSummary(data)
-        } catch (error) {
-          console.log(error)
-          setIncomeSummary([])
-        }
-      }
-      getData()
-    },[gameId])
-
-
     const rows = [];
     for (const [key, value] of Object.entries(incomeSummary)) {
         rows.push(<TotalRow obj={value} key={key} />)

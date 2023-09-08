@@ -2,26 +2,10 @@ import { useState, useEffect } from "react"
 import SaleRow from "./SaleRow";
 import AddSaleForm from "./AddSaleForm";
 import { useParams } from "react-router-dom";
+import { useGame } from "../GameContext";
 
 export default function SalesView() {
-    const [sales, setSales] = useState([]);
-    const {gameId} = useParams()
-
-    useEffect(() => {
-        const fetchSales = async () => {
-            try{
-                let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/sales`)
-    
-                data = await data.json()
-                setSales(data)
-            } catch (error) {
-                console.log(error)
-            }
-    
-        }
-
-        fetchSales()
-    },[gameId])
+    const sales = useGame().sales
     
     const rows = [];
     for (const [key, value] of Object.entries(sales)) {

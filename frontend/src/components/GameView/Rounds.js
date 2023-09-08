@@ -1,26 +1,10 @@
 import { useState, useEffect } from "react"
 import RoundRow from "./RoundRow"
 import { useParams } from "react-router-dom"
+import { useGame } from "../GameContext"
 
 const Rounds = () => {
-    const [rounds, setRounds] = useState([])
-    const {gameId} = useParams()
-
-    
-    useEffect(() => {
-      const fetchRounds = async () => {
-        try{
-          let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/rounds`)
-  
-          data = await data.json()
-          setRounds(data)
-        } catch(error) {
-          console.log(error)
-        }
-      }
-      
-      fetchRounds()
-    },[gameId])
+    const rounds = useGame().rounds
 
     const rows = [];
     for (const [key, value] of Object.entries(rounds)) {
