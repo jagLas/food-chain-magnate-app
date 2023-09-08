@@ -10,17 +10,19 @@ const CreateGameForm = () => {
     const [player4, setPlayer4] = useState('')
     const [player5, setPlayer5] = useState('')
 
-    const fetchPlayers = async () => {
-        try {
-            let data = await fetch(`${process.env.REACT_APP_DB_URL}/players`);
-            data = await data.json();
-            setPlayerList(data)
-        } catch(error) {
-            console.log(error)
-        }
-    }
+
 
     useEffect(() => {
+        const fetchPlayers = async () => {
+            try {
+                let data = await fetch(`${process.env.REACT_APP_DB_URL}/players`);
+                data = await data.json();
+                setPlayerList(data)
+            } catch(error) {
+                console.log(error)
+            }
+        }
+
         fetchPlayers()
     }, [])
 
@@ -45,6 +47,8 @@ const CreateGameForm = () => {
         let player_ids = players.filter((player) => {
             if (player !== '') {
                 return player
+            } else{
+                return false
             }
         })
 

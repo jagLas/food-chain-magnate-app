@@ -7,21 +7,21 @@ export default function SalesView() {
     const [sales, setSales] = useState([]);
     const {gameId} = useParams()
 
-    const fetchSales = async () => {
-        try{
-            let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/sales`)
-
-            data = await data.json()
-            setSales(data)
-        } catch (error) {
-            console.log(error)
+    useEffect(() => {
+        const fetchSales = async () => {
+            try{
+                let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/sales`)
+    
+                data = await data.json()
+                setSales(data)
+            } catch (error) {
+                console.log(error)
+            }
+    
         }
 
-    }
-
-    useEffect(() => {
         fetchSales()
-    },[])
+    },[gameId])
     
     const rows = [];
     for (const [key, value] of Object.entries(sales)) {

@@ -27,9 +27,8 @@ export default function CreatePlayer() {
             password
         }
 
-        console.log(payload)
         try{
-            const data = await createPlayer(JSON.stringify(payload));
+            await createPlayer(JSON.stringify(payload));
             navigate(`/games/create-game`);
         } catch(error){
             console.log(error)
@@ -52,5 +51,3 @@ export default function CreatePlayer() {
         </>
     )
 }
-
-// export default CreatePlayer

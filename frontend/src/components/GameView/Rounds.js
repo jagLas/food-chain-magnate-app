@@ -6,20 +6,22 @@ const Rounds = () => {
     const [rounds, setRounds] = useState([])
     const {gameId} = useParams()
 
-    const fetchRounds = async () => {
-      try{
-        let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/rounds`)
 
-        data = await data.json()
-        setRounds(data)
-      } catch(error) {
-        console.log(error)
-      }
-    }
 
     useEffect(() => {
-        fetchRounds()
-    },[])
+      const fetchRounds = async () => {
+        try{
+          let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/rounds`)
+  
+          data = await data.json()
+          setRounds(data)
+        } catch(error) {
+          console.log(error)
+        }
+      }
+      
+      fetchRounds()
+    },[gameId])
 
     const rows = [];
     for (const [key, value] of Object.entries(rounds)) {

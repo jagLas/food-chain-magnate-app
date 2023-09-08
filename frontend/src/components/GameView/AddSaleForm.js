@@ -24,7 +24,6 @@ export default function AddSaleForm() {
             pizzas: parseInt(pizzas),
             drinks: parseInt(drinks)
         }
-        console.log(payload)
 
         try{
             let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/sales`,{
@@ -35,7 +34,7 @@ export default function AddSaleForm() {
                 body: JSON.stringify(payload)
             })
     
-            data = await data.json()
+            await data.json()
         } catch (error){
             console.log(error)
         }
