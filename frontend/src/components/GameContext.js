@@ -28,7 +28,7 @@ export function GameProvider({ children }) {
     
         totalsData = await totalsData.json()
 
-        console.log(roundData, salesData, totalsData)
+        dispatch({type: actions.FETCH_DATA, payload: {salesData, roundData, totalsData}})
       } catch(error) {
         console.log(error)
       }
@@ -54,19 +54,18 @@ export function useGameDispatch() {
   return useContext(GameDispatchContext);
 }
 
-const actions = {
-    FETCH_ROUNDS: 'FETCH_ROUNDS',
-    FETCH_SALES: 'FETCH_SALES',
-    FETCH_TOTALS: 'FETCH_TOTALS'
+export const actions = {
+    FETCH_DATA: 'FETCH_DATA'
 }
 
 function gameReducer(game, action) {
     const {type, payload} = action
     switch (type) {
-        case actions.FETCH_ROUNDS:
+        case actions.FETCH_DATA:
             return {
-                ...game,
-                rounds: ['test']
+                rounds: payload.roundData,
+                sales: payload.salesData,
+                totals: payload.totalsData
             }
         default: {
             throw Error('Unknown action: ' + action.type);
