@@ -1,7 +1,15 @@
 import { useState } from "react"
 import { useParams } from "react-router-dom"
-import { useGameDispatch } from "../GameContext"
+import { useGame, useGameDispatch } from "../GameContext"
 import { actions } from "../GameReducer"
+
+function SalePlayerfield({player}){
+    return (
+        <option value={player.id}>
+            {player.name}
+        </option>
+    )
+}
 
 export default function AddSaleForm() {
     const [burgers, setBurgers] = useState('')
@@ -13,6 +21,7 @@ export default function AddSaleForm() {
     const [houseNum, setHouseNum] = useState('')
 
     const {gameId} = useParams()
+    const game = useGame()
     const dispatch = useGameDispatch()
 
     const formHandler = async (event) => {
@@ -55,16 +64,24 @@ export default function AddSaleForm() {
         }
     }
 
+    const options = []
+    console.log(game.players)
+    for (const player of game.players.values()){
+        options.push(<SalePlayerfield key={player.id} player={player}/>)
+    }
+
     return (
         <form>
             <h3>Add a Sale</h3>
-            <label>Player Id:
-                <input
+            <label>Player:
+                <select
                     value={playerId}
                     onChange={(e) => setPlayerId(e.target.value)}
-                    type="number"
-                    id="player-id-field"
-                ></input>
+                >
+                    <option value={''}></option>
+                    {options}
+
+                </select>
             </label>
             <label>Round #:
                 <input
@@ -88,7 +105,7 @@ export default function AddSaleForm() {
             <label>Garden:
                 <input 
                     checked={garden}
-                    onClick={() => setGarden(!garden)}
+                    onChange={() => setGarden(!garden)}
                     type="checkbox"
                     id="garden-field"
                 ></input>
