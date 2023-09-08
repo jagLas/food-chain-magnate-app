@@ -6,8 +6,7 @@ const Rounds = () => {
     const [rounds, setRounds] = useState([])
     const {gameId} = useParams()
 
-
-
+    
     useEffect(() => {
       const fetchRounds = async () => {
         try{
