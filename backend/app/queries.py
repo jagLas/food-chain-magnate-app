@@ -62,6 +62,37 @@ def result_to_dict(data):
     return results
 
 
+def sale_with_calc(sale_id):
+    query = db.session.query(
+        Sale.id,
+        Round.game_id.label('game_id'),
+        Sale.round_id.label('round_id'),
+        Round.player_id.label('player_id'),
+        Round.round,
+        Round.unit_price,
+        Sale.house_number,
+        Sale.garden,
+        Sale.burgers,
+        Sale.pizzas,
+        Sale.drinks,
+        ((Sale.burgers + Sale.pizzas + Sale.drinks) * Round.unit_price
+         ).label('base_revenue'),
+        garden_case.label('garden_bonus'),
+        burger_bonus.label('burger_bonus'),
+        pizza_bonus.label('pizza_bonus'),
+        drink_bonus.label('drink_bonus'),
+        (
+            (Sale.burgers + Sale.pizzas + Sale.drinks) * Round.unit_price +
+            garden_case.label('garden_bonus') +
+            burger_bonus.label('burger_bonus') +
+            pizza_bonus.label('pizza_bonus') +
+            drink_bonus
+        ).label('sale_total'),
+    ).filter(Sale.id == sale_id).join(Round).one()
+
+    return query
+
+
 def house_sales_query(game_id):
     query = db.session.query(
         Round.game_id.label('game_id'),
