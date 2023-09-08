@@ -10,8 +10,9 @@ export default function RoundView () {
     const roundList = useMemo(() => {
         const numRounds = rounds.length / players.length
         const roundsArray = []
+        roundsArray.push(<NavLink key={0} to={`rounds/all`}>All</NavLink>)
         for (let i = 0; i < numRounds; i++) {
-            const navLink = <NavLink key={i} to={`rounds/${i + 1}`}>{i+1}</NavLink>
+            const navLink = <NavLink key={i + 1} to={`rounds/${i + 1}`}>{i+1}</NavLink>
             roundsArray.push(navLink)
         }
         return roundsArray

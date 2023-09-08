@@ -12,6 +12,11 @@ const Rounds = () => {
       for (const [key, value] of Object.entries(rounds)) {
           rows.push(<RoundRow round={value} key={key} />)
       }
+
+      if (roundNum == 'all') {
+        return rows
+      }
+
       return rows.filter(row => {
         return row.props.round.round == roundNum
       })

@@ -1,14 +1,27 @@
 import SaleRow from "./SaleRow";
 import AddSaleForm from "./AddSaleForm";
 import { useGame } from "../GameContext";
+import { useMemo } from "react";
+import { useParams } from "react-router-dom";
 
 export default function SalesView() {
     const sales = useGame().sales
-    
-    const rows = [];
-    for (const [key, value] of Object.entries(sales)) {
-        rows.push(<SaleRow sale={value} key={key} />)
-    }
+    const {roundNum} = useParams()
+
+    const rows = useMemo(() => {
+        const rows = [];
+        for (const [key, sale] of Object.entries(sales)) {
+            rows.push(<SaleRow sale={sale} key={key} />)
+        }
+        if (roundNum == 'all') {
+            return rows
+        }
+        return rows.filter(row => {
+
+            return row.props.sale.round_id == roundNum
+          })
+    })
+
 
     return (
         <div id='sale-view'>
