@@ -1,13 +1,21 @@
 import RoundRow from "./RoundRow"
 import { useGame } from "../GameContext"
+import { useMemo } from "react"
+import { useParams } from "react-router-dom"
 
 const Rounds = () => {
     const rounds = useGame().rounds
+    const {roundNum} = useParams()
 
-    const rows = [];
-    for (const [key, value] of Object.entries(rounds)) {
-        rows.push(<RoundRow round={value} key={key} />)
-    }
+    const rows = useMemo(() => {
+      const rows = [];
+      for (const [key, value] of Object.entries(rounds)) {
+          rows.push(<RoundRow round={value} key={key} />)
+      }
+      return rows.filter(row => {
+        return row.props.round.round == roundNum
+      })
+    })
 
     return (
       <>
