@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useParams } from "react-router-dom"
+import { Navigate, useNavigate, useParams } from "react-router-dom"
 import { useGame, useGameDispatch } from "../GameContext"
 import { actions } from "../GameReducer"
 
@@ -17,12 +17,13 @@ export default function AddSaleForm() {
     const [drinks, setDrinks] = useState('')
     const [pizzas, setPizzas] = useState('')
     const [garden, setGarden] = useState(false)
-    const [roundNum, setRoundNum] = useState('')
+    // const [roundNum, setRoundNum] = useState('')
     const [houseNum, setHouseNum] = useState('')
 
-    const {gameId} = useParams()
+    const {gameId, roundNum} = useParams()
     const game = useGame()
     const dispatch = useGameDispatch()
+    const navigate = useNavigate()
 
     const formHandler = async (event) => {
         event.preventDefault()
@@ -53,7 +54,7 @@ export default function AddSaleForm() {
                 payload: data
             })
 
-            for (const setter of [setBurgers, setPlayerId, setDrinks, setPizzas, setRoundNum, setHouseNum].values()){
+            for (const setter of [setBurgers, setPlayerId, setDrinks, setPizzas, setHouseNum].values()){
                 setter('')
             }
 
@@ -69,9 +70,22 @@ export default function AddSaleForm() {
         options.push(<SalePlayerfield key={player.id} player={player}/>)
     }
 
+
     return (
         <form>
             <h3>Add a Sale</h3>
+            <label>Round #:
+                <input
+                    value={roundNum}
+                    onChange={(e) => {
+                        const round = parseInt(e.target.value) ? e.target.value : 'all'
+                        navigate(`rounds/${round}`)
+
+                    }}
+                    type="number"
+                    id="round-num-field"
+                ></input>
+            </label>
             <label>Player:
                 <select
                     value={playerId}
@@ -81,14 +95,6 @@ export default function AddSaleForm() {
                     {options}
 
                 </select>
-            </label>
-            <label>Round #:
-                <input
-                    value={roundNum}
-                    onChange={(e) => setRoundNum(e.target.value)}
-                    type="number"
-                    id="round-num-field"
-                ></input>
             </label>
             <label>House #:
                 <input 
