@@ -1,10 +1,12 @@
-import { useMemo, useState } from "react"
-import { useGame } from "../GameContext"
+import { useEffect, useMemo, useState } from "react"
+import { useGame, useGameDispatch } from "../GameContext"
 import { useParams } from "react-router-dom"
+import { actions } from "../GameReducer";
 
 const RoundRow = ({round}) => {
     const {sales} = useGame();
     const {roundNum} = useParams();
+    const dispatch = useGameDispatch();
 
     const [unitPrice, setUnitPrice] = useState(round.unit_price);
     const [cfo, setCfo] = useState(round.cfo);
@@ -17,6 +19,7 @@ const RoundRow = ({round}) => {
 
     // calculates totals for the round
     const totals = useMemo(() => {
+        // console.log('calculating totals')
         let filteredSales = sales.filter((sale)=> {
             return round.player_id === sale.player_id && sale.round === parseInt(roundNum)
         })
@@ -34,8 +37,27 @@ const RoundRow = ({round}) => {
         totals.cfoBonus = round.cfo ? Math.ceil(totals.preCfoBonus * .5) : 0;
         totals.revenue = totals.preCfoBonus + totals.cfoBonus;
         totals.income = totals.revenue + totals.salariesExpense
+
         return totals
-    }, [round, sales])
+    }, [round, sales, roundNum])
+
+    // If round total changes, updates the stores revenue, expense and income totals
+    useEffect(()=> {
+        // console.log('checking if store up to date')
+        if (round.round_income !== totals.income){
+            // console.log('updating')
+            dispatch({
+                type: actions.UPDATE_ROUND,
+                payload: {
+                    round_id: round.round_id,
+                    round_income: totals.income,
+                    salaries_expense: totals.salariesExpense,
+                    round_total: totals.revenue
+                }
+            })
+        }
+        // console.log('up to date')
+    }, [round, dispatch, totals])
 
     return (
         <>

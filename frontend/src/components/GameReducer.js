@@ -1,7 +1,8 @@
 export const actions = {
     FETCH_DATA: 'FETCH_DATA',
     ADD_SALE: 'ADD_SALE',
-    ADD_ROUNDS: 'ADD_ROUNDS'
+    ADD_ROUNDS: 'ADD_ROUNDS',
+    UPDATE_ROUND: 'UPDATE_ROUND'
 }
 
 export default function gameReducer(game, action) {
@@ -39,6 +40,27 @@ export default function gameReducer(game, action) {
             return {
                 ...game,
                 rounds: [...game.rounds, ...payload]
+            }
+        case actions.UPDATE_ROUND:
+            return {
+                ...game,
+                rounds: game.rounds.map((round) => {
+                    if (round.round_id === payload.round_id) {
+                        // console.log('found', round)
+                        // console.log('payload', payload)
+                        // console.log({
+                        //     ...round,
+                        //     ...payload
+                        // })
+                        
+                        return {
+                            ...round,
+                            ...payload
+                        }
+                    }
+
+                    return round
+                })
             }
         default: {
             throw Error('Unknown action: ' + action.type);

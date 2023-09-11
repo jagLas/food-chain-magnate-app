@@ -205,7 +205,9 @@ def round_total_sales(game_id):
         # cast used to round the cfo bonus to nearest whole
         cast(cfo_bonus_case, Integer).label('cfo_bonus'),
         # cast used to round the game round's total up to nearest whole
-        cast(round_total_case, Integer).label('round_total')
+        cast(round_total_case, Integer).label('round_total'),
+        (-round_subquery.c.salaries_expense
+         + cast(round_total_case, Integer)).label('round_income')
         ).outerjoin(sales_subquery)
 
     return round_sales
