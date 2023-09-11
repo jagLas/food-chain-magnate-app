@@ -33,7 +33,6 @@ const Rounds = () => {
           <thead>
             <tr className="table-header">
               <th>Name</th>
-              
               <th>First Burger</th>
               <th>First Pizza</th>
               <th>First Drink</th>

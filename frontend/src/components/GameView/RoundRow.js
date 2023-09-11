@@ -22,10 +22,7 @@ const RoundRow = ({round}) => {
         
         // console.log('calculating totals')
         let filteredSales = sales.filter((sale)=> {
-            if (roundNum === 'all') {
-                return round.player_id === sale.player_id && sale.round == round.round
-            }
-            return round.player_id === sale.player_id && sale.round === parseInt(roundNum)
+            return round.round_id ===sale.round_id
         })
         // debugger
         let totals = filteredSales.reduce((accumulator, currentValue) => {
@@ -36,7 +33,7 @@ const RoundRow = ({round}) => {
         })
 
         totals.waitressIncome = round.first_waitress ? round.waitresses * 5 : round.waitresses * 3
-        totals.salariesExpense = round.salaries_paid * -5
+        totals.salariesExpense = round.salaries_paid * 5
         totals.preCfoBonus = totals.waitressIncome + totals.salesTotal;
         totals.cfoBonus = round.cfo ? Math.ceil(totals.preCfoBonus * .5) : 0;
         totals.revenue = totals.preCfoBonus + totals.cfoBonus;
@@ -49,7 +46,7 @@ const RoundRow = ({round}) => {
     useEffect(()=> {
         // console.log('checking if store up to date')
         if (round.round_income !== totals.income){
-            // console.log('updating')
+            console.log('updating', round)
             dispatch({
                 type: actions.UPDATE_ROUND,
                 payload: {
@@ -132,7 +129,7 @@ const RoundRow = ({round}) => {
                 <td>{totals.salesTotal}</td>
                 <td>{totals.cfoBonus}</td>
                 <td>{totals.revenue}</td>
-                <td>{totals.salariesExpense}</td>
+                <td>{-totals.salariesExpense}</td>
                 <td>{totals.income}</td>
             </tr>
         </>
