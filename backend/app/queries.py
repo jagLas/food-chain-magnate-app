@@ -147,6 +147,7 @@ def house_sales_sum_query(game_id):
         Round.player_id
     )
 
+    print(sales_query.all())
     return sales_query
 
 
@@ -171,7 +172,7 @@ def round_info_query(game_id):
             Round.salaries_paid,
             (Round.salaries_paid * 5).label('salaries_expense')
         ).filter_by(game_id=game_id).join(Player)
-
+    print(round_query.all())
     return round_query
 
 
@@ -206,7 +207,7 @@ def round_total_sales(game_id):
         cast(cfo_bonus_case, Integer).label('cfo_bonus'),
         # cast used to round the game round's total up to nearest whole
         cast(round_total_case, Integer).label('round_total')
-        ).join(sales_subquery)
+        ).outerjoin(sales_subquery)
 
     return round_sales
 
