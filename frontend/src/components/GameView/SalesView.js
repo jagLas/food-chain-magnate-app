@@ -17,7 +17,7 @@ export default function SalesView() {
             return rows
         }
         return rows.filter(row => {
-            return row.props.sale.round_id === parseInt(roundNum)
+            return row.props.sale.round === parseInt(roundNum)
           })
     },[sales, roundNum])
 
