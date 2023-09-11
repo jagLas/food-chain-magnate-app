@@ -24,6 +24,8 @@ export default function gameReducer(game, action) {
                     }
                     if (b.name === null) {
                         return -1
+                    } else {
+                        return 0
                     }
                 }),
                 players: payload.playersData
@@ -36,13 +38,7 @@ export default function gameReducer(game, action) {
         case actions.ADD_ROUNDS:
             return {
                 ...game,
-                rounds: [...game.rounds, ...payload].sort((a,b)=> {
-                    if (a.player_name < b.player_name) {
-                        return -1
-                    } else{
-                        return 1
-                    }
-                })
+                rounds: [...game.rounds, ...payload]
             }
         default: {
             throw Error('Unknown action: ' + action.type);
