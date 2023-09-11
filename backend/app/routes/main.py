@@ -1,7 +1,8 @@
 """Blueprint for game api routes"""
 
-from flask import Blueprint, jsonify, request, abort
+from flask import Blueprint, jsonify, request
 from sqlalchemy import desc
+from sqlalchemy.orm import joinedload
 from ..models import db, Game, Player, Sale, Round
 from ..queries import player_total_sales, round_total_sales, \
     house_sales_query, sale_with_calc, result_to_dict
@@ -72,21 +73,34 @@ def get_rounds(game_id):
     return result_to_dict(rounds)
 
 
-@bp.route('/games/<int:game_id>/rounds/<int:round_num>',
-        #   methods=['POST']
+@bp.route('/games/<int:game_id>/rounds/add-round',  # methods=['POST']
           )
-def add_round(game_id, round_num):
-    # checks if the round has already been created and returns a bad response if it has
-    rounds = Round.query.filter_by(round=round_num, game_id=game_id).all()
-    if len(rounds) != 0:
-        abort(400,
-              description=f'Round number: {round_num} already exists for gameid: {game_id}')
+def add_round(game_id):
+    # eager loads the game by id and joins with the players and rounds
+    game = db.session.query(Game)\
+        .filter_by(id=game_id)\
+        .options(joinedload(Game.players)).options(joinedload(Game.rounds))\
+        .one()
 
+    # calculates the last round number using
+    # player count and number of round records
+    num_players = len(game.players)
+    last_round = int(len(game.rounds) / num_players)
 
-    prevRound = Round.query.filter_by(round=round_num-1, game_id=game_id).all()
-    data = request.json
+    # goes through each player and game and creates a record for them
+    new_records = []
+    for player in game.players:
+        new_round = Round(round=last_round + 1, player=player)
+        # adds to the game record
+        game.rounds.append(new_round)
+        # adds to a separate array to be returned
+        new_records.append(new_round)
 
-    return 'test'
+    db.session.add_all(new_records)
+    db.session.commit()
+
+    # returns new round records as json
+    return [round.as_dict() for round in new_records]
 
 
 @bp.route('/games/<int:game_id>/sales')
