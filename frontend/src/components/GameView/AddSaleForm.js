@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { useGame, useGameDispatch } from "../GameContext"
 import { actions } from "../GameReducer"
 
@@ -17,13 +17,12 @@ export default function AddSaleForm() {
     const [drinks, setDrinks] = useState('')
     const [pizzas, setPizzas] = useState('')
     const [garden, setGarden] = useState(false)
-    // const [roundNum, setRoundNum] = useState('')
     const [houseNum, setHouseNum] = useState('')
 
     const {gameId, roundNum} = useParams()
     const game = useGame()
     const dispatch = useGameDispatch()
-    const navigate = useNavigate()
+
 
     const formHandler = async (event) => {
         event.preventDefault()
@@ -74,18 +73,6 @@ export default function AddSaleForm() {
     return (
         <form>
             <h3>Add a Sale</h3>
-            <label>Round #:
-                <input
-                    value={roundNum}
-                    onChange={(e) => {
-                        const round = parseInt(e.target.value) ? e.target.value : 'all'
-                        navigate(`rounds/${round}`)
-
-                    }}
-                    type="number"
-                    id="round-num-field"
-                ></input>
-            </label>
             <label>Player:
                 <select
                     value={playerId}
