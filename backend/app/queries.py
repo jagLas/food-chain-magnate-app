@@ -147,7 +147,6 @@ def house_sales_sum_query(game_id):
         Round.player_id
     )
 
-    print(sales_query.all())
     return sales_query
 
 
@@ -172,7 +171,7 @@ def round_info_query(game_id):
             Round.salaries_paid,
             (Round.salaries_paid * 5).label('salaries_expense')
         ).filter_by(game_id=game_id).join(Player)
-    print(round_query.all())
+
     return round_query
 
 
