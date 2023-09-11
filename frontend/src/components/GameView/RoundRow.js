@@ -19,11 +19,15 @@ const RoundRow = ({round}) => {
 
     // calculates totals for the round
     const totals = useMemo(() => {
+        
         // console.log('calculating totals')
         let filteredSales = sales.filter((sale)=> {
+            if (roundNum === 'all') {
+                return round.player_id === sale.player_id && sale.round == round.round
+            }
             return round.player_id === sale.player_id && sale.round === parseInt(roundNum)
         })
-
+        // debugger
         let totals = filteredSales.reduce((accumulator, currentValue) => {
             return {
                 salesTotal: accumulator.salesTotal + currentValue.sale_total}
