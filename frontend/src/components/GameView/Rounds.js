@@ -41,6 +41,12 @@ const Rounds = () => {
               <th>Unit Price</th>
               <th>Waitresses</th>
               <th>Salaries Paid</th>
+              <th>Waitress Income</th>
+              <th>Sales Revenue</th>
+              <th>cfo bonus</th>
+              <th>Round Revenue</th>
+              <th>Salaries Expense</th>
+              <th>Round Income</th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>
