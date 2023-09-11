@@ -73,8 +73,7 @@ def get_rounds(game_id):
     return result_to_dict(rounds)
 
 
-@bp.route('/games/<int:game_id>/rounds/add-round',  # methods=['POST']
-          )
+@bp.route('/games/<int:game_id>/rounds', methods=['POST'])
 def add_round(game_id):
     # eager loads the game by id and joins with the players and rounds
     try:
@@ -108,9 +107,14 @@ def add_round(game_id):
     db.session.add_all(new_records)
     db.session.commit()
 
-    # if new records were added, returns the new records
+    player_dict = {player.id: player.name for player in game.players}
+
     if len(new_records) != 0:
-        return [round.as_dict() for round in new_records]
+        records = [round.as_dict() for round in new_records]
+        #  append player_name to each record
+        for record in records:
+            record['player_name'] = player_dict[record['player_id']]  #
+        return records
 
     # otherwise, create a record for each player
     # goes through each player and game and creates a record for them
@@ -124,7 +128,10 @@ def add_round(game_id):
     db.session.commit()
 
     # returns new round records as json
-    return [round.as_dict() for round in game.rounds]
+    records = [round.as_dict() for round in game.rounds]
+    for record in records:
+        record['player_name'] = player_dict[record['player_id']]
+    return records
 
 
 @bp.route('/games/<int:game_id>/sales')
