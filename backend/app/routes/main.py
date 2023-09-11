@@ -1,6 +1,6 @@
 """Blueprint for game api routes"""
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, abort
 from sqlalchemy import desc
 from sqlalchemy.orm import joinedload
 from ..models import db, Game, Player, Sale, Round
@@ -77,30 +77,54 @@ def get_rounds(game_id):
           )
 def add_round(game_id):
     # eager loads the game by id and joins with the players and rounds
-    game = db.session.query(Game)\
-        .filter_by(id=game_id)\
-        .options(joinedload(Game.players)).options(joinedload(Game.rounds))\
-        .one()
+    try:
+        game = db.session.query(Game)\
+            .filter_by(id=game_id)\
+            .options(joinedload(Game.players))\
+            .options(joinedload(Game.rounds))\
+            .one()
+    except Exception:
+        abort(404,
+              description='Game record not found. Try a different game id')
 
     # calculates the last round number using
     # player count and number of round records
     num_players = len(game.players)
     last_round = int(len(game.rounds) / num_players)
 
-    # goes through each player and game and creates a record for them
+    # Queries the previous rounds for each player and turns to dict
+    prev_rounds = Round.query.filter_by(game_id=game_id, round=last_round)\
+        .all()
+    prev_rounds = [round.as_dict() for round in prev_rounds]
+
+    # Goes throuh each previous round and copies them to next round num
     new_records = []
-    for player in game.players:
-        new_round = Round(round=last_round + 1, player=player)
-        # adds to the game record
-        game.rounds.append(new_round)
-        # adds to a separate array to be returned
-        new_records.append(new_round)
+    for prev_round in prev_rounds:
+        prev_round.pop('id')
+        prev_round['round'] = last_round + 1
+        next_round = Round(**prev_round)
+        new_records.append(next_round)
 
     db.session.add_all(new_records)
     db.session.commit()
 
+    # if new records were added, returns the new records
+    if len(new_records) != 0:
+        return [round.as_dict() for round in new_records]
+
+    # otherwise, create a record for each player
+    # goes through each player and game and creates a record for them
+    for player in game.players:
+        new_round = Round(round=last_round + 1, player=player)
+
+        # adds to the game record
+        game.rounds.append(new_round)
+
+    db.session.add_all(game.rounds)
+    db.session.commit()
+
     # returns new round records as json
-    return [round.as_dict() for round in new_records]
+    return [round.as_dict() for round in game.rounds]
 
 
 @bp.route('/games/<int:game_id>/sales')
