@@ -9,6 +9,11 @@ const Rounds = () => {
 
     const rows = useMemo(() => {
       const rows = [];
+
+      rounds.sort((a,b)=> {
+        return a.player_name > b.player_name
+      })
+
       for (const [key, value] of Object.entries(rounds)) {
           rows.push(<RoundRow round={value} key={key} />)
       }
