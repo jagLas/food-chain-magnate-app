@@ -5,6 +5,7 @@ from app.models import db
 from .config import Configuration
 from .routes import main, seed
 from werkzeug.exceptions import HTTPException
+# import logging
 
 # initialize Flask app
 app = Flask(__name__)
@@ -23,6 +24,10 @@ migrate = Migrate(app, db)
 # register routes
 app.register_blueprint(main.bp)
 app.register_blueprint(seed.bp)
+
+
+# logging.basicConfig()
+# logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
 
 # turns errors into json responses
