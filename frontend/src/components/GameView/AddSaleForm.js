@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Navigate, useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useGame, useGameDispatch } from "../GameContext"
 import { actions } from "../GameReducer"
 
