@@ -6,7 +6,6 @@ export const actions = {
 }
 
 export default function gameReducer(game, action) {
-    
     const {type, payload} = action
     switch (type) {
         case actions.FETCH_DATA:
@@ -46,19 +45,13 @@ export default function gameReducer(game, action) {
                 ...game,
                 rounds: game.rounds.map((round) => {
                     if (round.round_id === payload.round_id) {
-                        // console.log('found', round)
-                        // console.log('payload', payload)
-                        // console.log({
-                        //     ...round,
-                        //     ...payload
-                        // })
+
                         
                         return {
                             ...round,
                             ...payload
                         }
                     }
-
                     return round
                 })
             }
