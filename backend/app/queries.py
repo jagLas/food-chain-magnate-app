@@ -180,7 +180,7 @@ def round_info_query(**kwargs):
 def round_total_sales(**kwargs):
 
     """Combines the round income queries and house sales queries"""
-    print(kwargs)
+
     round_subquery = round_info_query(**kwargs).subquery()
     sales_subquery = house_sales_sum_query(**kwargs).subquery()
 
