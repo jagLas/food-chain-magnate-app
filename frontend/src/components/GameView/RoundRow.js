@@ -1,12 +1,12 @@
-import { useEffect, useMemo, useState } from "react"
-import { useGame, useGameDispatch } from "../GameContext"
+import { useMemo, useState } from "react"
+import { useGame } from "../GameContext"
 import { useParams } from "react-router-dom"
 import { actions } from "../GameReducer";
 
+
+
 const RoundRow = ({round}) => {
-    const {sales} = useGame();
-    const {roundNum} = useParams();
-    const dispatch = useGameDispatch();
+
 
     const [unitPrice, setUnitPrice] = useState(round.unit_price);
     const [cfo, setCfo] = useState(round.cfo);
@@ -17,30 +17,33 @@ const RoundRow = ({round}) => {
     const [waitresses, setWaitresses] = useState(round.waitresses);
     const [salariesPaid, setSalariesPaid] = useState(round.salaries_paid);
 
-    // calculates totals for the round
-    const totals = useMemo(() => {
+    // const {sales} = useGame();
+    // const {roundNum} = useParams();
+
+    // // calculates totals for the round
+    // const totals = useMemo(() => {
         
-        // console.log('calculating totals')
-        let filteredSales = sales.filter((sale)=> {
-            return round.round_id ===sale.round_id
-        })
-        // debugger
-        let totals = filteredSales.reduce((accumulator, currentValue) => {
-            return {
-                salesTotal: accumulator.salesTotal + currentValue.sale_total}
-        }, {
-            salesTotal: 0
-        })
+    //     // console.log('calculating totals')
+    //     let filteredSales = sales.filter((sale)=> {
+    //         return round.round_id ===sale.round_id
+    //     })
+    //     // debugger
+    //     let totals = filteredSales.reduce((accumulator, currentValue) => {
+    //         return {
+    //             salesTotal: accumulator.salesTotal + currentValue.sale_total}
+    //     }, {
+    //         salesTotal: 0
+    //     })
 
-        totals.waitressIncome = round.first_waitress ? round.waitresses * 5 : round.waitresses * 3
-        totals.salariesExpense = round.salaries_paid * 5
-        totals.preCfoBonus = totals.waitressIncome + totals.salesTotal;
-        totals.cfoBonus = round.cfo ? Math.ceil(totals.preCfoBonus * .5) : 0;
-        totals.revenue = totals.preCfoBonus + totals.cfoBonus;
-        totals.income = totals.revenue + totals.salariesExpense
+    //     totals.waitressIncome = round.first_waitress ? round.waitresses * 5 : round.waitresses * 3
+    //     totals.salariesExpense = round.salaries_paid * 5
+    //     totals.preCfoBonus = totals.waitressIncome + totals.salesTotal;
+    //     totals.cfoBonus = round.cfo ? Math.ceil(totals.preCfoBonus * .5) : 0;
+    //     totals.revenue = totals.preCfoBonus + totals.cfoBonus;
+    //     totals.income = totals.revenue + totals.salariesExpense
 
-        return totals
-    }, [round, sales, roundNum])
+    //     return totals
+    // }, [round, sales, roundNum])
 
     return (
         <>
@@ -107,12 +110,12 @@ const RoundRow = ({round}) => {
                         type='number'
                     ></input>
                 </td>
-                <td>{totals.waitressIncome}</td>
-                <td>{totals.salesTotal}</td>
-                <td>{totals.cfoBonus}</td>
-                <td>{totals.revenue}</td>
-                <td>{-totals.salariesExpense}</td>
-                <td>{totals.income}</td>
+                <td>{round.waitress_income ? round.waitress_income : 0}</td>
+                <td>{round.sale_total ? round.sale_total : 0}</td>
+                <td>{round.cfo_bonus ? round.cfo_bonus : 0}</td>
+                <td>{round.round_total ? round.round_total :  0}</td>
+                <td>{-round.salaries_expense ? -round.salaries_expense : 0}</td>
+                <td>{round.round_income ? round.round_income : 0}</td>
             </tr>
         </>
     )
