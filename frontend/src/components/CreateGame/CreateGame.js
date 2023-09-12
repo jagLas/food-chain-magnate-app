@@ -61,8 +61,17 @@ const CreateGameForm = () => {
             bank_start: player_ids.length * 50
         }
         try{
-            const data = await createGame(JSON.stringify(payload));
-            navigate(`/games/${data.id}`);
+            const gameData = await createGame(JSON.stringify(payload));
+
+            let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameData.id}/rounds`, {
+                method: 'POST'
+            })
+
+            data = await data.json();
+
+            navigate(`/games/${gameData.id}/rounds/1`);
+    
+            data = await data.json()
         } catch(error){
             console.log(error)
         }
