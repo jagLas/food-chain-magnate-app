@@ -34,7 +34,6 @@ export default function RoundView () {
     
             data = await data.json()
     
-            // debugger
             dispatch({
                 type: actions.ADD_ROUNDS,
                 payload: data
