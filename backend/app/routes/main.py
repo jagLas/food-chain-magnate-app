@@ -81,14 +81,10 @@ def add_round(game_id):
     db.session.add_all(new_records)
     db.session.commit()
 
-    player_dict = {player.id: player.name for player in game.players}
-
-    # needs to be fixed so calculations are sent back with new round
+    # if rounds were created return results
     if len(new_records) != 0:
-        records = [round.as_dict() for round in new_records]
-        #  append player_name to each record
-        for record in records:
-            record['player_name'] = player_dict[record['player_id']]  #
+        records = [result_to_dict((round_total_sales(id=round.id)).one())
+                   for round in new_records]
         return records
 
     # otherwise, create a record for each player
@@ -103,9 +99,8 @@ def add_round(game_id):
     db.session.commit()
 
     # returns new round records as json
-    records = [round.as_dict() for round in game.rounds]
-    for record in records:
-        record['player_name'] = player_dict[record['player_id']]
+    records = [result_to_dict((round_total_sales(id=round.id)).one())
+               for round in new_records]
     return records
 
 
@@ -159,7 +154,8 @@ def add_sale(game_id):
     db.session.commit()
     result = {}
     result['sale'] = result_to_dict(sale_with_calc(sale.id))
-    result['round'] = result_to_dict(round_total_sales(game_id=game_id, id=sale.round.id).one())
+    result['round'] = result_to_dict(round_total_sales(game_id=game_id,
+                                                       id=sale.round.id).one())
     print(result)
     return result
 
