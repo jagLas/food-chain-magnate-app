@@ -73,7 +73,8 @@ def add_round(game_id):
     # Goes throuh each previous round and copies them to next round num
     new_records = []
     for prev_round in prev_rounds:
-        prev_round.pop('round_id')
+        [prev_round.pop(key) for key in ['round_id', 'unit_price',
+                                         'waitresses', 'salaries_paid']]
         prev_round['round'] = last_round + 1
         next_round = Round(**prev_round)
         new_records.append(next_round)
@@ -100,7 +101,8 @@ def add_round(game_id):
 
     # returns new round records as json
     records = [result_to_dict((round_total_sales(id=round.id)).one())
-               for round in new_records]
+               for round in game.rounds]
+
     return records
 
 
