@@ -1,7 +1,6 @@
 """Blueprint for game api routes"""
 
 from flask import Blueprint, jsonify, request, abort
-from sqlalchemy import desc
 from sqlalchemy.orm import joinedload
 from ..models import db, Game, Player, Sale, Round
 from ..queries import player_total_sales, round_total_sales, \
@@ -202,13 +201,11 @@ def get_bank(game_id):
     # Retrives bank funds
     bank = Game.query.get_or_404(game_id)
     bank_total = bank.bank_start + bank.bank_reserve
-
-    # Calculates how much income players have generated
-    player_totals = player_total_sales(game_id).order_by(desc('player_id'))\
-        .first()
-    bank_result = bank_total - player_totals.total_income
-
-    return jsonify(bank_result)
+    return {
+        'start': bank.bank_start,
+        'reserve': bank.bank_reserve,
+        'total': bank_total
+    }
 
 
 @bp.route('/players',)
