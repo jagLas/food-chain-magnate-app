@@ -47,7 +47,7 @@ const Totals = () => {
 
         return a.name > b.name
       })
-      console.log(totalsArray)
+
       const rows = []
       for (const [key, value] of Object.entries(totalsArray)) {
         rows.push(<TotalRow obj={value} key={key} />)
