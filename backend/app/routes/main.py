@@ -112,14 +112,6 @@ def get_sales(game_id):
     return result_to_dict(sales)
 
 
-@bp.route('/games/<int:game_id>/players')
-def get_game_players(game_id):
-    """Retrieves all sale records for a given game_id"""
-
-    players = Game.query.get_or_404(game_id).players
-    return [player.as_dict() for player in players]
-
-
 @bp.route('/games/<int:game_id>/sales', methods=['POST'])
 def add_sale(game_id):
     """adds a sale record to given game_id. JSON must be formated as per the
@@ -158,6 +150,14 @@ def add_sale(game_id):
                                                        id=sale.round.id).one())
     print(result)
     return result
+
+
+@bp.route('/games/<int:game_id>/players')
+def get_game_players(game_id):
+    """Retrieves all sale records for a given game_id"""
+
+    players = Game.query.get_or_404(game_id).players
+    return [player.as_dict() for player in players]
 
 
 @bp.route('/games/<int:game_id>/player_totals')
