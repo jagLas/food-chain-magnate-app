@@ -13,11 +13,12 @@ export default function SaleRow({sale}) {
         });
 
         data = await data.json();
+
         dispatch({
             type: actions.DELETE_SALE,
             payload: sale.sale_id
-        }
-        )
+        })
+
         dispatch({
             type: actions.UPDATE_ROUND,
             payload: data
@@ -39,9 +40,11 @@ export default function SaleRow({sale}) {
             <td>{sale.pizza_bonus}</td>
             <td>{sale.drink_bonus}</td>
             <td>{sale.sale_total}</td>
-            <button
-                onClick={deleteSale}
-            >delete</button>
+            <td>
+                <button
+                    onClick={deleteSale}
+                >delete</button>
+            </td>
         </tr>
     )
 }

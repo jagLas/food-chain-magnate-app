@@ -42,24 +42,6 @@ const RoundRow = ({round}) => {
         return totals
     }, [round, sales, roundNum])
 
-    // If round total changes, updates the stores revenue, expense and income totals
-    // useEffect(()=> {
-    //     // console.log('checking if store up to date')
-    //     if (round.round_income !== totals.income){
-    //         console.log('updating', round)
-    //         dispatch({
-    //             type: actions.UPDATE_ROUND,
-    //             payload: {
-    //                 round_id: round.round_id,
-    //                 round_income: totals.income,
-    //                 salaries_expense: totals.salariesExpense,
-    //                 round_total: totals.revenue
-    //             }
-    //         })
-    //     }
-    //     // console.log('up to date')
-    // }, [round, dispatch, totals])
-
     return (
         <>
             <tr>
