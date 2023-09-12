@@ -3,7 +3,7 @@
 from flask import Blueprint, jsonify, request, abort
 from sqlalchemy.orm import joinedload
 from ..models import db, Game, Player, Sale, Round
-from ..queries import player_total_sales, round_total_sales, \
+from ..queries import round_total_sales, \
     house_sales_query, sale_with_calc, result_to_dict
 
 bp = Blueprint('main', __name__)
@@ -149,8 +149,28 @@ def add_sale(game_id):
     result['sale'] = result_to_dict(sale_with_calc(sale.id))
     result['round'] = result_to_dict(round_total_sales(game_id=game_id,
                                                        id=sale.round.id).one())
-    print(result)
+
     return result
+
+
+@bp.route('/games/<int:game_id>/sales/<int:sale_id>', methods=['DELETE'])
+def delete_sale(game_id, sale_id):
+    """Deletes a sale by sale_id and returns the recalculated round record"""
+    sale = Sale.query.get_or_404(
+        sale_id,
+        description=f'Sale could not be found with id {sale_id}'
+    )
+
+    round_record = sale.round
+
+    db.session.delete(sale)
+    db.session.commit()
+
+    return_record = result_to_dict(
+        round_total_sales(id=round_record.id).one()
+    )
+
+    return return_record
 
 
 @bp.route('/games/<int:game_id>/players')
@@ -161,43 +181,9 @@ def get_game_players(game_id):
     return [player.as_dict() for player in players]
 
 
-@bp.route('/games/<int:game_id>/player_totals')
-def get_player_totals(game_id):
-
-    """Returns the game_id, player_id,
-    and total income for each player"""
-
-    player_totals_sub = player_total_sales(game_id=game_id).subquery()
-    player_totals = db.session.query(player_totals_sub, Player.name)\
-        .outerjoin(Player).all()
-    player_totals = result_to_dict(player_totals)
-
-    # processing in the event that no rounds have been created
-    if len(player_totals) == 1:
-        players = Game.query.get(game_id).players
-        # sorting by reverse puts them in alphabetical order when appended to
-        # front
-        players.sort(key=lambda x: x.name, reverse=True)
-        for player in players:
-            player_totals.insert(0, {
-                'player_id': player.id,
-                'total_revenue': 0,
-                'total_expenses': 0,
-                'total_income': 0,
-                'name': player.name
-            })
-
-        player_totals[-1]['total_revenue'] = 0
-        player_totals[-1]['total_expenses'] = 0
-        player_totals[-1]['total_income'] = 0
-
-    return player_totals
-
-
 @bp.route('/games/<int:game_id>/bank')
 def get_bank(game_id):
     """Returns how much money is left in the bank for a supplied game"""
-    print(game_id)
 
     # Retrives bank funds
     bank = Game.query.get_or_404(game_id)
