@@ -94,7 +94,7 @@ class Round(db.Model):
 
     def as_dict(self):
         return {
-            'id': self.id,
+            'round_id': self.id,
             'game_id': self.game_id,
             'round': self.round,
             'player_id': self.player_id,

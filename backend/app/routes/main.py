@@ -39,37 +39,11 @@ def create_game():
     return game.as_dict()
 
 
-# @bp.route('/games/<int:game_id>/rounds/<int:round_num>/total')
-# def get_total_by_round(game_id, round_num):
-#     """Retreive player totals per game_id and round number"""
-
-#     rounds = Round.query.filter_by(game_id=game_id, round=round_num).all()
-#     data = [record.get_totals() for record in rounds]
-#     return data
-
-
-# @bp.route('/games/<int:game_id>/rounds/<int:round_num>')
-# def get_rounds_by_num(game_id, round_num):
-#     """Route to retrieve records for each game_id and round number"""
-
-#     rounds = Round.query.filter_by(game_id=game_id, round=round_num).all()
-#     return [record.as_dict() for record in rounds]
-
-
-@bp.route('/debug')
-def debug():
-    """Retrieves all round records for a given game_id"""
-
-    sale = sale_with_calc(1)
-    print(result_to_dict(sale))
-    return 'test'
-
-
 @bp.route('/games/<int:game_id>/rounds')
 def get_rounds(game_id):
     """Retrieves all round records for a given game_id"""
 
-    rounds = round_total_sales(game_id).all()
+    rounds = round_total_sales(game_id=game_id).all()
     return result_to_dict(rounds)
 
 
@@ -99,7 +73,7 @@ def add_round(game_id):
     # Goes throuh each previous round and copies them to next round num
     new_records = []
     for prev_round in prev_rounds:
-        prev_round.pop('id')
+        prev_round.pop('round_id')
         prev_round['round'] = last_round + 1
         next_round = Round(**prev_round)
         new_records.append(next_round)
@@ -138,7 +112,7 @@ def add_round(game_id):
 def get_sales(game_id):
     """Retrieves all sale records for a given game_id"""
 
-    sales = house_sales_query(game_id).all()
+    sales = house_sales_query(game_id=game_id).all()
     return result_to_dict(sales)
 
 
@@ -182,7 +156,11 @@ def add_sale(game_id):
     sale = Sale(round=game_round, **data)
     db.session.add(sale)
     db.session.commit()
-    return result_to_dict(sale_with_calc(sale.id))
+    result = {}
+    result['sale'] = result_to_dict(sale_with_calc(sale.id))
+    result['round'] = result_to_dict(round_total_sales(game_id=game_id, id=sale.round.id).all())
+    print(result)
+    return result
 
 
 @bp.route('/games/<int:game_id>/player_totals')
@@ -191,7 +169,7 @@ def get_player_totals(game_id):
     """Returns the game_id, player_id,
     and total income for each player"""
 
-    player_totals_sub = player_total_sales(game_id).subquery()
+    player_totals_sub = player_total_sales(game_id=game_id).subquery()
     player_totals = db.session.query(player_totals_sub, Player.name)\
         .outerjoin(Player).all()
     player_totals = result_to_dict(player_totals)

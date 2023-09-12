@@ -124,7 +124,7 @@ def house_sales_query(game_id):
 
 
 # Query for sum of sales for each round
-def house_sales_sum_query(game_id):
+def house_sales_sum_query(**kwargs):
 
     """Creates a query that returns the aggregate sum of sales to houses
        grouping by each round_id in a given game_id"""
@@ -141,7 +141,7 @@ def house_sales_sum_query(game_id):
          func.sum(burger_bonus) +
          func.sum(pizza_bonus) +
          func.sum(drink_bonus)).label('sale_total')
-    ).select_from(Round).filter_by(game_id=game_id).join(Sale).group_by(
+    ).select_from(Round).filter_by(**kwargs).join(Sale).group_by(
         Round.game_id,
         Sale.round_id,
         Round.player_id
@@ -150,7 +150,7 @@ def house_sales_sum_query(game_id):
     return sales_query
 
 
-def round_info_query(game_id):
+def round_info_query(**kwargs):
 
     """Creates a query that returns the rounds with waitress income and salary
      expenses for a given game_id"""
@@ -170,17 +170,17 @@ def round_info_query(game_id):
             waitress_case.label('waitress_income'),
             Round.salaries_paid,
             (Round.salaries_paid * 5).label('salaries_expense')
-        ).filter_by(game_id=game_id).join(Player)
+        ).filter_by(**kwargs).join(Player)
 
     return round_query
 
 
-def round_total_sales(game_id):
+def round_total_sales(**kwargs):
 
     """Combines the round income queries and house sales queries"""
-
-    round_subquery = round_info_query(game_id).subquery()
-    sales_subquery = house_sales_sum_query(game_id).subquery()
+    print(kwargs)
+    round_subquery = round_info_query(**kwargs).subquery()
+    sales_subquery = house_sales_sum_query(**kwargs).subquery()
 
     cfo_bonus_case = case(
         (round_subquery.c.cfo == true(), (sales_subquery.c.sale_total
@@ -213,12 +213,12 @@ def round_total_sales(game_id):
     return round_sales
 
 
-def player_total_sales(game_id):
+def player_total_sales(**kwargs):
 
     """Query to sum each players sales together and provide
     a total between players"""
 
-    round_subquery = round_total_sales(game_id).subquery()
+    round_subquery = round_total_sales(**kwargs).subquery()
     player_totals = db.session.query(
         # round_subquery.c.game_id,
         round_subquery.c.player_id,
