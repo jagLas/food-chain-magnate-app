@@ -3,7 +3,8 @@ export const actions = {
     ADD_SALE: 'ADD_SALE',
     ADD_ROUNDS: 'ADD_ROUNDS',
     UPDATE_ROUND: 'UPDATE_ROUND',
-    UPDATE_BANK_TOTAL: 'UPDATE_BANK_TOTAL'
+    UPDATE_BANK_TOTAL: 'UPDATE_BANK_TOTAL',
+    DELETE_SALE: 'DELETE_SALE'
 }
 
 const roundSortingFn = (a,b) => {
@@ -63,6 +64,15 @@ export default function gameReducer(game, action) {
                     ...game.bank,
                     total: incomeTotal
                 }
+            }
+        case actions.DELETE_SALE:
+            // debugger
+            const filteredSales = game.sales.filter(sale => {
+                return sale.sale_id !== payload
+            })
+            return {
+                ...game,
+                sales: [...filteredSales]
             }
         default: {
             throw Error('Unknown action: ' + action.type);

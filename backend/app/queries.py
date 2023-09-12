@@ -67,6 +67,7 @@ def sale_with_calc(sale_id):
         Sale.id,
         Round.game_id.label('game_id'),
         Sale.round_id.label('round_id'),
+        Sale.id.label('sale_id'),
         Round.player_id.label('player_id'),
         Round.round,
         Round.unit_price,
@@ -97,6 +98,7 @@ def house_sales_query(game_id):
     query = db.session.query(
         Round.game_id.label('game_id'),
         Sale.round_id.label('round_id'),
+        Sale.id.label('sale_id'),
         Round.player_id.label('player_id'),
         Round.round,
         Round.unit_price,

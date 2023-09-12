@@ -1,4 +1,28 @@
+import { useParams } from "react-router-dom";
+import { useGame, useGameDispatch } from "../GameContext"
+import { actions } from "../GameReducer"
+
 export default function SaleRow({sale}) {
+    const dispatch = useGameDispatch();
+    const {gameId} = useParams();
+
+    const deleteSale = async () => {
+        console.log(sale.sale_id)
+        let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/sales/${sale.sale_id}`,{
+            method: 'DELETE'
+        });
+
+        data = await data.json();
+        dispatch({
+            type: actions.DELETE_SALE,
+            payload: sale.sale_id
+        }
+        )
+        dispatch({
+            type: actions.UPDATE_ROUND,
+            payload: data
+        })
+    }
     return (
         <tr>
             <td>{sale.round}</td>
@@ -15,6 +39,9 @@ export default function SaleRow({sale}) {
             <td>{sale.pizza_bonus}</td>
             <td>{sale.drink_bonus}</td>
             <td>{sale.sale_total}</td>
+            <button
+                onClick={deleteSale}
+            >delete</button>
         </tr>
     )
 }
