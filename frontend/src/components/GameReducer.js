@@ -5,12 +5,28 @@ export const actions = {
     UPDATE_ROUND: 'UPDATE_ROUND'
 }
 
+const roundSortingFn = (a,b) => {
+    // first sort alphabetically by player name
+    if (a.player_name > b.player_name) {
+      return 1
+    } else if (a.player_name < b.player_name) {
+      return -1
+    }
+    // then sort by round number
+    if (a.round > b.round) {
+        return -1
+    } else if (a.round < b.round) {
+        return 1
+    }
+    return 0
+  }
+
 export default function gameReducer(game, action) {
     const {type, payload} = action
     switch (type) {
         case actions.FETCH_DATA:
             return {
-                rounds: payload.roundData,
+                rounds: payload.roundData.sort(roundSortingFn),
                 sales: payload.salesData,
                 totals: payload.totalsData.sort((a,b)=> {
                     if (a.name < b.name) {
@@ -38,15 +54,13 @@ export default function gameReducer(game, action) {
         case actions.ADD_ROUNDS:
             return {
                 ...game,
-                rounds: [...game.rounds, ...payload]
+                rounds: [...game.rounds, ...payload].sort(roundSortingFn)
             }
         case actions.UPDATE_ROUND:
             return {
                 ...game,
                 rounds: game.rounds.map((round) => {
                     if (round.round_id === payload.round_id) {
-
-                        
                         return {
                             ...round,
                             ...payload
