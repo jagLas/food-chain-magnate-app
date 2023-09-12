@@ -185,24 +185,28 @@ def round_total_sales(**kwargs):
     sales_subquery = house_sales_sum_query(**kwargs).subquery()
 
     cfo_bonus_case = case(
-        (round_subquery.c.cfo == true(), (sales_subquery.c.sale_total
-         + round_subquery.c.waitress_income) * .5),
+        (round_subquery.c.cfo == true(),
+         (func.coalesce(sales_subquery.c.sale_total, 0)
+          + round_subquery.c.waitress_income) * .5),
         else_=0
     )
 
     round_total_case = case(
-        (round_subquery.c.cfo == true(), (sales_subquery.c.sale_total
+        (round_subquery.c.cfo == true(),
+         (func.coalesce(sales_subquery.c.sale_total, 0)
          + round_subquery.c.waitress_income) * 1.5),
-        else_=(sales_subquery.c.sale_total + round_subquery.c.waitress_income)
+        else_=(func.coalesce(sales_subquery.c.sale_total, 0)
+               + round_subquery.c.waitress_income)
     )
 
     round_sales = db.session.query(
         round_subquery,
-        sales_subquery.c.revenue,
-        sales_subquery.c.burger_bonus,
-        sales_subquery.c.pizza_bonus,
-        sales_subquery.c.drink_bonus,
-        (sales_subquery.c.sale_total
+        func.coalesce(sales_subquery.c.revenue, 0).label('revenue'),
+        func.coalesce(sales_subquery.c.sale_total, 0).label('sale_total'),
+        func.coalesce(sales_subquery.c.burger_bonus, 0).label('burger_bonus'),
+        func.coalesce(sales_subquery.c.pizza_bonus, 0).label('pizza_bonus'),
+        func.coalesce(sales_subquery.c.drink_bonus, 0).label('drink_bonus'),
+        (func.coalesce(sales_subquery.c.sale_total, 0).label('sale_total')
          + round_subquery.c.waitress_income).label('pre_cfo_total'),
         # cast used to round the cfo bonus to nearest whole
         cast(cfo_bonus_case, Integer).label('cfo_bonus'),
@@ -210,7 +214,7 @@ def round_total_sales(**kwargs):
         cast(round_total_case, Integer).label('round_total'),
         (-round_subquery.c.salaries_expense
          + cast(round_total_case, Integer)).label('round_income')
-        ).outerjoin(sales_subquery)
+        ).select_from(round_subquery).join(sales_subquery, isouter=True)
 
     return round_sales
 
