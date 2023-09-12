@@ -24,6 +24,7 @@ export default function SaleRow({sale}) {
             payload: data
         })
     }
+
     return (
         <tr>
             <td>{sale.round}</td>
