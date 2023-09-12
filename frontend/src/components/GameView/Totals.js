@@ -1,11 +1,15 @@
 import TotalRow from "./TotalRow"
-import { useGame } from "../GameContext"
-import { useMemo } from "react";
+import { useGame, useGameDispatch } from "../GameContext"
+import { useEffect, useMemo } from "react";
+import { actions } from "../GameReducer";
 
 const Totals = () => {
-    const {players, rounds} = useGame()
+    const {players, rounds, bank} = useGame()
+    const dispatch = useGameDispatch();
 
-    const totalRows = useMemo(() => {
+    const totals = useMemo(() => {
+      console.log('Recalculating totals')
+      // creates totals object with total property
       const totals = {
         total: {
           name: 'total',
@@ -14,6 +18,8 @@ const Totals = () => {
           expenses: 0
         }
       }
+
+      // creates property for each player
       for (const player of players){
         totals[player.id] = {
           name: player.name,
@@ -22,16 +28,24 @@ const Totals = () => {
           income: 0
         }
       }
+      // sums all records into totals object
       rounds.reduce((accumulator, currentValue) => {
+        // adds revenue, expnses and income to corresponding player
         accumulator[currentValue.player_id].income += currentValue.round_income;
         accumulator[currentValue.player_id].expenses += currentValue.salaries_expense;
         accumulator[currentValue.player_id].revenue += currentValue.round_total;
+        // adds those to the total expenses as well
         accumulator.total.income += currentValue.round_income;
         accumulator.total.expenses += currentValue.salaries_expense;
         accumulator.total.revenue += currentValue.round_total;
         return accumulator;
       }, totals)
 
+      return totals
+    }, [rounds, players])
+
+    const totalRows = useMemo(() => {
+      // makes an array to be sorted alphabetically, with totals last
       let totalsArray = []
       for (const key in totals) {
         totalsArray.push(totals[key])
@@ -48,12 +62,25 @@ const Totals = () => {
         return a.name > b.name
       })
 
+      // takes sorted array and turns them into total rows
       const rows = []
       for (const [key, value] of Object.entries(totalsArray)) {
         rows.push(<TotalRow obj={value} key={key} />)
       }
+
       return rows
-    }, [rounds, players])
+    }, [totals])
+
+    useEffect(()=> {
+      // updates the bank values if it has been initialized
+      if (bank) {
+        const newBankTotal = bank.start + bank.reserve - totals.total.income
+        dispatch({
+          type: actions.UPDATE_BANK_TOTAL,
+          payload: newBankTotal
+        })
+      }
+    },[totals])
 
     return (
       <>

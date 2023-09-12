@@ -2,7 +2,8 @@ export const actions = {
     FETCH_DATA: 'FETCH_DATA',
     ADD_SALE: 'ADD_SALE',
     ADD_ROUNDS: 'ADD_ROUNDS',
-    UPDATE_ROUND: 'UPDATE_ROUND'
+    UPDATE_ROUND: 'UPDATE_ROUND',
+    UPDATE_BANK_TOTAL: 'UPDATE_BANK_TOTAL'
 }
 
 const roundSortingFn = (a,b) => {
@@ -28,23 +29,8 @@ export default function gameReducer(game, action) {
             return {
                 rounds: payload.roundData.sort(roundSortingFn),
                 sales: payload.salesData,
-                totals: payload.totalsData.sort((a,b)=> {
-                    if (a.name < b.name) {
-                        return -1
-                    }
-                    if (a.name > b.name){
-                        return 1
-                    }
-                    if (a.name === null) {
-                        return 1
-                    }
-                    if (b.name === null) {
-                        return -1
-                    } else {
-                        return 0
-                    }
-                }),
-                players: payload.playersData
+                players: payload.playersData,
+                bank: payload.bankData
             }
         case actions.ADD_SALE:
             return {
@@ -68,6 +54,15 @@ export default function gameReducer(game, action) {
                     }
                     return round
                 })
+            }
+        case actions.UPDATE_BANK_TOTAL:
+            const incomeTotal = payload
+            return {
+                ...game,
+                bank: {
+                    ...game.bank,
+                    total: incomeTotal
+                }
             }
         default: {
             throw Error('Unknown action: ' + action.type);

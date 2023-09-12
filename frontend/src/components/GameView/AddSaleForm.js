@@ -47,8 +47,7 @@ export default function AddSaleForm() {
             })
     
             data = await data.json()
-            console.log(data)
-            const affectedRoundIndex = game.rounds.findIndex((round) => round.round_id == data.round_id)
+            
             dispatch({
                 type: actions.ADD_SALE,
                 payload: data.sale

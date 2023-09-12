@@ -197,15 +197,22 @@ def get_player_totals(game_id):
 @bp.route('/games/<int:game_id>/bank')
 def get_bank(game_id):
     """Returns how much money is left in the bank for a supplied game"""
+    print(game_id)
 
     # Retrives bank funds
     bank = Game.query.get_or_404(game_id)
-    bank_total = bank.bank_start + bank.bank_reserve
-    return {
+
+    bank_info = {
         'start': bank.bank_start,
-        'reserve': bank.bank_reserve,
-        'total': bank_total
     }
+
+    if bank.bank_reserve is None:
+        bank_info['reserve'] = 0
+    else:
+        bank_info['reserve'] = bank.bank_reserve
+
+    bank_info['total'] = bank_info['start'] + bank_info['reserve']
+    return bank_info
 
 
 @bp.route('/players',)
