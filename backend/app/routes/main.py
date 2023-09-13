@@ -3,8 +3,7 @@
 from flask import Blueprint, jsonify, request, abort
 from sqlalchemy.orm import joinedload
 from ..models import db, Game, Player, Sale, Round
-from ..queries import round_total_sales, \
-    house_sales_query, sale_with_calc, result_to_dict
+from ..queries import round_total_sales, house_sales_query, sale_with_calc, result_to_dict
 
 bp = Blueprint('main', __name__)
 
@@ -29,8 +28,7 @@ def create_game():
     """create a new game. Use JSON Encoded data"""
 
     data = request.json
-    data['players'] = Player.query.filter(Player.id.in_(data['player_ids'])) \
-        .all()
+    data['players'] = Player.query.filter(Player.id.in_(data['player_ids'])).all()
     data.pop('player_ids')
     game = Game(**data)
     db.session.add(game)
@@ -56,8 +54,7 @@ def add_round(game_id):
             .options(joinedload(Game.rounds))\
             .one()
     except Exception:
-        abort(404,
-              description='Game record not found. Try a different game id')
+        abort(404, description='Game record not found. Try a different game id')
 
     # calculates the last round number using
     # player count and number of round records
@@ -65,15 +62,13 @@ def add_round(game_id):
     last_round = int(len(game.rounds) / num_players)
 
     # Queries the previous rounds for each player and turns to dict
-    prev_rounds = Round.query.filter_by(game_id=game_id, round=last_round)\
-        .all()
+    prev_rounds = Round.query.filter_by(game_id=game_id, round=last_round).all()
     prev_rounds = [round.as_dict() for round in prev_rounds]
 
     # Goes throuh each previous round and copies them to next round num
     new_records = []
     for prev_round in prev_rounds:
-        [prev_round.pop(key) for key in ['round_id', 'unit_price',
-                                         'waitresses', 'salaries_paid']]
+        [prev_round.pop(key) for key in ['round_id', 'unit_price', 'waitresses', 'salaries_paid']]
         prev_round['round'] = last_round + 1
         next_round = Round(**prev_round)
         new_records.append(next_round)
@@ -83,8 +78,7 @@ def add_round(game_id):
 
     # if rounds were created return results
     if len(new_records) != 0:
-        records = [result_to_dict((round_total_sales(id=round.id)).one())
-                   for round in new_records]
+        records = [result_to_dict((round_total_sales(id=round.id)).one()) for round in new_records]
         return records
 
     # otherwise, create a record for each player
@@ -99,8 +93,7 @@ def add_round(game_id):
     db.session.commit()
 
     # returns new round records as json
-    records = [result_to_dict((round_total_sales(id=round.id)).one())
-               for round in game.rounds]
+    records = [result_to_dict((round_total_sales(id=round.id)).one()) for round in game.rounds]
 
     return records
 
@@ -127,11 +120,13 @@ def update_round(game_id, round_id):
 
     # checks verifies integreity of game_id and round_id combination
     if game_id != game_round.game_id:
-        abort(400,
-              description=f'Round Id {round_id} not a record of game id {game_id}')
+        abort(400, description=f'Round Id {round_id} not a record of game id {game_id}')
 
     data = request.json
+
+    # copies the round record so it can be compared for changes
     game_round_copy = game_round.as_dict()
+
     # remove columns we don't want to update, like round and id
     unchangeable_columns = ['id', 'game_id', 'round', 'player_id']
     for key in unchangeable_columns:
@@ -173,17 +168,16 @@ def get_sales(game_id):
 
 @bp.route('/games/<int:game_id>/sales', methods=['POST'])
 def add_sale(game_id):
-    """adds a sale record to given game_id. JSON must be formated as per the
-    following example:
-    {
-        "player_id": 1,
-        "round": 2,
-        "house_number": 3,
-        "garden": true,
-        "burgers": 1,
-        "pizzas": 2,
-        "drinks": 3
-    }
+    """adds a sale record to given game_id. JSON must be formated as per the following example:
+        {
+            "player_id": 1,
+            "round": 2,
+            "house_number": 3,
+            "garden": true,
+            "burgers": 1,
+            "pizzas": 2,
+            "drinks": 3
+        }
     """
 
     data = request.json
@@ -191,8 +185,7 @@ def add_sale(game_id):
     # finds the corresponding Round record given the player_id, game_id, and round number
     game_round = Round.query.filter_by(game_id=game_id,
                                        player_id=data['player_id'],
-                                       round=data['round']
-                                       ).one()
+                                       round=data['round']).one()
 
     # removes unnecessary entries from data
     data.pop('round')
@@ -204,8 +197,7 @@ def add_sale(game_id):
     db.session.commit()
     result = {}
     result['sale'] = result_to_dict(sale_with_calc(sale.id))
-    result['round'] = result_to_dict(round_total_sales(game_id=game_id,
-                                                       id=sale.round.id).one())
+    result['round'] = result_to_dict(round_total_sales(game_id=game_id, id=sale.round.id).one())
 
     return result
 
@@ -249,12 +241,9 @@ def get_bank(game_id):
         'start': bank.bank_start,
     }
 
-    if bank.bank_reserve is None:
-        bank_info['reserve'] = 0
-    else:
-        bank_info['reserve'] = bank.bank_reserve
-
+    bank_info['reserve'] = 0 if bank.bank_reserve is None else bank.bank_reserve
     bank_info['total'] = bank_info['start'] + bank_info['reserve']
+
     return bank_info
 
 
