@@ -105,6 +105,64 @@ def add_round(game_id):
     return records
 
 
+@bp.route('/games/<int:game_id>/rounds/<int:round_id>', methods=['PATCH'])
+def update_round(game_id, round_id):
+    """Takes a json request in the following form
+    {
+        "first_burger": false,
+        "first_pizza": true,
+        "first_drink": true,
+        "first_waitress": true,
+        "cfo": false,
+        "unit_price": 5,
+        "waitresses": 1,
+        "salaries_paid": 2
+    }
+
+    all keys are optional. Returns the modified round record with totals.
+    If the sales for the round would be affected, those are returned too
+    under a "sales" key. Otherwise, "sales" is set to False
+    """
+    game_round = Round.query.get_or_404(round_id)
+
+    # checks verifies integreity of game_id and round_id combination
+    if game_id != game_round.game_id:
+        abort(400,
+              description=f'Round Id {round_id} not a record of game id {game_id}')
+
+    data = request.json
+    game_round_copy = game_round.as_dict()
+    # remove columns we don't want to update, like round and id
+    unchangeable_columns = ['id', 'game_id', 'round', 'player_id']
+    for key in unchangeable_columns:
+        if key in data:
+            data.pop(key)
+
+    # sets the record values to the new ones
+    for key in data:
+        game_round.__setattr__(key, data[key])
+
+    db.session.add(game_round)
+    db.session.commit()
+
+    # checks if any keys that affect sale calculations have been changed
+    sale_affecting_keys = ['first_burger', 'first_pizza', 'first_drink', 'first_waitress']
+    sales_affected = False
+    for key in sale_affecting_keys:
+        if game_round.__getattribute__(key) != game_round_copy[key]:
+            sales_affected = True
+
+    return_data = {
+        'round': result_to_dict(round_total_sales(game_id=game_id, id=round_id).one())
+    }
+
+    return_data['sales'] = result_to_dict(
+        house_sales_query(game_id, id=round_id).all()
+        ) if sales_affected else False
+
+    return return_data
+
+
 @bp.route('/games/<int:game_id>/sales')
 def get_sales(game_id):
     """Retrieves all sale records for a given game_id"""

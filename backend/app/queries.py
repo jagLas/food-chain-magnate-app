@@ -94,7 +94,7 @@ def sale_with_calc(sale_id):
     return query
 
 
-def house_sales_query(game_id):
+def house_sales_query(game_id, **kwargs):
     query = db.session.query(
         Round.game_id.label('game_id'),
         Sale.round_id.label('round_id'),
@@ -120,7 +120,7 @@ def house_sales_query(game_id):
             pizza_bonus.label('pizza_bonus') +
             drink_bonus
         ).label('sale_total'),
-    ).join(Round).filter(Round.game_id == game_id)
+    ).join(Round).filter_by(game_id=game_id, **kwargs)
 
     return query
 
