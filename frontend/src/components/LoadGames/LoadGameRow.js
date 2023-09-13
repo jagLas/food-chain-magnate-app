@@ -4,7 +4,7 @@ const LoadGameLink = ({game}) => {
     return (
             <li>
                 <span>
-                    <Link to={`${game.id}`}>Id: {game.id} <span>Players: </span>
+                    <Link to={`${game.id}/rounds/all`}>Id: {game.id} <span>Players: </span>
                     <span>{game.players.length}</span></Link>
                 </span>  
             </li>
