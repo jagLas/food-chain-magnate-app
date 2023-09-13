@@ -7,13 +7,12 @@ import { actions } from "../GameReducer";
 
 const RoundRow = ({round}) => {
 
-
-    const [unitPrice, setUnitPrice] = useState(round.unit_price);
-    const [cfo, setCfo] = useState(round.cfo);
     const [firstBurger, setFirstBurger] = useState(round.first_burger);
     const [firstPizza, setFirstPizza] = useState(round.first_pizza);
     const [firstDrink, setFirstDrink] = useState(round.first_drink);
     const [firstWaitress, setFirstWaitress] = useState(round.first_waitress);
+    const [cfo, setCfo] = useState(round.cfo);
+    const [unitPrice, setUnitPrice] = useState(round.unit_price);
     const [waitresses, setWaitresses] = useState(round.waitresses);
     const [salariesPaid, setSalariesPaid] = useState(round.salaries_paid);
 
@@ -45,9 +44,42 @@ const RoundRow = ({round}) => {
     //     return totals
     // }, [round, sales, roundNum])
 
+    function updateRound () {
+
+        // logic to see if the form as a changed state from what's in db
+        const stateValues = [
+            firstBurger, firstPizza, firstDrink,
+            firstWaitress, cfo, unitPrice, waitresses,
+            salariesPaid
+        ];
+
+        const propValues = [
+            round.first_burger, round.first_pizza, round.first_drink,
+            round.first_waitress, round.cfo, round.unit_price, round.waitresses, 
+            round.salaries_paid
+        ];
+
+        let different = false;
+        for (let i = 0; i < stateValues.length; i++) {
+            if (propValues[i] != stateValues[i]) {
+                different = true;
+            }
+        }
+        console.log(stateValues)
+        console.log(propValues)
+        console.log(different)
+        if (different) {
+            // fetch statement code here post PATCH round to api
+
+            // add dispatch for round record
+
+            // add dispatch for sales records
+        }
+    }
+
     return (
         <>
-            <tr>
+            <tr onBlur={updateRound}>
                 <td>{round.player_name}</td>
                 <td>
                     <input
