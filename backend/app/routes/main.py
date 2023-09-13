@@ -188,8 +188,7 @@ def add_sale(game_id):
 
     data = request.json
 
-    # finds the corresponding Round record given the
-    # player_id, game_id, and round number
+    # finds the corresponding Round record given the player_id, game_id, and round number
     game_round = Round.query.filter_by(game_id=game_id,
                                        player_id=data['player_id'],
                                        round=data['round']
