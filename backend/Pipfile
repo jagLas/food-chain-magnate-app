@@ -17,4 +17,3 @@ sqlalchemy = "*"
 flask-cors = "*"
 
 [dev-packages]
-pycodestyle = "*"
