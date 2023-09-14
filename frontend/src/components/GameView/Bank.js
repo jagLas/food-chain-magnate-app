@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
-import { useGame, useGameDispatch } from "../GameContext"
+import { useGame, useGameDispatch } from "./GameContext/GameContext"
 import { useEffect, useState } from "react"
-import { actions } from "../GameReducer"
+import { actions } from "./GameContext/GameReducer"
 
 export default function Bank () {
     const {bank} = useGame()

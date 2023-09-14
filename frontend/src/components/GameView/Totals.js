@@ -1,7 +1,7 @@
 import TotalRow from "./TotalRow"
-import { useGame, useGameDispatch } from "../GameContext"
+import { useGame, useGameDispatch } from "./GameContext/GameContext"
 import { useEffect, useMemo } from "react";
-import { actions } from "../GameReducer";
+import { actions } from "./GameContext/GameReducer";
 
 const Totals = () => {
     const {players, rounds, bank} = useGame()

@@ -2,8 +2,8 @@ import { NavLink, useNavigate, useParams } from "react-router-dom"
 import Rounds from "./Rounds"
 import SalesView from "./SalesView"
 import { useMemo } from "react"
-import { useGame, useGameDispatch } from "../GameContext"
-import { actions } from "../GameReducer"
+import { useGame, useGameDispatch } from "./GameContext/GameContext"
+import { actions } from "./GameContext/GameReducer"
 
 export default function RoundView () {
     const {rounds, players} = useGame()

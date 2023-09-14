@@ -1,6 +1,6 @@
 import SaleRow from "./SaleRow";
 import AddSaleForm from "./AddSaleForm";
-import { useGame } from "../GameContext";
+import { useGame } from "./GameContext/GameContext";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 

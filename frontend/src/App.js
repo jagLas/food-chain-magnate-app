@@ -1,6 +1,6 @@
 import './App.css';
 
-import GameView from './components/GameView';
+import GameView from './components/GameView/GameView';
 import CreateGameForm from './components/CreateGame/CreateGame';
 import {Route, Routes} from 'react-router-dom'
 import LandingPage from './components/LandingPage';

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useParams } from "react-router-dom"
-import { useGame, useGameDispatch } from "../GameContext"
-import { actions } from "../GameReducer"
+import { useGame, useGameDispatch } from "./GameContext/GameContext"
+import { actions } from "./GameContext/GameReducer"
 
 function SalePlayerfield({player}){
     return (

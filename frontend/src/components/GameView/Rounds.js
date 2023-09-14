@@ -1,5 +1,5 @@
 import RoundRow from "./RoundRow"
-import { useGame } from "../GameContext"
+import { useGame } from "./GameContext/GameContext"
 import { useMemo } from "react"
 import { useParams } from "react-router-dom"
 

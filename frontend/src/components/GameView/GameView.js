@@ -1,7 +1,7 @@
-import Totals from './GameView/Totals';
-import { GameProvider } from './GameContext';
-import RoundView from './GameView/RoundView';
-import Bank from './GameView/Bank';
+import Totals from './Totals';
+import { GameProvider } from './GameContext/GameContext';
+import RoundView from './RoundView';
+import Bank from './Bank';
 
 export default function GameView() {
 
