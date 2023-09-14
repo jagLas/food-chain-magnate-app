@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useGame, useGameDispatch } from "./GameContext/GameContext"
+import { useGameDispatch } from "./GameContext/GameContext"
 import { actions } from "./GameContext/GameReducer"
 
 export default function SaleRow({sale}) {
