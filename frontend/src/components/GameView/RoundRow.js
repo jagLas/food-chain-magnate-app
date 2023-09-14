@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react"
-import { useGame } from "../GameContext"
+import { useGame, useGameDispatch } from "../GameContext"
 import { useParams } from "react-router-dom"
 import { actions } from "../GameReducer";
 
@@ -17,34 +17,7 @@ const RoundRow = ({round}) => {
     const [salariesPaid, setSalariesPaid] = useState(round.salaries_paid);
 
     const {gameId} = useParams();
-
-    // const {sales} = useGame();
-    // const {roundNum} = useParams();
-
-    // // calculates totals for the round
-    // const totals = useMemo(() => {
-        
-    //     // console.log('calculating totals')
-    //     let filteredSales = sales.filter((sale)=> {
-    //         return round.round_id ===sale.round_id
-    //     })
-    //     // debugger
-    //     let totals = filteredSales.reduce((accumulator, currentValue) => {
-    //         return {
-    //             salesTotal: accumulator.salesTotal + currentValue.sale_total}
-    //     }, {
-    //         salesTotal: 0
-    //     })
-
-    //     totals.waitressIncome = round.first_waitress ? round.waitresses * 5 : round.waitresses * 3
-    //     totals.salariesExpense = round.salaries_paid * 5
-    //     totals.preCfoBonus = totals.waitressIncome + totals.salesTotal;
-    //     totals.cfoBonus = round.cfo ? Math.ceil(totals.preCfoBonus * .5) : 0;
-    //     totals.revenue = totals.preCfoBonus + totals.cfoBonus;
-    //     totals.income = totals.revenue + totals.salariesExpense
-
-    //     return totals
-    // }, [round, sales, roundNum])
+    const dispatch = useGameDispatch();
 
     // delays the blur even to prevent update when tabbing between fields
     const blurEvent = useCallback((e) => {
@@ -57,7 +30,8 @@ const RoundRow = ({round}) => {
         })
     }, [checkForChange])
 
-    // checks to see if there has been a change made to the round row
+    // checks to see if there has been a change made to the round row and sends data to api
+    // if changes is detected
     function checkForChange () {
         const stateValues = [
             firstBurger, firstPizza, firstDrink,
@@ -97,8 +71,6 @@ const RoundRow = ({round}) => {
             salaries_paid: salariesPaid
         }
 
-        console.log('payload', payload)
-
         // fetch statement code here post PATCH round to api
         let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/rounds/${round.round_id}`, {
             method: 'PATCH',
@@ -110,12 +82,20 @@ const RoundRow = ({round}) => {
 
         data = await data.json()
 
-        console.log('response', data)
+        // add dispatch for round record returned
+        dispatch({
+            type: actions.UPDATE_ROUND,
+            payload: data.round
+        })
 
-        // add dispatch for round record
-
-        // add dispatch for sales records
-        
+        // add dispatch for sales records if sales have been returned
+        // dispatching when no sales have been returned causes an error
+        if (data.sales.length) {
+            dispatch({
+                type: actions.UPDATE_SALES,
+                payload: data.sales
+            })
+        }
     }
 
     return (

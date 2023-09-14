@@ -58,7 +58,24 @@ export default function gameReducer(game, action) {
                 })
             }
         case actions.UPDATE_SALES:
-            // code for updating sales records
+            let updatedSalesIds = new Set()
+            let normalizedSales = {}
+
+            payload.forEach(sale => {
+                normalizedSales[sale.sale_id] = sale
+                updatedSalesIds.add(sale.sale_id)
+            })
+
+            return {
+                ...game,
+                sales: game.sales.map(sale => {
+                    if (updatedSalesIds.has(sale.sale_id)) {
+                        return normalizedSales[sale.sale_id]
+                    }
+                    return sale
+                })
+            }
+
         case actions.UPDATE_BANK_TOTAL:
             const incomeTotal = payload
             return {
@@ -69,7 +86,6 @@ export default function gameReducer(game, action) {
                 }
             }
         case actions.DELETE_SALE:
-            // debugger
             const filteredSales = game.sales.filter(sale => {
                 return sale.sale_id !== payload
             })
