@@ -18,7 +18,7 @@ function App() {
           <Route path='' element={<LoadGames />}></Route>
           <Route path='create-game' element={<CreateGameForm />}></Route>
           <Route path=':gameId' element={<GameView />}>
-            <Route path='rounds/:roundNum' element={<div>test</div>}></Route>
+            <Route path='rounds/:roundNum' element={<></>}></Route>
           </Route>
         </Route>
         <Route path='players'>
