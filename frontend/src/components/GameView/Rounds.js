@@ -1,7 +1,7 @@
 import RoundRow from "./RoundRow"
 import { useGame } from "./GameContext/GameContext"
 import { useMemo } from "react"
-import { resolvePath, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 
 const Rounds = () => {
     const rounds = useGame().rounds
@@ -25,34 +25,32 @@ const Rounds = () => {
 
     return (
       <>
-        <div id='rounds-table' className="table">
-            <div className="round-row header">
-              <div>Name</div>
-              <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
-                <div>First Burger</div>
-                <div>First Pizza</div>
-                <div>First Drink</div>
-                <div>First Waitress</div>
-                <div>CFO</div>
-              </div>
-              <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(3, 1fr)'}}>
-                <div>Unit Price</div>
-                <div>Waitresses</div>
-                <div>Salaries Paid</div>
-              </div>
-              <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(4, 1fr)'}}>
-                <div>Waitress Income</div>
-                <div>Sales Revenue</div>
-                <div>cfo bonus</div>
-                <div>Round Revenue</div>
-              </div>
-              <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(2, 1fr)'}}>
-                <div>Salaries Expense</div>
-                <div>Round Income</div>
-              </div>
-
-
-            </div>
+        <div id='rounds-table' className="table"
+          style={{gridTemplateRows: `repeat(${rows.length + 1}, 1fr)`, gridTemplateColumns: 'auto repeat(4, 1fr)'}}
+        >
+          <div>Name</div>
+          <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
+            <div>First Burger</div>
+            <div>First Pizza</div>
+            <div>First Drink</div>
+            <div>First Waitress</div>
+            <div>CFO</div>
+          </div>
+          <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(3, 1fr)'}}>
+            <div>Unit Price</div>
+            <div>Waitresses</div>
+            <div>Salaries Paid</div>
+          </div>
+          <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(4, 1fr)'}}>
+            <div>Waitress Income</div>
+            <div>Sales Revenue</div>
+            <div>cfo bonus</div>
+            <div>Round Revenue</div>
+          </div>
+          <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(2, 1fr)'}}>
+            <div>Salaries Expense</div>
+            <div>Round Income</div>
+          </div>
           {rows}
         </div>
       </>

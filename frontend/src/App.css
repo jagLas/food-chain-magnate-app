@@ -6,10 +6,11 @@ input, select {
   background-color: #faf6e5;
   text-align: center;
   border: 1px solid black;
+  width: 48px;
 }
 
 input[type=checkbox] {
-
+  width: auto;
 }
 
 .App {
