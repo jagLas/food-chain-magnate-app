@@ -80,7 +80,7 @@ const Totals = () => {
           payload: newBankTotal
         })
       }
-    },[totals])
+    },[totals, bank.reserve])
 
     return (
       <>
