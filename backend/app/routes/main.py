@@ -141,7 +141,8 @@ def update_round(game_id, round_id):
     db.session.commit()
 
     # checks if any keys that affect sale calculations have been changed
-    sale_affecting_keys = ['first_burger', 'first_pizza', 'first_drink', 'first_waitress']
+    sale_affecting_keys = ['first_burger', 'first_pizza', 'first_drink',
+                           'first_waitress', 'unit_price']
     sales_affected = False
     for key in sale_affecting_keys:
         if game_round.__getattribute__(key) != game_round_copy[key]:
