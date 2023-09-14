@@ -1,0 +1,20 @@
+.round-selector {
+    border: 1px solid black;
+    color: black;
+    padding: 4px 32px;
+    background-color: #98d4cd;
+    text-decoration: none;
+}
+
+.add-round-button {
+    background-color: #ba9aca;
+}
+
+.all-rounds-tab {
+    background-color: #efa890;
+}
+
+.round-selector.active{
+    background-color: #c23331;
+}
+

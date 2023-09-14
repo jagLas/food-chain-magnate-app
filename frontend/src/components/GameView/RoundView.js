@@ -4,6 +4,7 @@ import SalesView from "./SalesView"
 import { useMemo } from "react"
 import { useGame, useGameDispatch } from "./GameContext/GameContext"
 import { actions } from "./GameContext/GameReducer"
+import './RoundView.css'
 
 export default function RoundView () {
     const {rounds, players} = useGame()
@@ -15,9 +16,9 @@ export default function RoundView () {
     const roundList = useMemo(() => {
         const numRounds = rounds.length / players.length
         const roundsArray = []
-        roundsArray.push(<NavLink key={0} to={`rounds/all`}>All</NavLink>)
+        roundsArray.push(<NavLink className={'round-selector all-rounds-tab' } key={0} to={`rounds/all`}>All</NavLink>)
         for (let i = 0; i < numRounds; i++) {
-            const navLink = <NavLink key={i + 1} to={`rounds/${i + 1}`}>{i+1}</NavLink>
+            const navLink = <NavLink className={'round-selector'} key={i + 1} to={`rounds/${i + 1}`}>{i+1}</NavLink>
             roundsArray.push(navLink)
         }
         return roundsArray
@@ -50,7 +51,7 @@ export default function RoundView () {
         <div>
             <h2>Round Summary</h2>
             {roundList}
-            <button onClick={formHandler}>New Round</button>
+            <a className={'round-selector add-round-button'} onClick={formHandler}>New Round</a>
             <Rounds />
             <SalesView/>
         </div>
