@@ -11,6 +11,7 @@ const initialGameState = {
     sales: [],
     totals: [],
     players: [],
+    bank: {start: 0, reserve: 0}
 };
 
 export function GameProvider({ children }) {
