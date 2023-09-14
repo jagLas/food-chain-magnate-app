@@ -5,7 +5,8 @@ export const actions = {
     UPDATE_ROUND: 'UPDATE_ROUND',
     UPDATE_SALES: 'UPDATE_SALES',
     UPDATE_BANK_TOTAL: 'UPDATE_BANK_TOTAL',
-    DELETE_SALE: 'DELETE_SALE'
+    DELETE_SALE: 'DELETE_SALE',
+    UPDATE_BANK_RESERVE: 'UPDATE_BANK_RESERVE'
 }
 
 const roundSortingFn = (a,b) => {
@@ -83,6 +84,14 @@ export default function gameReducer(game, action) {
                 bank: {
                     ...game.bank,
                     total: incomeTotal
+                }
+            }
+        case actions.UPDATE_BANK_RESERVE:
+            return {
+                ...game,
+                bank: {
+                    ...game.bank,
+                    reserve: payload.reserve
                 }
             }
         case actions.DELETE_SALE:
