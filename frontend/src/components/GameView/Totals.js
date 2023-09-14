@@ -73,14 +73,12 @@ const Totals = () => {
 
     useEffect(()=> {
       // updates the bank values if it has been initialized
-      if (bank) {
-        const newBankTotal = bank.start + bank.reserve - totals.total.income
-        dispatch({
-          type: actions.UPDATE_BANK_TOTAL,
-          payload: newBankTotal
-        })
-      }
-    },[totals, bank.reserve])
+      const newBankTotal = bank.start + bank.reserve - totals.total.income
+      dispatch({
+        type: actions.UPDATE_BANK_TOTAL,
+        payload: newBankTotal
+      })
+    },[dispatch, totals.total.income, bank.reserve, bank.start])
 
     return (
       <>
