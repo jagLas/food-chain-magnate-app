@@ -101,9 +101,9 @@ const RoundRow = ({round}) => {
     )
 
     return (
-        <>
+        <div onBlur={blurEvent} className="table-row">
             <div>{round.player_name}</div>
-            <div onBlur={blurEvent} className="round-subgroup" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
+            <div  className="round-subgroup" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
                 <input
                     checked={firstBurger}
                     type="checkbox"
@@ -163,7 +163,7 @@ const RoundRow = ({round}) => {
                 <div>{-round.salaries_expense ? -round.salaries_expense : 0}</div>
                 <div>{round.round_income ? round.round_income : 0}</div>
             </div>
-        </>
+        </div>
     )
 }
 

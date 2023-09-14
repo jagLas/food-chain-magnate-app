@@ -26,7 +26,7 @@ const Rounds = () => {
     return (
       <>
         <div id='rounds-table' className="table"
-          style={{gridTemplateRows: `repeat(${rows.length + 1}, 1fr)`, gridTemplateColumns: 'auto repeat(4, 1fr)'}}
+          style={{gridTemplateColumns: 'auto repeat(4, 1fr)'}}
         >
           <div>Name</div>
           <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
