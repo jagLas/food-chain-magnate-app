@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { useGame } from "../GameContext"
 import { useParams } from "react-router-dom"
 import { actions } from "../GameReducer";
@@ -44,9 +44,19 @@ const RoundRow = ({round}) => {
     //     return totals
     // }, [round, sales, roundNum])
 
-    function updateRound () {
+    // delays the blur even to prevent update when tabbing between fields
+    const blurEvent = useCallback((e) => {
+        const currentTarget = e.currentTarget;
 
-        // logic to see if the form as a changed state from what's in db
+        requestAnimationFrame(() => {
+            if (!currentTarget.contains(document.activeElement)) {
+                checkForChange();
+            }
+        })
+    }, [checkForChange])
+
+    // checks to see if there has been a change made to the round row
+    function checkForChange () {
         const stateValues = [
             firstBurger, firstPizza, firstDrink,
             firstWaitress, cfo, unitPrice, waitresses,
@@ -77,9 +87,15 @@ const RoundRow = ({round}) => {
         }
     }
 
+    function updateRound() {
+        const payload = {
+            
+        }
+    }
+
     return (
         <>
-            <tr onBlur={updateRound}>
+            <tr onBlur={blurEvent}>
                 <td>{round.player_name}</td>
                 <td>
                     <input
