@@ -10,7 +10,7 @@ const Rounds = () => {
     const rows = useMemo(() => {
       const rows = [];
 
-      for (const [key, value] of Object.entries(rounds)) {
+      for (const value of rounds) {
           rows.push(<RoundRow round={value} key={value.round_id} />)
       }
 
