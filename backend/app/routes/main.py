@@ -247,6 +247,19 @@ def get_bank(game_id):
     return bank_info
 
 
+@bp.route('/games/<int:game_id>/bank', methods=['PATCH'])
+def edit_game(game_id):
+    """create a new game. Use JSON Encoded data"""
+
+    data = request.json
+    game = Game.query.get_or_404(game_id)
+    game.bank_reserve = data['reserve']
+    db.session.commit()
+    return {
+        'reserve': game.bank_reserve
+    }
+
+
 @bp.route('/players',)
 def get_players():
     """Returns a list of players and their ids"""
