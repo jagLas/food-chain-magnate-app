@@ -52,8 +52,8 @@ const Rounds = () => {
               <div>Salaries Expense</div>
               <div>Round Income</div>
             </div>
-            {rows}
           </div>
+            {rows}
         </div>
 
       </>

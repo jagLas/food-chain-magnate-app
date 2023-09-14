@@ -40,9 +40,13 @@
     background-color: #efa890;
 }
 
-/* .table-row:nth-child(2n+1) * {
-    background-color: #ffded4;
-} */
+.table-row:nth-child(2n+1) * {
+    background-color: #fdeae5;
+}
+
+.table-row.header *{
+    background-color: #c23331;
+}
 
 .table-row.header > .round-subgroup{
     border-bottom: 1px solid black;
