@@ -11,7 +11,7 @@ const initialGameState = {
     sales: [],
     totals: [],
     players: [],
-    bank: {start: 0, reserve: 0}
+    bank: {start: 0, reserve: 0, total: 0}
 };
 
 export function GameProvider({ children }) {
@@ -37,7 +37,6 @@ export function GameProvider({ children }) {
 
                 let bankData = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/bank`)
                 bankData = await bankData.json()
-
                 dispatch({type: actions.FETCH_DATA,
                     payload: {salesData, roundData, playersData, bankData}})
             } catch(error) {
@@ -45,7 +44,7 @@ export function GameProvider({ children }) {
             }
         }
         fetchRounds()
-    },[gameId])
+    }, [gameId])
 
     return (
         <GameContext.Provider value={game}>

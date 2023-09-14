@@ -29,6 +29,7 @@ export default function gameReducer(game, action) {
     const {type, payload} = action
     switch (type) {
         case actions.FETCH_DATA:
+            // console.log('retrieving data', payload)
             return {
                 rounds: payload.roundData.sort(roundSortingFn),
                 sales: payload.salesData,
@@ -78,6 +79,7 @@ export default function gameReducer(game, action) {
             }
 
         case actions.UPDATE_BANK_TOTAL:
+            // console.log('updating bank total', payload)
             const incomeTotal = payload
             return {
                 ...game,
@@ -87,6 +89,7 @@ export default function gameReducer(game, action) {
                 }
             }
         case actions.UPDATE_BANK_RESERVE:
+            // console.log('updating bank reserve', payload.reserve)
             return {
                 ...game,
                 bank: {

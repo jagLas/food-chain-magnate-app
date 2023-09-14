@@ -78,7 +78,10 @@ const Totals = () => {
         type: actions.UPDATE_BANK_TOTAL,
         payload: newBankTotal
       })
-    },[dispatch, totals.total.income, bank.reserve, bank.start])
+      // dependency array needs to have bank properties separate, otherwise infinite loop
+      // bank.total needs to be in dependency array so that total gets recalculated when
+      // game is fetched
+    },[dispatch, totals.total.income, bank.total, bank.reserve, bank.start])
 
     return (
       <>
