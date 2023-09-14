@@ -50,8 +50,10 @@ export default function RoundView () {
     return (
         <div>
             <h2>Round Summary</h2>
-            {roundList}
-            <a className={'round-selector add-round-button'} onClick={formHandler}>New Round</a>
+            <div id='round-nav'>
+                {roundList}
+                <a className={'round-selector add-round-button'} onClick={formHandler}>New Round</a>
+            </div>
             <Rounds />
             <SalesView/>
         </div>

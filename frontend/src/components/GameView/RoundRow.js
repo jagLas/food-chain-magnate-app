@@ -102,76 +102,69 @@ const RoundRow = ({round}) => {
 
     return (
         <>
-            <tr onBlur={blurEvent}>
-                <td>{round.player_name}</td>
-                <td>
+            <div className="round-row" onBlur={blurEvent}>
+                <div>{round.player_name}</div>
+                <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
                     <input
                         checked={firstBurger}
                         type="checkbox"
                         onChange={()=> setFirstBurger(!firstBurger)}
                     >
                     </input>
-                </td>
-                <td>
+
                     <input
                         checked={firstPizza}
                         type="checkbox"
                         onChange={()=> setFirstPizza(!firstPizza)}
                     >
                     </input>
-                </td>
-                <td>
                     <input
                         checked={firstDrink}
                         type="checkbox"
                         onChange={()=> setFirstDrink(!firstDrink)}
                     >
                     </input>
-                </td>
-                <td>
                     <input
                         checked={firstWaitress}
                         type="checkbox"
                         onChange={()=> setFirstWaitress(!firstWaitress)}
                     >
                     </input>
-                </td>
-                <td>
                     <input
                         checked={cfo}
                         type="checkbox"
                         onChange={()=> setCfo(!cfo)}
                     >
                     </input>
-                </td>
-                <td>
+                </div>
+                <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(3, 1fr)'}}>
                     <input
                         value={unitPrice}
                         onChange={(e) => setUnitPrice(e.target.value)}
                         type='number'
                     ></input>
-                </td>
-                <td>
                     <input
                         value={waitresses}
                         onChange={(e) => setWaitresses(e.target.value)}
                         type='number'
                     ></input>
-                </td>
-                <td>
                     <input
                         value={salariesPaid}
                         onChange={(e) => setSalariesPaid(e.target.value)}
                         type='number'
                     ></input>
-                </td>
-                <td>{round.waitress_income ? round.waitress_income : 0}</td>
-                <td>{round.sale_total ? round.sale_total : 0}</td>
-                <td>{round.cfo_bonus ? round.cfo_bonus : 0}</td>
-                <td>{round.round_total ? round.round_total :  0}</td>
-                <td>{-round.salaries_expense ? -round.salaries_expense : 0}</td>
-                <td>{round.round_income ? round.round_income : 0}</td>
-            </tr>
+                </div>
+                <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(4, 1fr)'}}>
+                    <div>{round.waitress_income ? round.waitress_income : 0}</div>
+                    <div>{round.sale_total ? round.sale_total : 0}</div>
+                    <div>{round.cfo_bonus ? round.cfo_bonus : 0}</div>
+                    <div>{round.round_total ? round.round_total :  0}</div>
+                </div>
+                <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(2, 1fr)'}}>
+                    <div>{-round.salaries_expense ? -round.salaries_expense : 0}</div>
+                    <div>{round.round_income ? round.round_income : 0}</div>
+                </div>
+            </div>
         </>
     )
 }
