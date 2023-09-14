@@ -16,6 +16,8 @@ const RoundRow = ({round}) => {
     const [waitresses, setWaitresses] = useState(round.waitresses);
     const [salariesPaid, setSalariesPaid] = useState(round.salaries_paid);
 
+    const {gameId} = useParams();
+
     // const {sales} = useGame();
     // const {roundNum} = useParams();
 
@@ -75,22 +77,45 @@ const RoundRow = ({round}) => {
                 different = true;
             }
         }
-        console.log(stateValues)
-        console.log(propValues)
+
         console.log(different)
         if (different) {
-            // fetch statement code here post PATCH round to api
-
-            // add dispatch for round record
-
-            // add dispatch for sales records
+            updateRound()
         }
     }
 
-    function updateRound() {
+    async function updateRound() {
         const payload = {
-            
+            round_id: round.round_id,
+            first_burger: firstBurger,
+            first_pizza: firstPizza,
+            first_drink: firstDrink,
+            first_waitress: firstWaitress,
+            cfo: cfo,
+            unit_price: unitPrice,
+            waitresses: waitresses,
+            salaries_paid: salariesPaid
         }
+
+        console.log('payload', payload)
+
+        // fetch statement code here post PATCH round to api
+        let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/rounds/${round.round_id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+
+        data = await data.json()
+
+        console.log('response', data)
+
+        // add dispatch for round record
+
+        // add dispatch for sales records
+        
     }
 
     return (

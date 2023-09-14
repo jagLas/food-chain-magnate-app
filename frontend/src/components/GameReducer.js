@@ -3,6 +3,7 @@ export const actions = {
     ADD_SALE: 'ADD_SALE',
     ADD_ROUNDS: 'ADD_ROUNDS',
     UPDATE_ROUND: 'UPDATE_ROUND',
+    UPDATE_SALES: 'UPDATE_SALES',
     UPDATE_BANK_TOTAL: 'UPDATE_BANK_TOTAL',
     DELETE_SALE: 'DELETE_SALE'
 }
@@ -56,6 +57,8 @@ export default function gameReducer(game, action) {
                     return round
                 })
             }
+        case actions.UPDATE_SALES:
+            // code for updating sales records
         case actions.UPDATE_BANK_TOTAL:
             const incomeTotal = payload
             return {
