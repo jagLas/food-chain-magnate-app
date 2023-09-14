@@ -49,10 +49,10 @@ export default function RoundView () {
 
     return (
         <div>
-            <h2>Round Summary</h2>
+            <h2>Round</h2>
             <div id='round-nav'>
                 {roundList}
-                <a className={'round-selector add-round-button'} onClick={formHandler}>New Round</a>
+                <a className={'round-selector add-round-button'} onClick={formHandler}>+</a>
             </div>
             <Rounds />
             <SalesView/>

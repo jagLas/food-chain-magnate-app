@@ -26,33 +26,36 @@ const Rounds = () => {
     return (
       <>
         <div id='rounds-table' className="table"
-          style={{gridTemplateColumns: 'auto repeat(4, 1fr)'}}
+          style={{}}
         >
-          <div>Name</div>
-          <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
-            <div>First Burger</div>
-            <div>First Pizza</div>
-            <div>First Drink</div>
-            <div>First Waitress</div>
-            <div>CFO</div>
+          <div className="table-row header">
+            <div className="round-subgroup">Name</div>
+            <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
+              <div>First Burger</div>
+              <div>First Pizza</div>
+              <div>First Drink</div>
+              <div>First Waitress</div>
+              <div>CFO</div>
+            </div>
+            <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(3, 1fr)'}}>
+              <div>Unit Price</div>
+              <div>Waitresses</div>
+              <div>Salaries Paid</div>
+            </div>
+            <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(4, 1fr)'}}>
+              <div>Waitress Income</div>
+              <div>Sales Revenue</div>
+              <div>cfo bonus</div>
+              <div>Round Revenue</div>
+            </div>
+            <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(2, 1fr)'}}>
+              <div>Salaries Expense</div>
+              <div>Round Income</div>
+            </div>
+            {rows}
           </div>
-          <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(3, 1fr)'}}>
-            <div>Unit Price</div>
-            <div>Waitresses</div>
-            <div>Salaries Paid</div>
-          </div>
-          <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(4, 1fr)'}}>
-            <div>Waitress Income</div>
-            <div>Sales Revenue</div>
-            <div>cfo bonus</div>
-            <div>Round Revenue</div>
-          </div>
-          <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(2, 1fr)'}}>
-            <div>Salaries Expense</div>
-            <div>Round Income</div>
-          </div>
-          {rows}
         </div>
+
       </>
 
     )

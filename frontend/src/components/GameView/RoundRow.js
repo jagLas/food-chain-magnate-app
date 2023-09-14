@@ -102,7 +102,7 @@ const RoundRow = ({round}) => {
 
     return (
         <div onBlur={blurEvent} className="table-row">
-            <div>{round.player_name}</div>
+            <div style={{padding: '0px 16px'}}>{round.player_name}</div>
             <div  className="round-subgroup" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
                 <input
                     checked={firstBurger}

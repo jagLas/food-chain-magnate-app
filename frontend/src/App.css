@@ -1,5 +1,11 @@
 body {
   background-color: #fff8db;
+ 
+}
+
+body > * {
+  margin: 0px auto;
+  max-width: 1200px;
 }
 
 input, select {

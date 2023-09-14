@@ -1,5 +1,8 @@
 #round-nav {
     display: flex;
+    flex-wrap: wrap-reverse;
+    align-content: stretch;
+    justify-content: center;
 }
 
 .round-selector {
@@ -24,20 +27,33 @@
 
 #rounds-table {
     display: grid;
-    max-width: 1500px;
+    max-width: 1200px;
+    grid-template-columns: auto 1.5fr 1.5fr 2fr 1fr;
+    border: 1px solid black;
 }
 
 .table-row{
     display: contents;
 }
 
+.table-row:nth-child(2n) * {
+    background-color: #efa890;
+}
+
+/* .table-row:nth-child(2n+1) * {
+    background-color: #ffded4;
+} */
+
+.table-row.header > .round-subgroup{
+    border-bottom: 1px solid black;
+}
+
 .round-subgroup {
     display: grid;
     align-items: center;
     justify-items: center;
-    border: 1px solid black;
     align-self: stretch;
     justify-self: stretch;
     margin: 0px;
-    padding: 0px;
+    padding: 2px 0px;
 }
