@@ -45,6 +45,7 @@
 #sales-table {
     grid-template-columns: auto auto auto auto auto;
     max-width: 1200px;
+    margin-bottom: 32px;
 }
 
 .table-row{
@@ -83,7 +84,7 @@
     padding: 2px 0px;
 }
 
-#sales-table .header .table-subgroup > *{
+.header .table-subgroup > *{
     width: min-content;
 }
 
@@ -105,7 +106,6 @@
 
     #sales-table>.table-row {
         width: 300px;
-        min-width: none;
     }
 
     #sales-table>.table-row>* {

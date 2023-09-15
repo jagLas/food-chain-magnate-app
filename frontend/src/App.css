@@ -8,6 +8,8 @@
   font-style: normal;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
 body {
   background-color: #fff8db;
 }
@@ -36,9 +38,15 @@ input[type=checkbox] {
   width: auto;
 }
 
-h1, h2 {
-  font-family: 'Bazooka-Regular', 'Impact';
+h1, h2, h3 {
+  font-family: 'Pacifico-Regular', 'Bazooka-Regular', 'Impact';
   font-weight: 500;
+}
+
+h3 {
+  font-family: 'Pacifico', 'cursive';
+  font-size: 16px;
+  margin: 4px 0px;
 }
 
 .App {
@@ -63,4 +71,5 @@ h1, h2 {
 
 html {
   width: 100%;
+  overflow-y: scroll;
 }

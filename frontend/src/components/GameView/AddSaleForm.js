@@ -76,7 +76,7 @@ export default function AddSaleForm() {
 
 
     return (
-        <form>
+        <form style={{margin: '8px 0px'}}>
             <h3>Add a Sale</h3>
             <label>Player:
                 <select

@@ -43,7 +43,7 @@ const Rounds = () => {
             <div className="table-subgroup optional-calcs" style={{gridTemplateColumns: 'repeat(4, 1fr)'}}>
               <div>Waitress Income</div>
               <div>Sales Revenue</div>
-              <div>cfo bonus</div>
+              <div>CFO Bonus</div>
               <div>Round Revenue</div>
             </div>
             <div className="table-subgroup" style={{gridTemplateColumns: 'repeat(2, 1fr)'}}>
