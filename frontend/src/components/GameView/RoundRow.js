@@ -103,7 +103,7 @@ const RoundRow = ({round}) => {
     return (
         <div onBlur={blurEvent} className="table-row">
             <div className='player-name-field' style={{padding: '0px 16px'}}>{round.player_name}</div>
-            <div  className="round-subgroup milestones" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
+            <div  className="table-subgroup milestones" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
                 <div className="round-field">
                     <label>First Burger</label>
                     <input
@@ -150,7 +150,7 @@ const RoundRow = ({round}) => {
                     </input>
                 </div>
             </div>
-            <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(3, 1fr)'}}>
+            <div className="table-subgroup" style={{gridTemplateColumns: 'repeat(3, 1fr)'}}>
                 <div className="round-field">
                     <label>Unit Price</label>
                     <input
@@ -176,7 +176,7 @@ const RoundRow = ({round}) => {
                     ></input>
                 </div>
             </div>
-            <div className="round-subgroup optional-calcs" style={{gridTemplateColumns: 'repeat(4, 1fr)'}}>
+            <div className="table-subgroup optional-calcs" style={{gridTemplateColumns: 'repeat(4, 1fr)'}}>
                 <div className="round-field">
                     <label>Waitress Income</label>
                     {round.waitress_income ? round.waitress_income : 0}
@@ -194,7 +194,7 @@ const RoundRow = ({round}) => {
                     {round.round_total ? round.round_total :  0}
                 </div>
             </div>
-            <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(2, 1fr)'}}>
+            <div className="table-subgroup" style={{gridTemplateColumns: 'repeat(2, 1fr)'}}>
                 <div className="round-field">
                     <label>Salaries Expense</label>
                     {-round.salaries_expense ? -round.salaries_expense : 0}
