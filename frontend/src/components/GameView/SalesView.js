@@ -37,7 +37,7 @@ export default function SalesView() {
                         <div>Pizzas</div>
                         <div>Drinks</div>
                     </div>
-                    <div className="table-subgroup optional-calcs" style={{gridTemplateColumns: 'repeat(6, 1fr)'}}>
+                    <div className="table-subgroup sale-optional-calcs" style={{gridTemplateColumns: 'repeat(6, 1fr)'}}>
                         <div>Unit Price</div>
                         <div>Base Revenue</div>
                         <div>Garden Bonus</div>

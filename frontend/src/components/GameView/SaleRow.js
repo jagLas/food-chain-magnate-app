@@ -32,26 +32,56 @@ export default function SaleRow({sale}) {
                 {players.find(player => player.id == sale.player_id).name}
             </div>
             <div className="table-subgroup" style={{gridTemplateColumns: 'repeat(6, 1fr)'}}>
-                <div>{sale.round}</div>
-                <div>{sale.house_number}</div>
-                <div>{sale.garden ? 'X' : ' '}</div>
-                <div>{sale.burgers}</div>
-                <div>{sale.pizzas}</div>
-                <div>{sale.drinks}</div>
+                <div className="round-field">
+                    <label>Round</label>
+                    {sale.round}
+                </div>
+                <div className="round-field">
+                    <label>House</label>
+                    {sale.house_number}</div>
+                <div className="round-field">
+                    <label>Garden</label>
+                    {sale.garden ? 'Yes' : 'No'}
+                </div>
+                <div className="round-field">
+                    <label>Burgers</label>
+                    {sale.burgers}
+                </div>
+                <div className="round-field">
+                    <label>Pizzas</label>
+                    {sale.pizzas}
+                </div>
+                <div className="round-field">
+                    <label>Drinks</label>
+                    {sale.drinks}
+                </div>
             </div>
-            <div className="table-subgroup optional-calcs"  style={{gridTemplateColumns: 'repeat(6, 1fr)'}}>
-                <div>{sale.unit_price}</div>
-                <div>{sale.base_revenue}</div>
-                <div>{sale.garden_bonus}</div>
-                <div>{sale.burger_bonus}</div>
-                <div>{sale.pizza_bonus}</div>
-                <div>{sale.drink_bonus}</div>
+            <div className="table-subgroup sale-optional-calcs"  style={{gridTemplateColumns: 'repeat(6, 1fr)'}}>
+                <div className="round-field">
+                    <label>Unit Price</label>{sale.unit_price}</div>
+                    <div className="round-field">
+                    <label>Base Revenue</label>{sale.base_revenue}</div>
+                    <div className="round-field">
+                    <label>Garden Bonus</label>{sale.garden_bonus}</div>
+                    <div className="round-field">
+                    <label>Burger Bonus</label>{sale.burger_bonus}</div>
+                    <div className="round-field">
+                    <label>Pizza Bonus</label>{sale.pizza_bonus}</div>
+                    <div className="round-field">
+                    <label>Drink Bonus</label>{sale.drink_bonus}</div>
             </div>
-            <div className="table-subgroup">{sale.sale_total}</div>
             <div className="table-subgroup">
+                <div className="round-field">
+                    <label>Sale Total</label>{sale.sale_total}
+                </div>
+            </div>
+            <div className="table-subgroup" style={{padding: '4px'}}>
                 <button
+                    className="delete-sale"
                     onClick={deleteSale}
-                >delete</button>
+                >
+                    delete
+                </button>
             </div>
         </div>
     )

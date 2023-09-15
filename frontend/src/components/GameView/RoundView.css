@@ -101,6 +101,18 @@
         align-items: stretch;
     }
 
+    #sales-table>.table-row {
+        width: 300px;
+        min-width: none;
+    }
+
+    #sales-table>.table-row>* {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
     .table-row label {
         display: inline;
     }
