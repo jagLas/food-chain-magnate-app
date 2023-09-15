@@ -103,38 +103,52 @@ const RoundRow = ({round}) => {
     return (
         <div onBlur={blurEvent} className="table-row">
             <div style={{padding: '0px 16px'}}>{round.player_name}</div>
-            <div  className="round-subgroup" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
-                <input
-                    checked={firstBurger}
-                    type="checkbox"
-                    onChange={()=> setFirstBurger(!firstBurger)}
-                >
-                </input>
-
+            <div  className="round-subgroup milestones" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
+                <div className="round-field">
+                    <label>First Burger</label>
+                    <input
+                        checked={firstBurger}
+                        type="checkbox"
+                        onChange={()=> setFirstBurger(!firstBurger)}
+                    >
+                    </input>
+                </div>
+                <div className="round-field">
+                <label>First Pizza</label>
                 <input
                     checked={firstPizza}
                     type="checkbox"
                     onChange={()=> setFirstPizza(!firstPizza)}
                 >
                 </input>
+                </div>
+                <div className="round-field">
+                <label>First Drink</label>
                 <input
                     checked={firstDrink}
                     type="checkbox"
                     onChange={()=> setFirstDrink(!firstDrink)}
                 >
                 </input>
+                </div>
+                <div className="round-field">
+                <label>First Waitress</label>
                 <input
                     checked={firstWaitress}
                     type="checkbox"
                     onChange={()=> setFirstWaitress(!firstWaitress)}
                 >
                 </input>
+                </div>
+                <div className="round-field">
+                <label>CFO</label>
                 <input
                     checked={cfo}
                     type="checkbox"
                     onChange={()=> setCfo(!cfo)}
                 >
                 </input>
+                </div>
             </div>
             <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(3, 1fr)'}}>
                 <input
@@ -153,7 +167,7 @@ const RoundRow = ({round}) => {
                     type='number'
                 ></input>
             </div>
-            <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(4, 1fr)'}}>
+            <div className="round-subgroup optional-calcs" style={{gridTemplateColumns: 'repeat(4, 1fr)'}}>
                 <div>{round.waitress_income ? round.waitress_income : 0}</div>
                 <div>{round.sale_total ? round.sale_total : 0}</div>
                 <div>{round.cfo_bonus ? round.cfo_bonus : 0}</div>

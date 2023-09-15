@@ -30,7 +30,7 @@ const Rounds = () => {
         >
           <div className="table-row header">
             <div className="round-subgroup">Name</div>
-            <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
+            <div className="round-subgroup milestones" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
               <div>First Burger</div>
               <div>First Pizza</div>
               <div>First Drink</div>
@@ -42,7 +42,7 @@ const Rounds = () => {
               <div>Waitresses</div>
               <div>Salaries Paid</div>
             </div>
-            <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(4, 1fr)'}}>
+            <div className="round-subgroup optional-calcs" style={{gridTemplateColumns: 'repeat(4, 1fr)'}}>
               <div>Waitress Income</div>
               <div>Sales Revenue</div>
               <div>cfo bonus</div>

@@ -1,11 +1,14 @@
 body {
   background-color: #fff8db;
- 
 }
 
 body > * {
   margin: 0px auto;
   max-width: 1200px;
+}
+
+body > * > *{
+  margin: 0px 16px;
 }
 
 input, select {
@@ -37,4 +40,8 @@ input[type=checkbox] {
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+html {
+  width: 100%;
 }
