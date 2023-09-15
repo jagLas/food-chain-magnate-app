@@ -11,7 +11,7 @@ function App() {
   return (
 
     <div className="App">
-      <h1>Food Chain Companion App</h1>
+      <h1>Food Chain Magnate Helper</h1>
       <Routes>
         <Route path='/' element={<LandingPage />}></Route>
         <Route path='games'>
