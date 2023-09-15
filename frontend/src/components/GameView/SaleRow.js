@@ -47,8 +47,8 @@ export default function SaleRow({sale}) {
                 <div>{sale.pizza_bonus}</div>
                 <div>{sale.drink_bonus}</div>
             </div>
-            <div>{sale.sale_total}</div>
-            <div>
+            <div className="table-subgroup">{sale.sale_total}</div>
+            <div className="table-subgroup">
                 <button
                     onClick={deleteSale}
                 >delete</button>

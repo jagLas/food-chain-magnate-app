@@ -114,6 +114,8 @@
     }
 
     .table-row .player-name-field {
+        display: flex;
+        justify-content: center;
         background-color: #c23331;
         font-weight: bold;
     }

@@ -28,7 +28,7 @@ export default function SalesView() {
             {roundNum !== 'all' ? <AddSaleForm / >: null}
             <div id="sales-table" className="table">
                 <div className="table-row header">
-                        <div>Name</div>
+                    <div className="table-subgroup">Name</div>
                     <div className="table-subgroup" style={{gridTemplateColumns: 'repeat(6, 1fr)'}}>
                         <div>Round</div>
                         <div>House #</div>
@@ -45,8 +45,8 @@ export default function SalesView() {
                         <div>Pizza Bonus</div>
                         <div>Drink Bonus</div>
                     </div>
-                    <div>Sale Total</div>
-                    <div></div>
+                    <div className="table-subgroup">Sale Total</div>
+                    <div className="table-subgroup"></div>
                 </div>
                 {rows}
             </div>
