@@ -98,11 +98,26 @@
         background-color: #efa890;
     }
 
+    .round-subgroup:nth-child(2n + 1), .round-subgroup:nth-child(2n + 1) *{
+        background-color: #fdeae5;
+    }
+
+    .table-row .player-name-field {
+        background-color: #c23331;
+        font-weight: bold;
+    }
+
     .round-subgroup {
         display: flex;
         flex-flow: row nowrap;
         justify-content: center;
         gap: 8px;
+    }
+
+    .round-subgroup > * {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .round-field {
@@ -113,14 +128,9 @@
     #rounds-table {
         display: flex;
         flex-flow: row wrap;
-        /* background-color: #efa890; */
         justify-content: stretch;
         justify-items: stretch;
         align-items: stretch;
         gap: 1px;
-    }
-
-    .optional-calcs {
-        font-weight: bold;
     }
 }

@@ -102,7 +102,7 @@ const RoundRow = ({round}) => {
 
     return (
         <div onBlur={blurEvent} className="table-row">
-            <div style={{padding: '0px 16px'}}>{round.player_name}</div>
+            <div className='player-name-field' style={{padding: '0px 16px'}}>{round.player_name}</div>
             <div  className="round-subgroup milestones" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
                 <div className="round-field">
                     <label>First Burger</label>
@@ -114,68 +114,95 @@ const RoundRow = ({round}) => {
                     </input>
                 </div>
                 <div className="round-field">
-                <label>First Pizza</label>
-                <input
-                    checked={firstPizza}
-                    type="checkbox"
-                    onChange={()=> setFirstPizza(!firstPizza)}
-                >
-                </input>
+                    <label>First Pizza</label>
+                    <input
+                        checked={firstPizza}
+                        type="checkbox"
+                        onChange={()=> setFirstPizza(!firstPizza)}
+                    >
+                    </input>
                 </div>
                 <div className="round-field">
-                <label>First Drink</label>
-                <input
-                    checked={firstDrink}
-                    type="checkbox"
-                    onChange={()=> setFirstDrink(!firstDrink)}
-                >
-                </input>
+                    <label>First Drink</label>
+                    <input
+                        checked={firstDrink}
+                        type="checkbox"
+                        onChange={()=> setFirstDrink(!firstDrink)}
+                    >
+                    </input>
                 </div>
                 <div className="round-field">
-                <label>First Waitress</label>
-                <input
-                    checked={firstWaitress}
-                    type="checkbox"
-                    onChange={()=> setFirstWaitress(!firstWaitress)}
-                >
-                </input>
+                    <label>First Waitress</label>
+                    <input
+                        checked={firstWaitress}
+                        type="checkbox"
+                        onChange={()=> setFirstWaitress(!firstWaitress)}
+                    >
+                    </input>
                 </div>
                 <div className="round-field">
-                <label>CFO</label>
-                <input
-                    checked={cfo}
-                    type="checkbox"
-                    onChange={()=> setCfo(!cfo)}
-                >
-                </input>
+                    <label>CFO</label>
+                    <input
+                        checked={cfo}
+                        type="checkbox"
+                        onChange={()=> setCfo(!cfo)}
+                    >
+                    </input>
                 </div>
             </div>
             <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(3, 1fr)'}}>
-                <input
-                    value={unitPrice}
-                    onChange={(e) => setUnitPrice(e.target.value)}
-                    type='number'
-                ></input>
-                <input
-                    value={waitresses}
-                    onChange={(e) => setWaitresses(e.target.value)}
-                    type='number'
-                ></input>
-                <input
-                    value={salariesPaid}
-                    onChange={(e) => setSalariesPaid(e.target.value)}
-                    type='number'
-                ></input>
+                <div className="round-field">
+                    <label>Unit Price</label>
+                    <input
+                        value={unitPrice}
+                        onChange={(e) => setUnitPrice(e.target.value)}
+                        type='number'
+                    ></input>
+                </div>
+                <div className="round-field">
+                    <label>Waitress</label>
+                    <input
+                        value={waitresses}
+                        onChange={(e) => setWaitresses(e.target.value)}
+                        type='number'
+                    ></input>
+                </div>
+                <div className="round-field">
+                    <label>Salaries</label>
+                    <input
+                        value={salariesPaid}
+                        onChange={(e) => setSalariesPaid(e.target.value)}
+                        type='number'
+                    ></input>
+                </div>
             </div>
             <div className="round-subgroup optional-calcs" style={{gridTemplateColumns: 'repeat(4, 1fr)'}}>
-                <div>{round.waitress_income ? round.waitress_income : 0}</div>
-                <div>{round.sale_total ? round.sale_total : 0}</div>
-                <div>{round.cfo_bonus ? round.cfo_bonus : 0}</div>
-                <div>{round.round_total ? round.round_total :  0}</div>
+                <div className="round-field">
+                    <label>Waitress Income</label>
+                    {round.waitress_income ? round.waitress_income : 0}
+                </div>
+                <div className="round-field">
+                    <label>Sales Revenue</label>
+                    {round.sale_total ? round.sale_total : 0}
+                </div>
+                <div className="round-field">
+                    <label>CFO Bonus</label>
+                    {round.cfo_bonus ? round.cfo_bonus : 0}
+                </div>
+                <div className="round-field">
+                    <label>Round Revenue</label>
+                    {round.round_total ? round.round_total :  0}
+                </div>
             </div>
             <div className="round-subgroup" style={{gridTemplateColumns: 'repeat(2, 1fr)'}}>
-                <div>{-round.salaries_expense ? -round.salaries_expense : 0}</div>
-                <div>{round.round_income ? round.round_income : 0}</div>
+                <div className="round-field">
+                    <label>Salaries Expense</label>
+                    {-round.salaries_expense ? -round.salaries_expense : 0}
+                </div>
+                <div className="round-field">
+                    <label>Round Income</label>
+                    {round.round_income ? round.round_income : 0}
+                </div>
             </div>
         </div>
     )

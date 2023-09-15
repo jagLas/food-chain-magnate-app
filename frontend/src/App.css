@@ -18,6 +18,10 @@ input, select {
   width: 48px;
 }
 
+input[type='number'] {
+  margin-bottom: 4px;
+}
+
 input[type=checkbox] {
   width: auto;
 }
