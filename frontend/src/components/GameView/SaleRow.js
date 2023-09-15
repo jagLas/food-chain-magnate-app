@@ -1,10 +1,11 @@
 import { useParams } from "react-router-dom";
-import { useGameDispatch } from "./GameContext/GameContext"
+import { useGame, useGameDispatch } from "./GameContext/GameContext"
 import { actions } from "./GameContext/GameReducer"
 
 export default function SaleRow({sale}) {
     const dispatch = useGameDispatch();
     const {gameId} = useParams();
+    const {players} = useGame();
 
     const deleteSale = async () => {
         console.log(sale.sale_id)
@@ -26,26 +27,32 @@ export default function SaleRow({sale}) {
     }
 
     return (
-        <tr>
-            <td>{sale.round}</td>
-            <td>{sale.player_id}</td>
-            <td>{sale.house_number}</td>
-            <td>{sale.garden ? 'X' : ' '}</td>
-            <td>{sale.burgers}</td>
-            <td>{sale.pizzas}</td>
-            <td>{sale.drinks}</td>
-            <td>{sale.unit_price}</td>
-            <td>{sale.base_revenue}</td>
-            <td>{sale.garden_bonus}</td>
-            <td>{sale.burger_bonus}</td>
-            <td>{sale.pizza_bonus}</td>
-            <td>{sale.drink_bonus}</td>
-            <td>{sale.sale_total}</td>
-            <td>
+        <div className="table-row">
+            <div className="player-name-field">
+                {players.find(player => player.id == sale.player_id).name}
+            </div>
+            <div className="table-subgroup" style={{gridTemplateColumns: 'repeat(6, 1fr)'}}>
+                <div>{sale.round}</div>
+                <div>{sale.house_number}</div>
+                <div>{sale.garden ? 'X' : ' '}</div>
+                <div>{sale.burgers}</div>
+                <div>{sale.pizzas}</div>
+                <div>{sale.drinks}</div>
+            </div>
+            <div className="table-subgroup optional-calcs"  style={{gridTemplateColumns: 'repeat(6, 1fr)'}}>
+                <div>{sale.unit_price}</div>
+                <div>{sale.base_revenue}</div>
+                <div>{sale.garden_bonus}</div>
+                <div>{sale.burger_bonus}</div>
+                <div>{sale.pizza_bonus}</div>
+                <div>{sale.drink_bonus}</div>
+            </div>
+            <div>{sale.sale_total}</div>
+            <div>
                 <button
                     onClick={deleteSale}
                 >delete</button>
-            </td>
-        </tr>
+            </div>
+        </div>
     )
 }

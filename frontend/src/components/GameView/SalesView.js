@@ -26,29 +26,30 @@ export default function SalesView() {
         <div id='sale-view'>
             <h2>Sales</h2>
             {roundNum !== 'all' ? <AddSaleForm / >: null}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Round</th>
-                        <th>Player Id</th>
-                        <th>House #</th>
-                        <th>Garden</th>
-                        <th>Burgers</th>
-                        <th>Pizzas</th>
-                        <th>Drinks</th>
-                        <th>Unit Price</th>
-                        <th>Base Revenue</th>
-                        <th>Garden Bonus</th>
-                        <th>Burger Bonus</th>
-                        <th>Pizza Bonus</th>
-                        <th>Drink Bonus</th>
-                        <th>Sale Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {rows}
-                </tbody>
-            </table>
+            <div id="sales-table" className="table">
+                <div className="table-row header">
+                        <div>Name</div>
+                    <div className="table-subgroup" style={{gridTemplateColumns: 'repeat(6, 1fr)'}}>
+                        <div>Round</div>
+                        <div>House #</div>
+                        <div>Garden</div>
+                        <div>Burgers</div>
+                        <div>Pizzas</div>
+                        <div>Drinks</div>
+                    </div>
+                    <div className="table-subgroup optional-calcs" style={{gridTemplateColumns: 'repeat(6, 1fr)'}}>
+                        <div>Unit Price</div>
+                        <div>Base Revenue</div>
+                        <div>Garden Bonus</div>
+                        <div>Burger Bonus</div>
+                        <div>Pizza Bonus</div>
+                        <div>Drink Bonus</div>
+                    </div>
+                    <div>Sale Total</div>
+                    <div></div>
+                </div>
+                {rows}
+            </div>
         </div>
     )
 }
