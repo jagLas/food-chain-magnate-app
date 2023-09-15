@@ -1,3 +1,13 @@
+@font-face {
+  font-family: 'Bazooka-Regular';
+  src:url('./fonts/Bazooka-Regular.ttf.woff') format('woff'),
+      url('./fonts/Bazooka-Regular.ttf.svg#Bazooka-Regular') format('svg'),
+      url('./fonts/Bazooka-Regular.ttf.eot'),
+      url('./fonts/Bazooka-Regular.ttf.eot?#iefix') format('embedded-opentype'); 
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   background-color: #fff8db;
 }
@@ -24,6 +34,11 @@ input[type='number'] {
 
 input[type=checkbox] {
   width: auto;
+}
+
+h1, h2 {
+  font-family: 'Bazooka-Regular', 'Impact';
+  font-weight: 500;
 }
 
 .App {
