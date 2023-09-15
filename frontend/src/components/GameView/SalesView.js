@@ -31,7 +31,7 @@ export default function SalesView() {
                     <div className="table-subgroup">Name</div>
                     <div className="table-subgroup" style={{gridTemplateColumns: 'repeat(6, 1fr)'}}>
                         <div>Round</div>
-                        <div>House #</div>
+                        <div>House</div>
                         <div>Garden</div>
                         <div>Burgers</div>
                         <div>Pizzas</div>

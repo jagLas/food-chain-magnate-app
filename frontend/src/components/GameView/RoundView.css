@@ -43,7 +43,8 @@
 }
 
 #sales-table {
-    grid-template-columns: auto auto auto 1fr auto;
+    grid-template-columns: auto auto auto auto auto;
+    max-width: 1200px;
 }
 
 .table-row{
@@ -82,12 +83,13 @@
     padding: 2px 0px;
 }
 
-@media screen and (max-width: 1200px) {
+#sales-table .header .table-subgroup > *{
+    width: min-content;
+}
+
+@media screen and (max-width: 900px) {
     #round-nav {
-        /* flex-direction: column; */
-        /* flex-wrap: wrap; */
         align-items: stretch;
-        /* width: 400px; */
     }
 
     .table-row.header {
