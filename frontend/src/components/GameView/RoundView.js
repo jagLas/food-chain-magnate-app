@@ -1,5 +1,5 @@
 import { NavLink, useNavigate, useParams } from "react-router-dom"
-import Rounds from "./Rounds"
+import RoundsTable from "./RoundsTable"
 import SalesView from "./SalesView"
 import { useMemo } from "react"
 import { useGame, useGameDispatch } from "./GameContext/GameContext"
@@ -48,13 +48,15 @@ export default function RoundView () {
     }
 
     return (
-        <div id='round-view'>
-            <h2>Round</h2>
-            <div id='round-nav'>
-                {roundList}
-                <a className={'round-selector add-round-button'} onClick={formHandler}>+</a>
+        <div id='round-container'>
+            <div id='round-view' className="table-container">
+                <h2>Round</h2>
+                <div id='round-nav'>
+                    {roundList}
+                    <a className={'round-selector add-round-button'} onClick={formHandler}>+</a>
+                </div>
+                <RoundsTable />
             </div>
-            <Rounds />
             <SalesView/>
         </div>
     )

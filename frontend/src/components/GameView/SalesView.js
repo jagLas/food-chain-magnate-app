@@ -26,7 +26,7 @@ export default function SalesView() {
     return (
         <>
         
-        <div id='sale-view'>
+        <div id='sale-view' className="table-container">
             <h2>Sales</h2>
             {roundNum !== 'all' ? <AddSaleForm / > : null}
             <div id="sales-table" className="table">
