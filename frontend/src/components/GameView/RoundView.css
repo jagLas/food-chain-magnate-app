@@ -1,3 +1,19 @@
+#rounds-table *{
+    /* --table-header-color: #c23331;
+    --table-nth-row-color: #efa890;
+    --table-2nth-row-color: #fdeae5; */
+
+    --table-header-color: #98d4cd;
+    --table-nth-row-color: #DDE8D6;
+    --table-2nth-row-color: #BADED2;
+}
+
+#sales-table * {
+    --table-header-color: #BA9ACA;
+    --table-nth-row-color: #E8D5D5;
+    --table-2nth-row-color: #D1B7D0;
+}
+
 #round-nav {
     display: flex;
     flex-wrap: wrap-reverse;
@@ -17,13 +33,13 @@
 }
 
 .add-round-button {
-    background-color: #ba9aca;
+    background-color: #efa890;
     padding: 4px 4px;
     flex-grow: 0;
 }
 
 .all-rounds-tab {
-    background-color: #95a850;
+    background-color: #efa890;
 }
 
 .round-selector.active{
@@ -57,15 +73,16 @@
 }
 
 .table-row:nth-child(2n) * {
-    background-color: #efa890;
+    background-color: var(--table-nth-row-color);
 }
 
 .table-row:nth-child(2n+1) * {
-    background-color: #fdeae5;
+    background-color: var(--table-2nth-row-color);
 }
 
 .table-row.header *{
-    background-color: #c23331;
+    background-color: var(--table-header-color);
+    font-weight: 600;
 }
 
 .player-name-field{
@@ -89,10 +106,6 @@
 }
 
 @media screen and (max-width: 900px) {
-    #round-nav {
-        align-items: stretch;
-    }
-
     .table-row.header {
         display: none;
     }
@@ -117,27 +130,32 @@
 
     .table-row label {
         display: inline;
+        width: min-content;
+    }
+
+    .table-row .single-row-label {
+        width: fit-content;
     }
 
     .table-row:nth-child(n) * {
-        background-color: #efa890;
+        background-color: var(--table-nth-row-color);
     }
 
     .table-subgroup:nth-child(2n + 1), .table-subgroup:nth-child(2n + 1) *{
-        background-color: #fdeae5;
+        background-color: var(--table-2nth-row-color);
     }
 
     .table-row .player-name-field {
         display: flex;
         justify-content: center;
-        background-color: #c23331;
+        background-color: var(--table-header-color);
         font-weight: bold;
     }
 
     .table-subgroup {
         display: flex;
         flex-flow: row nowrap;
-        justify-content: center;
+        justify-content: space-evenly;
         gap: 8px;
     }
 

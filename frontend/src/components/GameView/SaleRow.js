@@ -72,7 +72,7 @@ export default function SaleRow({sale}) {
             </div>
             <div className="table-subgroup">
                 <div className="round-field">
-                    <label>Sale Total</label>{sale.sale_total}
+                    <label className="single-row-label">Sale Total</label>{sale.sale_total}
                 </div>
             </div>
             <div className="table-subgroup" style={{padding: '4px'}}>

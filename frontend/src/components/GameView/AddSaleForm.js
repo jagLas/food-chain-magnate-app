@@ -137,7 +137,7 @@ export default function AddSaleForm() {
                     step="1"
                 ></input>
             </label>
-            <input type="submit" onClick={formHandler}></input>
+            <input type="submit" value={'Add Sale'} onClick={formHandler} />
         </form>
     )
 }

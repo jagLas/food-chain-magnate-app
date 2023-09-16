@@ -48,7 +48,7 @@ export default function RoundView () {
     }
 
     return (
-        <div>
+        <div id='round-view'>
             <h2>Round</h2>
             <div id='round-nav'>
                 {roundList}

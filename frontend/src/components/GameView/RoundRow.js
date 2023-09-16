@@ -152,7 +152,7 @@ const RoundRow = ({round}) => {
             </div>
             <div className="table-subgroup" style={{gridTemplateColumns: 'repeat(3, 1fr)'}}>
                 <div className="round-field">
-                    <label>Unit Price</label>
+                    <label className='single-row-label'>Unit Price</label>
                     <input
                         value={unitPrice}
                         onChange={(e) => setUnitPrice(e.target.value)}
@@ -196,11 +196,11 @@ const RoundRow = ({round}) => {
             </div>
             <div className="table-subgroup" style={{gridTemplateColumns: 'repeat(2, 1fr)'}}>
                 <div className="round-field">
-                    <label>Salaries Expense</label>
+                    <label className="single-row-label">Salaries Expense</label>
                     {-round.salaries_expense ? -round.salaries_expense : 0}
                 </div>
                 <div className="round-field">
-                    <label>Round Income</label>
+                    <label className="single-row-label">Round Income</label>
                     {round.round_income ? round.round_income : 0}
                 </div>
             </div>
