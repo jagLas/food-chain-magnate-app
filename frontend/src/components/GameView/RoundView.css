@@ -1,13 +1,22 @@
-#sale-view {
-    background-color: #E8D5D5;
+.table-container {
     border-radius: 16px;
 }
 
-#rounds-table *{
-    /* --table-header-color: #c23331;
-    --table-nth-row-color: #efa890;
-    --table-2nth-row-color: #fdeae5; */
+.table-container>*:first-child {
+    padding-top: 16px;
+    margin-top: 16px;
+    margin-bottom: 8px;
+}
 
+#sale-view {
+    background-color: #E8D5D5;
+}
+
+#round-view {
+    background-color: #BADED2;
+}
+
+#rounds-table *{
     --table-header-color: #98d4cd;
     --table-nth-row-color: #DDE8D6;
     --table-2nth-row-color: #BADED2;
