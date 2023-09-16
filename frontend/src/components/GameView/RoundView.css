@@ -9,23 +9,24 @@
 }
 
 #sale-view {
-    background-color: #E8D5D5;
-}
-
-#round-view {
-    background-color: #BADED2;
-}
-
-#rounds-table *{
-    --table-header-color: #98d4cd;
-    --table-nth-row-color: #DDE8D6;
-    --table-2nth-row-color: #BADED2;
-}
-
-#sales-table * {
     --table-header-color: #BA9ACA;
     --table-nth-row-color: #E8D5D5;
     --table-2nth-row-color: #D1B7D0;
+    background-color: var(--table-nth-row-color);
+}
+
+#round-view {
+    --table-header-color: #98d4cd;
+    --table-nth-row-color: #DDE8D6;
+    --table-2nth-row-color: #BADED2;
+    background-color: var(--table-2nth-row-color);
+}
+
+#totals-view {
+    --table-header-color: #95A850;
+    --table-nth-row-color: #B8C37E;
+    --table-2nth-row-color: #DCDDAD;
+    background-color: var(--table-2nth-row-color);
 }
 
 #round-nav {
@@ -76,6 +77,11 @@
     grid-template-columns: auto auto auto auto auto;
     max-width: 1200px;
     margin-bottom: 32px;
+}
+
+#totals-table {
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-auto-flow: column;
 }
 
 .table-row{

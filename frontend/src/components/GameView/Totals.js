@@ -65,7 +65,11 @@ const Totals = () => {
       // takes sorted array and turns them into total rows
       const rows = []
       for (const [key, value] of Object.entries(totalsArray)) {
-        rows.push(<TotalRow obj={value} key={key} />)
+        console.log(key, value)
+        if (value.name !== 'total') {
+          rows.push(<TotalRow obj={value} key={key} />)
+        }
+        
       }
 
       return rows
@@ -83,22 +87,21 @@ const Totals = () => {
       // game is fetched
     },[dispatch, totals.total.income, bank.total, bank.reserve, bank.start])
 
-    return (
-      <>
-        <h2>Game Summary</h2>
-        <table id='total-summary'>
-          <thead>
-            <tr className="table-header">
-              <th>Name</th>
-              <th>Revenue</th>
-              <th>Expenses</th>
-              <th>Income</th>
-            </tr>
-          </thead>
-          <tbody>{totalRows}</tbody>
-        </table>
-      </>
+    console.log(players.length)
 
+    return (
+      <div id='totals-view' className="table-container">
+        <h2>Game Summary</h2>
+        <div id='totals-table' className="table">
+          <div className="table-row header">
+            <div>Name</div>
+            <div>Revenue</div>
+            <div>Expense</div>
+            <div>Total</div>
+          </div>
+          {totalRows}
+        </div>
+      </div>
     )
 }
 
