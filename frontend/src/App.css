@@ -57,6 +57,10 @@ button, input[type=submit] {
   border-radius: 8px;
 }
 
+select {
+  width: fit-content;
+}
+
 .App {
   text-align: center;
 }
@@ -75,6 +79,10 @@ button, input[type=submit] {
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.hidden {
+  visibility: hidden;
 }
 
 html {

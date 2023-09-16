@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useParams } from "react-router-dom"
 import { useGame, useGameDispatch } from "./GameContext/GameContext"
 import { actions } from "./GameContext/GameReducer"
+import './AddSaleForm.css'
 
 function SalePlayerfield({player}){
     return (
@@ -76,8 +77,10 @@ export default function AddSaleForm() {
 
 
     return (
-        <form style={{margin: '8px 0px'}}>
-            <h3>Add a Sale</h3>
+        <>
+        <h3>Add a Sale</h3>
+        <form id='add-sale-form'>
+            
             <label>Player:
                 <select
                     value={playerId}
@@ -88,7 +91,7 @@ export default function AddSaleForm() {
 
                 </select>
             </label>
-            <label>House #:
+            <label>House:
                 <input 
                     value={houseNum}
                     onChange={(e) => setHouseNum(e.target.value)}
@@ -137,7 +140,14 @@ export default function AddSaleForm() {
                     step="1"
                 ></input>
             </label>
-            <input type="submit" value={'Add Sale'} onClick={formHandler} />
+            <div><div className="hidden">Submit</div>
+                <input type="submit" value={'Submit'} onClick={formHandler} />
+            </div>
+            
+            
+            
         </form>
+        </>
+
     )
 }

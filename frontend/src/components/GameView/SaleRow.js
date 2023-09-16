@@ -41,7 +41,7 @@ export default function SaleRow({sale}) {
                     {sale.house_number}</div>
                 <div className="round-field">
                     <label>Garden</label>
-                    {sale.garden ? 'Yes' : 'No'}
+                    {sale.garden ? 'X' : ' '}
                 </div>
                 <div className="round-field">
                     <label>Burgers</label>

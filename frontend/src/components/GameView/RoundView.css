@@ -1,3 +1,8 @@
+#sale-view {
+    background-color: #E8D5D5;
+    border-radius: 16px;
+}
+
 #rounds-table *{
     /* --table-header-color: #c23331;
     --table-nth-row-color: #efa890;

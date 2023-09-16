@@ -3,6 +3,7 @@ import AddSaleForm from "./AddSaleForm";
 import { useGame } from "./GameContext/GameContext";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
+import './SaleView.css'
 
 export default function SalesView() {
     const sales = useGame().sales
@@ -23,9 +24,11 @@ export default function SalesView() {
 
 
     return (
+        <>
+        
         <div id='sale-view'>
             <h2>Sales</h2>
-            {roundNum !== 'all' ? <AddSaleForm / >: null}
+            {roundNum !== 'all' ? <AddSaleForm / > : null}
             <div id="sales-table" className="table">
                 <div className="table-row header">
                     <div className="table-subgroup">Name</div>
@@ -51,5 +54,6 @@ export default function SalesView() {
                 {rows}
             </div>
         </div>
+        </>
     )
 }
