@@ -3,6 +3,7 @@ import { useGame, useGameDispatch } from "./GameContext/GameContext"
 import { useEffect, useMemo } from "react";
 import { actions } from "./GameContext/GameReducer";
 import Bank from "./Bank";
+import RoundView from "./RoundView";
 
 const Totals = () => {
     const {players, rounds, bank} = useGame()
