@@ -8,7 +8,6 @@ export default function GameView() {
     return (
         <GameProvider>
             <Totals />
-            <Bank />
             <RoundView />
         </GameProvider>
     )

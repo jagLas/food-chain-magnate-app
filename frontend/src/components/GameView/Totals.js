@@ -2,6 +2,7 @@ import TotalRow from "./TotalRow"
 import { useGame, useGameDispatch } from "./GameContext/GameContext"
 import { useEffect, useMemo } from "react";
 import { actions } from "./GameContext/GameReducer";
+import Bank from "./Bank";
 
 const Totals = () => {
     const {players, rounds, bank} = useGame()
@@ -65,11 +66,10 @@ const Totals = () => {
       // takes sorted array and turns them into total rows
       const rows = []
       for (const [key, value] of Object.entries(totalsArray)) {
-        console.log(key, value)
+        // removes the total row for player sums
         if (value.name !== 'total') {
           rows.push(<TotalRow obj={value} key={key} />)
         }
-        
       }
 
       return rows
@@ -91,15 +91,10 @@ const Totals = () => {
 
     return (
       <div id='totals-view' className="table-container">
-        <h2>Game Summary</h2>
+        <h2>Game Totals</h2>
         <div id='totals-table' className="table">
-          <div className="table-row header">
-            <div>Name</div>
-            <div>Revenue</div>
-            <div>Expense</div>
-            <div>Total</div>
-          </div>
           {totalRows}
+          <Bank totals={totals} />
         </div>
       </div>
     )

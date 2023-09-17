@@ -3,7 +3,7 @@ import { useGame, useGameDispatch } from "./GameContext/GameContext"
 import { useEffect, useState } from "react"
 import { actions } from "./GameContext/GameReducer"
 
-export default function Bank () {
+export default function Bank ({totals}) {
     const {bank} = useGame()
     const [reserve, setReserve] = useState(bank.reserve)
     const {gameId} = useParams()
@@ -38,9 +38,17 @@ export default function Bank () {
     }
 
     return (
-        <>
-            <span>Start: {bank.start}</span>
-            <label>Reserve:
+        <div className="table-row">
+            <div style={{fontWeight: 700}}>
+                Bank
+                <div className="details">
+                    <div>Start: {bank.start}</div>
+                    <div>Reserve: {bank.reserve}</div>
+                    <div>Player Sales: {-totals.total.income}</div>
+                    <div>Remaining: {bank.total}</div>
+                </div>
+            </div>
+            {/* <label>Reserve:
                 <input
                     value={reserve}
                     type='number'
@@ -50,8 +58,10 @@ export default function Bank () {
                     onChange={onChangeHandler}
                     onBlur={onBlurHandler}
                 ></input>
-            </label>
-            <span>Remaining: {bank.total}</span>
-        </>
+            </label> */}
+            <div style={{fontWeight: 700}}>
+                {bank.total}
+            </div>
+        </div>
     )
 }
