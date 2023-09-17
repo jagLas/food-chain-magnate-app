@@ -37,6 +37,7 @@
     right: 0;
     border: 1px solid black;
     width: fit-content;
+    border-top: none;
 }
 
 .table-row .details * {
@@ -87,12 +88,16 @@
     gap: 1px;
 }
 
-.table-row{
+.table-row {
     display: contents;
 }
 
 .table-row * {
     position: relative;
+}
+
+.table>.table-row input {
+    background-color: #fff8db;
 }
 
 #rounds-table {
@@ -163,6 +168,7 @@
 
 .header .table-subgroup > *{
     width: min-content;
+    padding: 0px 4px;
 }
 
 @media screen and (max-width: 900px) {
@@ -191,6 +197,7 @@
     .table-row label {
         display: inline;
         width: min-content;
+        font-weight: 600;
     }
 
     .table-row .single-row-label {
@@ -209,7 +216,7 @@
         display: flex;
         justify-content: center;
         background-color: var(--table-header-color);
-        font-weight: bold;
+        font-weight: 700;
     }
 
     .table-subgroup {
@@ -230,7 +237,7 @@
         flex-direction: column;
     }
 
-    #rounds-table, #sales-table {
+    #rounds-table, #sales-table, #totals-table {
         display: flex;
         flex-flow: row wrap;
         justify-content: stretch;
