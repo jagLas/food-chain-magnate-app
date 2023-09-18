@@ -10,7 +10,7 @@ const Totals = () => {
     const dispatch = useGameDispatch();
 
     const totals = useMemo(() => {
-      console.log('Recalculating totals')
+      // console.log('Recalculating totals')
       // creates totals object with total property
       const totals = {
         total: {

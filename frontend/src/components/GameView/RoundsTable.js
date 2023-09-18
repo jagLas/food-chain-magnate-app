@@ -47,7 +47,7 @@ export default function RoundsTable(){
           </div>
           <div className="table-subgroup" style={{gridTemplateColumns: 'repeat(2, 1fr)'}}>
             <div>Salaries Expense</div>
-            <div>Round Income</div>
+            <div style={{fontWeight: 700}}>Round Income</div>
           </div>
         </div>
 

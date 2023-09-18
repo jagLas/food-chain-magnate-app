@@ -87,6 +87,21 @@ button, input[type=submit] {
 
 select {
   width: fit-content;
+  text-align: left;
+}
+
+select>option:nth-child(2n) {
+  /* background: rgba(0,0,0,1); */
+  background-color: var(--table-nth-row-color);
+}
+
+select>option:nth-child(2n+1) {
+  /* background: rgba(0,0,0,1); */
+  background-color: var(--table-2nth-row-color);
+}
+
+select option:checked {
+  background-color: var(--table-header-color);
 }
 
 p {
@@ -94,7 +109,7 @@ p {
 }
 
 .modal {
-  position: absolute;
+  position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -102,7 +117,9 @@ p {
   height: 100%;
   top: 0;
   left: 0;
-  width: 100vw;
+  bottom: 0;
+  right: 0;
+  width: 100%;
   z-index: 100;
   background-color: rgba(0,0,0,.5);
 }
