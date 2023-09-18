@@ -20,6 +20,9 @@
     background-color: #efa890;
     padding: 4px 4px;
     flex-grow: 0;
+    height: unset;
+    box-sizing: unset;
+    margin: unset;
 }
 
 .all-rounds-tab {

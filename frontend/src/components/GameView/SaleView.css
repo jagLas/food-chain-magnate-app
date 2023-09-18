@@ -7,3 +7,7 @@
 #sale-view h3 {
     margin: unset;
 }
+
+#sale-view button {
+    background-color: var(--background-color);
+}

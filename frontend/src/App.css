@@ -10,8 +10,17 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
+:root{
+  --background-color: #fff8db
+}
+
+html {
+  width: 100%;
+  overflow-y: scroll;
+}
+
 body {
-  background-color: #fff8db;
+  background-color: var(--background-color);
 }
 
 body > * {
@@ -19,26 +28,9 @@ body > * {
   max-width: 1200px;
 }
 
-body > * > *{
+.App{
   margin: 0px 16px;
-}
-
-input, select, button {
-  background-color: #fff8db;
   text-align: center;
-  border: 1px solid black;
-  width: 48px;
-  margin: 3px;
-  height: 21px;
-  box-sizing: border-box;
-}
-
-input[type='number'] {
-  margin-bottom: 3px;
-}
-
-input[type=checkbox] {
-  width: auto;
 }
 
 h1, h2, h3 {
@@ -52,21 +44,32 @@ h3 {
   margin: 4px 0px;
 }
 
-button, input[type=submit] {
-  box-sizing: border-box;
+input, select, button {
+  background-color: #fff8db;
+  text-align: center;
+  background-color: var(--background-color);
+  border: none;
   width: fit-content;
-  padding: 0px 12px;
-  border: 1px solid black;
-  border-radius: 8px;
   margin: 3px;
+  height: 21px;
+  box-sizing: border-box;
+  padding: 0px 8px;
+}
+
+input[type='number'] {
+  width: 48px
+}
+
+input[type=checkbox] {
+  width: auto;
+}
+
+button, input[type=submit] {
+  border-radius: 8px;
 }
 
 select {
   width: fit-content;
-}
-
-.App {
-  text-align: center;
 }
 
 .App-logo {
@@ -74,22 +77,6 @@ select {
   pointer-events: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
 .hidden {
   visibility: hidden;
-}
-
-html {
-  width: 100%;
-  overflow-y: scroll;
 }
