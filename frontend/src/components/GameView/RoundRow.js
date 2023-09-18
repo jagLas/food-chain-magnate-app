@@ -105,8 +105,9 @@ const RoundRow = ({round}) => {
             <div className='player-name-field' style={{padding: '0px 16px'}}>{round.player_name}</div>
             <div  className="table-subgroup milestones" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
                 <div className="round-field">
-                    <label>First Burger</label>
+                    <label for={'first-burger-' + round.player_name}>First Burger</label>
                     <input
+                        id={'first-burger-' + round.player_name}
                         checked={firstBurger}
                         type="checkbox"
                         onChange={()=> setFirstBurger(!firstBurger)}
@@ -114,8 +115,9 @@ const RoundRow = ({round}) => {
                     </input>
                 </div>
                 <div className="round-field">
-                    <label>First Pizza</label>
+                    <label for={'first-pizza-' + round.player_name}>First Pizza</label>
                     <input
+                        id={'first-pizza-' + round.player_name}
                         checked={firstPizza}
                         type="checkbox"
                         onChange={()=> setFirstPizza(!firstPizza)}
@@ -123,8 +125,9 @@ const RoundRow = ({round}) => {
                     </input>
                 </div>
                 <div className="round-field">
-                    <label>First Drink</label>
+                    <label for={'first-drink-' + round.player_name}>First Drink</label>
                     <input
+                        id={'first-drink-' + round.player_name}
                         checked={firstDrink}
                         type="checkbox"
                         onChange={()=> setFirstDrink(!firstDrink)}
@@ -132,8 +135,9 @@ const RoundRow = ({round}) => {
                     </input>
                 </div>
                 <div className="round-field">
-                    <label>First Waitress</label>
+                    <label for={'first-waitress-' + round.player_name}>First Waitress</label>
                     <input
+                        id={'first-waitress-' + round.player_name}
                         checked={firstWaitress}
                         type="checkbox"
                         onChange={()=> setFirstWaitress(!firstWaitress)}
@@ -141,8 +145,9 @@ const RoundRow = ({round}) => {
                     </input>
                 </div>
                 <div className="round-field">
-                    <label>CFO</label>
+                    <label for={'cfo-' + round.player_name}>CFO</label>
                     <input
+                        id={'cfo-' + round.player_name}
                         checked={cfo}
                         type="checkbox"
                         onChange={()=> setCfo(!cfo)}
@@ -152,24 +157,30 @@ const RoundRow = ({round}) => {
             </div>
             <div className="table-subgroup" style={{gridTemplateColumns: 'repeat(3, 1fr)'}}>
                 <div className="round-field">
-                    <label className='single-row-label'>Unit Price</label>
+                    <label
+                        className='single-row-label'
+                        for={'unit-price-' + round.player_name}
+                    >Unit Price</label>
                     <input
+                        id={'unit-price-' + round.player_name}
                         value={unitPrice}
                         onChange={(e) => setUnitPrice(e.target.value)}
                         type='number'
                     ></input>
                 </div>
                 <div className="round-field">
-                    <label>Waitress</label>
+                    <label for={'waitresses-' + round.player_name}>Waitress</label>
                     <input
+                        id={'waitresses-' + round.player_name}
                         value={waitresses}
                         onChange={(e) => setWaitresses(e.target.value)}
                         type='number'
                     ></input>
                 </div>
                 <div className="round-field">
-                    <label>Salaries</label>
+                    <label for={'salaries-paid' + round.player_name}>Salaries</label>
                     <input
+                        id={'salaries-paid' + round.player_name}
                         value={salariesPaid}
                         onChange={(e) => setSalariesPaid(e.target.value)}
                         type='number'

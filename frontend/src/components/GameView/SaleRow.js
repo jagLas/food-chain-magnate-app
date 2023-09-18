@@ -38,10 +38,14 @@ export default function SaleRow({sale}) {
                 </div>
                 <div className="round-field">
                     <label>House</label>
-                    {sale.house_number}</div>
+                    {sale.house_number}
+                </div>
                 <div className="round-field">
-                    <label>Garden</label>
-                    {sale.garden ? <input readOnly={true} checked={true} type="checkbox"/> : <input readOnly={true} checked={false} type="checkbox"/>}
+                    <label for={'garden-' + sale.sale_id}>Garden</label>
+                    {sale.garden ?
+                        <input id={'garden-' + sale.sale_id} readOnly={true} checked={true} type="checkbox"/> :
+                        <input id={'garden-' + sale.sale_id} readOnly={true} checked={false} type="checkbox"/>
+                    }
                 </div>
                 <div className="round-field">
                     <label>Burgers</label>

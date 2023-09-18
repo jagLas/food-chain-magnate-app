@@ -83,6 +83,7 @@ export default function AddSaleForm() {
             
             <label>Player:
                 <select
+                    id='add-player'
                     value={playerId}
                     onChange={(e) => setPlayerId(e.target.value)}
                 >
