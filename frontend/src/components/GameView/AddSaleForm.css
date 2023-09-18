@@ -9,5 +9,12 @@
 #add-sale-form > * {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 4px;
+}
+
+#add-sale-form>* {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }

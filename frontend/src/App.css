@@ -23,15 +23,18 @@ body > * > *{
   margin: 0px 16px;
 }
 
-input, select {
+input, select, button {
   background-color: #fff8db;
   text-align: center;
   border: 1px solid black;
   width: 48px;
+  margin: 3px;
+  height: 21px;
+  box-sizing: border-box;
 }
 
 input[type='number'] {
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 input[type=checkbox] {
@@ -50,11 +53,12 @@ h3 {
 }
 
 button, input[type=submit] {
-  box-sizing: content-box;
+  box-sizing: border-box;
   width: fit-content;
-  padding: 2px 12px;
+  padding: 0px 12px;
   border: 1px solid black;
   border-radius: 8px;
+  margin: 3px;
 }
 
 select {

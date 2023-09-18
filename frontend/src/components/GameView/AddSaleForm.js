@@ -141,12 +141,9 @@ export default function AddSaleForm() {
                     step="1"
                 ></input>
             </label>
-            <div><div className="hidden">Submit</div>
-                <input type="submit" value={'Submit'} onClick={formHandler} />
+            <div>
+                <button onClick={formHandler}>Submit</button>
             </div>
-            
-            
-            
         </form>
         </>
 
