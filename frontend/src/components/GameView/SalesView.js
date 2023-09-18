@@ -5,6 +5,23 @@ import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import './SaleView.css'
 
+function salesSortingFunc(a, b) {
+    let x = a.props.sale
+    let y = b.props.sale
+    
+    if (x.sale_id < y.sale_id) {
+        return 1
+    } 
+    
+    if (x.sale_id < y.sale_id) {
+        return 1
+    }
+
+    else {
+        return 0
+    }
+}
+
 export default function SalesView() {
     const sales = useGame().sales
     const {roundNum} = useParams()
@@ -12,11 +29,16 @@ export default function SalesView() {
     const rows = useMemo(() => {
         const rows = [];
         for (const [key, sale] of Object.entries(sales)) {
-            rows.push(<SaleRow sale={sale} key={key} />)
+            rows.push(<SaleRow sale={sale} key={sale.sale_id} />)
         }
+
+        // sorts sales by sale_id descending so most recent shows up at the top
+        rows.sort(salesSortingFunc)
+
         if (roundNum === 'all') {
             return rows
         }
+
         return rows.filter(row => {
             return row.props.sale.round === parseInt(roundNum)
           })
