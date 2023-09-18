@@ -41,7 +41,7 @@ export default function SaleRow({sale}) {
                     {sale.house_number}
                 </div>
                 <div className="round-field">
-                    <label for={'garden-' + sale.sale_id}>Garden</label>
+                    <label htmlFor={'garden-' + sale.sale_id}>Garden</label>
                     {sale.garden ?
                         <input id={'garden-' + sale.sale_id} readOnly={true} checked={true} type="checkbox"/> :
                         <input id={'garden-' + sale.sale_id} readOnly={true} checked={false} type="checkbox"/>

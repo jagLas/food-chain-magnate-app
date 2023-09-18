@@ -105,7 +105,7 @@ const RoundRow = ({round}) => {
             <div className='player-name-field' style={{padding: '0px 16px'}}>{round.player_name}</div>
             <div  className="table-subgroup milestones" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
                 <div className="round-field">
-                    <label for={'first-burger-' + round.player_name}>First Burger</label>
+                    <label htmlFor={'first-burger-' + round.player_name}>First Burger</label>
                     <input
                         id={'first-burger-' + round.player_name}
                         checked={firstBurger}
@@ -115,7 +115,7 @@ const RoundRow = ({round}) => {
                     </input>
                 </div>
                 <div className="round-field">
-                    <label for={'first-pizza-' + round.player_name}>First Pizza</label>
+                    <label htmlFor={'first-pizza-' + round.player_name}>First Pizza</label>
                     <input
                         id={'first-pizza-' + round.player_name}
                         checked={firstPizza}
@@ -125,7 +125,7 @@ const RoundRow = ({round}) => {
                     </input>
                 </div>
                 <div className="round-field">
-                    <label for={'first-drink-' + round.player_name}>First Drink</label>
+                    <label htmlFor={'first-drink-' + round.player_name}>First Drink</label>
                     <input
                         id={'first-drink-' + round.player_name}
                         checked={firstDrink}
@@ -135,7 +135,7 @@ const RoundRow = ({round}) => {
                     </input>
                 </div>
                 <div className="round-field">
-                    <label for={'first-waitress-' + round.player_name}>First Waitress</label>
+                    <label htmlFor={'first-waitress-' + round.player_name}>First Waitress</label>
                     <input
                         id={'first-waitress-' + round.player_name}
                         checked={firstWaitress}
@@ -145,7 +145,7 @@ const RoundRow = ({round}) => {
                     </input>
                 </div>
                 <div className="round-field">
-                    <label for={'cfo-' + round.player_name}>CFO</label>
+                    <label htmlFor={'cfo-' + round.player_name}>CFO</label>
                     <input
                         id={'cfo-' + round.player_name}
                         checked={cfo}
@@ -159,7 +159,7 @@ const RoundRow = ({round}) => {
                 <div className="round-field">
                     <label
                         className='single-row-label'
-                        for={'unit-price-' + round.player_name}
+                        htmlFor={'unit-price-' + round.player_name}
                     >Unit Price</label>
                     <input
                         id={'unit-price-' + round.player_name}
@@ -169,7 +169,7 @@ const RoundRow = ({round}) => {
                     ></input>
                 </div>
                 <div className="round-field">
-                    <label for={'waitresses-' + round.player_name}>Waitress</label>
+                    <label htmlFor={'waitresses-' + round.player_name}>Waitress</label>
                     <input
                         id={'waitresses-' + round.player_name}
                         value={waitresses}
@@ -178,7 +178,7 @@ const RoundRow = ({round}) => {
                     ></input>
                 </div>
                 <div className="round-field">
-                    <label for={'salaries-paid' + round.player_name}>Salaries</label>
+                    <label htmlFor={'salaries-paid' + round.player_name}>Salaries</label>
                     <input
                         id={'salaries-paid' + round.player_name}
                         value={salariesPaid}
