@@ -8,7 +8,7 @@ import './SaleView.css'
 function salesSortingFunc(a, b) {
     let x = a.props.sale
     let y = b.props.sale
-    
+
     if (x.sale_id < y.sale_id) {
         return 1
     } 
@@ -28,7 +28,7 @@ export default function SalesView() {
 
     const rows = useMemo(() => {
         const rows = [];
-        for (const [key, sale] of Object.entries(sales)) {
+        for (const sale of sales) {
             rows.push(<SaleRow sale={sale} key={sale.sale_id} />)
         }
 
@@ -46,8 +46,6 @@ export default function SalesView() {
 
 
     return (
-        <>
-        
         <div id='sale-view' className="table-container">
             <h2>Sales</h2>
             {roundNum !== 'all' ? <AddSaleForm / > : null}
@@ -76,6 +74,5 @@ export default function SalesView() {
                 {rows}
             </div>
         </div>
-        </>
     )
 }
