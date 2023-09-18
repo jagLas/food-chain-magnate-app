@@ -41,7 +41,7 @@ export default function Bank ({totals}) {
         <div className="table-row">
             <div style={{fontWeight: 700}}>
                 Bank
-                <div style={{fontWeight: 500}} className="details">
+                <div style={{fontWeight: 400}} className="details">
                     <div>Start: {bank.start}</div>
                     <div>
                         <label>Reserve:
