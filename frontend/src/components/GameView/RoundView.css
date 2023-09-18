@@ -160,7 +160,16 @@
     background-color: var(--table-nth-row-color);
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 950px) {
+    #rounds-table, #sales-table, #totals-table {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: stretch;
+        justify-items: stretch;
+        align-items: stretch;
+        gap: 1px;
+    }
+
     .table-row.header {
         display: none;
     }
@@ -170,10 +179,6 @@
         flex-direction: column;
         flex-grow: 1;
         align-items: stretch;
-    }
-
-    #sales-table>.table-row {
-        width: 300px;
     }
 
     #sales-table>.table-row>* {
@@ -193,25 +198,11 @@
         width: fit-content;
     }
 
-    .table-row:nth-child(n) * {
-        background-color: var(--table-nth-row-color);
-    }
-
-    .table-subgroup:nth-child(2n + 1), .table-subgroup:nth-child(2n + 1) *{
-        background-color: var(--table-2nth-row-color);
-    }
-
-    .table-row .player-name-field {
-        display: flex;
-        justify-content: center;
-        background-color: var(--table-header-color);
-        font-weight: 700;
-    }
-
     .table-subgroup {
         display: flex;
         flex-flow: row nowrap;
         justify-content: space-evenly;
+        align-items: flex-end;
         gap: 8px;
     }
 
@@ -226,12 +217,21 @@
         flex-direction: column;
     }
 
-    #rounds-table, #sales-table, #totals-table {
+    /* ... */
+    /* color changes for format change */
+
+    .table-row:nth-child(n) * {
+        background-color: var(--table-nth-row-color);
+    }
+
+    .table-subgroup:nth-child(2n + 1), .table-subgroup:nth-child(2n + 1) *{
+        background-color: var(--table-2nth-row-color);
+    }
+
+    .table-row .player-name-field {
         display: flex;
-        flex-flow: row wrap;
-        justify-content: stretch;
-        justify-items: stretch;
-        align-items: stretch;
-        gap: 1px;
+        justify-content: center;
+        background-color: var(--table-header-color);
+        font-weight: 700;
     }
 }
