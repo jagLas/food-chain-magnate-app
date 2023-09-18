@@ -88,8 +88,6 @@ const Totals = () => {
       // game is fetched
     },[dispatch, totals.total.income, bank.total, bank.reserve, bank.start])
 
-    console.log(players.length)
-
     return (
       <div id='totals-view' className="table-container">
         <h2>Game Totals</h2>
