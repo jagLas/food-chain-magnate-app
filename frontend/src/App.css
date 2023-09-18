@@ -34,12 +34,12 @@ body > * {
 }
 
 h1, h2, h3 {
-  font-family: 'Pacifico-Regular', 'Bazooka-Regular', 'Impact';
+  font-family: 'Bazooka-Regular', 'Impact';
   font-weight: 500;
 }
 
 h3 {
-  font-family: 'Pacifico', 'cursive';
+  font-family: 'Pacifico', "Brush Script MT";
   font-size: 16px;
   margin: 4px 0px;
 }
@@ -51,7 +51,7 @@ input, select, button {
   border: none;
   width: fit-content;
   margin: 3px;
-  height: 21px;
+  height: 25px;
   box-sizing: border-box;
   padding: 0px 8px;
 }
@@ -67,6 +67,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 input[type=number] {
   -moz-appearance:textfield;
+  appearance: textfield;
 }
 
 input[type=checkbox] {
@@ -75,10 +76,29 @@ input[type=checkbox] {
 
 button, input[type=submit] {
   border-radius: 8px;
+  font-family: 'Pacifico', "Brush Script MT", 'cursive';
 }
 
 select {
   width: fit-content;
+}
+
+p {
+  margin: 0;
+}
+
+.modal {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 100;
+  background-color: rgba(0,0,0,.5);
 }
 
 .App-logo {

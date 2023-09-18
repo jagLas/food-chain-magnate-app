@@ -28,7 +28,7 @@
 /* higher level rules for tables and it's container */
 
 .table-container {
-    border-radius: 16px;
+    border-radius: 16px 16px 0px 0px;
 }
 
 .table-container>*:first-child {
