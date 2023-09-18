@@ -1,0 +1,31 @@
+#round-nav {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    align-content: stretch;
+    justify-content: stretch;
+}
+
+.round-selector {
+    border: 1px solid black;
+    color: black;
+    padding: 4px 32px;
+    background-color: #98d4cd;
+    text-decoration: none;
+    width: 30px;
+    flex-grow: .1;
+    border-radius: 12px 12px 0px  0px ;
+}
+
+.add-round-button {
+    background-color: #efa890;
+    padding: 4px 4px;
+    flex-grow: 0;
+}
+
+.all-rounds-tab {
+    background-color: #efa890;
+}
+
+.round-selector.active{
+    background-color: #c23331;
+}

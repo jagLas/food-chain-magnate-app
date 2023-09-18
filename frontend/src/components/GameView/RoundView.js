@@ -5,6 +5,7 @@ import { useMemo } from "react"
 import { useGame, useGameDispatch } from "./GameContext/GameContext"
 import { actions } from "./GameContext/GameReducer"
 import './RoundView.css'
+import './RoundNav.css'
 
 export default function RoundView () {
     const {rounds, players} = useGame()
@@ -53,7 +54,7 @@ export default function RoundView () {
                 <h2>Round</h2>
                 <div id='round-nav'>
                     {roundList}
-                    <a className={'round-selector add-round-button'} onClick={formHandler}>+</a>
+                    <button className={'round-selector add-round-button'} onClick={formHandler}>+</button>
                 </div>
                 <RoundsTable />
             </div>

@@ -1,13 +1,4 @@
-.table-container {
-    border-radius: 16px;
-}
-
-.table-container>*:first-child {
-    padding-top: 16px;
-    margin-top: 16px;
-    margin-bottom: 8px;
-}
-
+/* Section rules and colors defined*/
 #sale-view {
     --table-header-color: #BA9ACA;
     --table-nth-row-color: #E8D5D5;
@@ -33,56 +24,17 @@
     z-index: 10;
 }
 
-.table-row .details {
-    display: none;
-    position: absolute;
-    margin: 0px auto;
-    left: 0;
-    right: 0;
-    border: 1px solid black;
-    width: fit-content;
-    border-top: none;
+/* ... */
+/* higher level rules for tables and it's container */
+
+.table-container {
+    border-radius: 16px;
 }
 
-.table-row .details * {
-    padding: 2px 12px;
-}
-
-.table-row:hover .details {
-    display: block;
-    z-index: 2;
-}
-
-#round-nav {
-    display: flex;
-    flex-wrap: wrap-reverse;
-    align-content: stretch;
-    justify-content: stretch;
-}
-
-.round-selector {
-    border: 1px solid black;
-    color: black;
-    padding: 4px 32px;
-    background-color: #98d4cd;
-    text-decoration: none;
-    width: 30px;
-    flex-grow: .1;
-    border-radius: 12px 12px 0px  0px ;
-}
-
-.add-round-button {
-    background-color: #efa890;
-    padding: 4px 4px;
-    flex-grow: 0;
-}
-
-.all-rounds-tab {
-    background-color: #efa890;
-}
-
-.round-selector.active{
-    background-color: #c23331;
+.table-container>*:first-child {
+    padding-top: 16px;
+    margin-top: 16px;
+    margin-bottom: 8px;
 }
 
 .table {
@@ -92,17 +44,8 @@
     gap: 1px;
 }
 
-.table-row {
-    display: contents;
-}
-
-.table-row * {
-    position: relative;
-}
-
-.table>.table-row input {
-    background-color: #fff8db;
-}
+/* ... */
+/* table-specific formatting */
 
 #rounds-table {
     max-width: 1200px;
@@ -123,21 +66,29 @@
     position: sticky;
 }
 
-#totals-table>.table-row:nth-child(2n) * {
-    background-color: unset;
-}
-
-#totals-table>.table-row:nth-child(2n + 1) * {
-    background-color: unset;
-}
-
-#totals-view > #totals-table > .table-row *:nth-child(2n + 1) {
+/* colors are overwritten for totals due to column display instead of row display */
+#totals-table > .table-row > *:nth-child(2n + 1) {
     background-color: var(--table-header-color);
     font-weight: 500;
 }
 
-#totals-view > #totals-table > .table-row *:nth-child(2n) {
+#totals-table > .table-row > *:nth-child(2n) {
     background-color: var(--table-nth-row-color);
+}
+
+/* ... */
+
+.table-row {
+    display: contents;
+}
+
+.table-row * {
+    /* relative necessary for :hover popup */
+    position: relative;
+}
+
+.table>.table-row input {
+    background-color: #fff8db;
 }
 
 .table-row label {
@@ -157,10 +108,10 @@
     font-weight: 600;
 }
 
-.player-name-field{
-    display: flex;
-    align-items: center;
-    padding: 0px 16px;
+.header .table-subgroup > *{
+    /* makes labels as narrow as possible */
+    width: min-content;
+    padding: 0px 4px;
 }
 
 .table-subgroup {
@@ -173,9 +124,40 @@
     padding: 2px 0px;
 }
 
-.header .table-subgroup > *{
-    width: min-content;
-    padding: 0px 4px;
+.player-name-field{
+    display: flex;
+    align-items: center;
+    padding: 0px 16px;
+}
+
+/* ... */
+/* Rules for popup on hover detail section */
+
+.table-row .details {
+    display: none;
+    position: absolute;
+    margin: 0px auto;
+    left: 0;
+    right: 0;
+    border: 1px solid black;
+    width: fit-content;
+}
+
+.table-row:hover .details {
+    display: block;
+    z-index: 2;
+}
+
+.table-row .details * {
+    padding: 0px 12px;
+}
+
+.table-row .details>*:nth-child(2n) {
+    background-color: var(--table-2nth-row-color);
+}
+
+.table-row .details>*:nth-child(2n + 1) {
+    background-color: var(--table-nth-row-color);
 }
 
 @media screen and (max-width: 900px) {
