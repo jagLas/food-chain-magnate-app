@@ -102,7 +102,7 @@ const RoundRow = ({round}) => {
 
     return (
         <div onBlur={blurEvent} className="table-row">
-            <div className='player-name-field' style={{padding: '0px 16px'}}>{round.player_name}</div>
+            <div className='player-name-field'>{round.player_name}</div>
             <div  className="table-subgroup milestones" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
                 <div className="round-field">
                     <label htmlFor={'first-burger-' + round.player_name}>First Burger</label>
@@ -210,7 +210,7 @@ const RoundRow = ({round}) => {
                     <label className="single-row-label">Salaries Expense</label>
                     {-round.salaries_expense ? -round.salaries_expense : 0}
                 </div>
-                <div className="round-field">
+                <div style={{fontWeight: '700'}} className="round-field">
                     <label className="single-row-label">Round Income</label>
                     {round.round_income ? round.round_income : 0}
                 </div>

@@ -41,24 +41,26 @@ export default function Bank ({totals}) {
         <div className="table-row">
             <div style={{fontWeight: 700}}>
                 Bank
-                <div className="details">
+                <div style={{fontWeight: 600}} className="details">
                     <div>Start: {bank.start}</div>
-                    <div>Reserve: {bank.reserve}</div>
+                    <div>
+                    <label>Reserve:
+                            <input
+                                value={reserve}
+                                type='number'
+                                step={100}
+                                min={0}
+                                max={1800}
+                                onChange={onChangeHandler}
+                                onBlur={onBlurHandler}
+                            ></input>
+                        </label>
+                    </div>
+
                     <div>Player Sales: {-totals.total.income}</div>
                     <div>Remaining: {bank.total}</div>
                 </div>
             </div>
-            {/* <label>Reserve:
-                <input
-                    value={reserve}
-                    type='number'
-                    step={100}
-                    min={0}
-                    max={1800}
-                    onChange={onChangeHandler}
-                    onBlur={onBlurHandler}
-                ></input>
-            </label> */}
             <div style={{fontWeight: 700}}>
                 {bank.total}
             </div>

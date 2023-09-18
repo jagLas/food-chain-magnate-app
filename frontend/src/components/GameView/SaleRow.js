@@ -75,8 +75,11 @@ export default function SaleRow({sale}) {
                     <label>Drink Bonus</label>{sale.drink_bonus}</div>
             </div>
             <div className="table-subgroup">
-                <div className="round-field">
-                    <label className="single-row-label">Sale Total</label>{sale.sale_total}
+                <div  style={{fontWeight: '700'}} className="round-field">
+                    <label className="single-row-label">
+                        Sale Total
+                    </label>
+                    {sale.sale_total}
                 </div>
             </div>
             <div className="table-subgroup" style={{padding: '4px'}}>

@@ -1,11 +1,11 @@
-const TotalRow = ({obj}) => {
+const TotalRow = ({row}) => {
 
     return (
         <div className='table-row'>
-            <div>{obj.name ? obj.name : 'Total'}</div>
-            {/* <div>{obj.revenue}</div>
-            <div>{-obj.expenses}</div> */}
-            <div>{obj.income}</div>
+            <div style={{fontWeight: '600'}}>{row.name}</div>
+            {/* <div>{row.revenue}</div>
+            <div>{-row.expenses}</div> */}
+            <div>{row.income}</div>
         </div>
     )
 }

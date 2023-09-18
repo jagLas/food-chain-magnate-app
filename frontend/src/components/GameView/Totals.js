@@ -69,7 +69,7 @@ const Totals = () => {
       for (const [key, value] of Object.entries(totalsArray)) {
         // removes the total row for player sums
         if (value.name !== 'total') {
-          rows.push(<TotalRow obj={value} key={key} />)
+          rows.push(<TotalRow row={value} key={key} />)
         }
       }
 
