@@ -189,29 +189,29 @@ const RoundRow = ({round}) => {
             </div>
             <div className="table-subgroup optional-calcs" style={{gridTemplateColumns: 'repeat(4, 1fr)'}}>
                 <div className="round-field">
-                    <label>Waitress Income</label>
+                    <div>Waitress Income</div>
                     {round.waitress_income ? round.waitress_income : 0}
                 </div>
                 <div className="round-field">
-                    <label>Sales Revenue</label>
+                    <div>Sales Revenue</div>
                     {round.sale_total ? round.sale_total : 0}
                 </div>
                 <div className="round-field">
-                    <label>CFO Bonus</label>
+                    <div>CFO Bonus</div>
                     {round.cfo_bonus ? round.cfo_bonus : 0}
                 </div>
                 <div className="round-field">
-                    <label>Round Revenue</label>
+                    <div>Round Revenue</div>
                     {round.round_total ? round.round_total :  0}
                 </div>
             </div>
             <div className="table-subgroup" style={{gridTemplateColumns: 'repeat(2, 1fr)'}}>
                 <div className="round-field">
-                    <label className="single-row-label">Salaries Expense</label>
+                    <div className="single-row-label">Salaries Expense</div>
                     {-round.salaries_expense ? -round.salaries_expense : 0}
                 </div>
                 <div style={{fontWeight: '700'}} className="round-field">
-                    <label className="single-row-label">Round Income</label>
+                    <div className="single-row-label">Round Income</div>
                     {round.round_income ? round.round_income : 0}
                 </div>
             </div>

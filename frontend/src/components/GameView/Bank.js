@@ -46,6 +46,7 @@ export default function Bank ({totals}) {
                     <div>
                         <label>Reserve:
                             <input
+                                id='update-reserve'
                                 value={reserve}
                                 type='number'
                                 step={100}

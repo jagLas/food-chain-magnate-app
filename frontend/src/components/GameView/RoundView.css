@@ -91,7 +91,7 @@
     background-color: #fff8db;
 }
 
-.table-row label {
+.round-field>*:first-child {
     display: none;
 }
 
@@ -177,7 +177,7 @@
     background-color: var(--background-color);
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 970px) {
     #rounds-table, #sales-table, #totals-table {
         display: flex;
         flex-flow: row wrap;
@@ -205,7 +205,7 @@
         align-items: flex-start;
     }
 
-    .table-row label {
+    .round-field>*:first-child {
         display: inline;
         width: min-content;
         font-weight: 600;

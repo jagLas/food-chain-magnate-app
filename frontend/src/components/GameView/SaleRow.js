@@ -33,52 +33,52 @@ export default function SaleRow({sale}) {
             </div>
             <div className="table-subgroup" style={{gridTemplateColumns: 'repeat(6, 1fr)'}}>
                 <div className="round-field">
-                    <label>Round</label>
+                    <div>Round</div>
                     {sale.round}
                 </div>
                 <div className="round-field">
-                    <label>House</label>
+                    <div>House</div>
                     {sale.house_number}
                 </div>
                 <div className="round-field">
-                    <label htmlFor={'garden-' + sale.sale_id}>Garden</label>
+                    <div htmlFor={'garden-' + sale.sale_id}>Garden</div>
                     {sale.garden ?
                         <input id={'garden-' + sale.sale_id} readOnly={true} checked={true} type="checkbox"/> :
                         <input id={'garden-' + sale.sale_id} readOnly={true} checked={false} type="checkbox"/>
                     }
                 </div>
                 <div className="round-field">
-                    <label>Burgers</label>
+                    <div>Burgers</div>
                     {sale.burgers}
                 </div>
                 <div className="round-field">
-                    <label>Pizzas</label>
+                    <div>Pizzas</div>
                     {sale.pizzas}
                 </div>
                 <div className="round-field">
-                    <label>Drinks</label>
+                    <div>Drinks</div>
                     {sale.drinks}
                 </div>
             </div>
             <div className="table-subgroup sale-optional-calcs"  style={{gridTemplateColumns: 'repeat(6, 1fr)'}}>
                 <div className="round-field">
-                    <label>Unit Price</label>{sale.unit_price}</div>
+                    <div>Unit Price</div>{sale.unit_price}</div>
                     <div className="round-field">
-                    <label>Base Revenue</label>{sale.base_revenue}</div>
+                    <div>Base Revenue</div>{sale.base_revenue}</div>
                     <div className="round-field">
-                    <label>Garden Bonus</label>{sale.garden_bonus}</div>
+                    <div>Garden Bonus</div>{sale.garden_bonus}</div>
                     <div className="round-field">
-                    <label>Burger Bonus</label>{sale.burger_bonus}</div>
+                    <div>Burger Bonus</div>{sale.burger_bonus}</div>
                     <div className="round-field">
-                    <label>Pizza Bonus</label>{sale.pizza_bonus}</div>
+                    <div>Pizza Bonus</div>{sale.pizza_bonus}</div>
                     <div className="round-field">
-                    <label>Drink Bonus</label>{sale.drink_bonus}</div>
+                    <div>Drink Bonus</div>{sale.drink_bonus}</div>
             </div>
             <div className="table-subgroup">
                 <div  style={{fontWeight: '600'}} className="round-field">
-                    <label className="single-row-label">
+                    <div className="single-row-label">
                         Sale Total
-                    </label>
+                    </div>
                     {sale.sale_total}
                 </div>
             </div>
