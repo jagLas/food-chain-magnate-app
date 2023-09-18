@@ -41,10 +41,10 @@ export default function Bank ({totals}) {
         <div className="table-row">
             <div style={{fontWeight: 700}}>
                 Bank
-                <div style={{fontWeight: 600}} className="details">
+                <div style={{fontWeight: 500}} className="details">
                     <div>Start: {bank.start}</div>
                     <div>
-                    <label>Reserve:
+                        <label>Reserve:
                             <input
                                 value={reserve}
                                 type='number'
@@ -56,7 +56,6 @@ export default function Bank ({totals}) {
                             ></input>
                         </label>
                     </div>
-
                     <div>Player Sales: {-totals.total.income}</div>
                     <div>Remaining: {bank.total}</div>
                 </div>
