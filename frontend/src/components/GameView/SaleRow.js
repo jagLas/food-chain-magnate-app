@@ -29,7 +29,7 @@ export default function SaleRow({sale}) {
     return (
         <div className="table-row">
             <div className="player-name-field">
-                {players.find(player => player.id == sale.player_id).name}
+                {players.find(player => player.id === sale.player_id).name}
             </div>
             <div className="table-subgroup" style={{gridTemplateColumns: 'repeat(6, 1fr)'}}>
                 <div className="round-field">
