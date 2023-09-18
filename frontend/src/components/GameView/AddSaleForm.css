@@ -13,8 +13,11 @@
     gap: 4px;
 }
 
-#add-sale-form>* {
+#add-sale-form > * {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+}
+#add-sale-form > label{
+    font-weight: 600;
 }
