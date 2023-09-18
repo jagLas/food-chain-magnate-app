@@ -70,13 +70,19 @@ input[type=number] {
   appearance: textfield;
 }
 
-input[type=checkbox] {
-  width: auto;
+input[type="checkbox"] {
+  font-weight: 100;
+  width: 16px;
+}
+
+input[type="checkbox"]:checked {
+  accent-color: var(--table-header-color);
 }
 
 button, input[type=submit] {
   border-radius: 8px;
   font-family: 'Pacifico', "Brush Script MT", 'cursive';
+  background-color: var(--background-color);
 }
 
 select {
@@ -93,7 +99,7 @@ p {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100%;
   top: 0;
   left: 0;
   width: 100vw;

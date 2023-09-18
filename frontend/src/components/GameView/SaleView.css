@@ -10,4 +10,9 @@
 
 #sale-view button {
     background-color: var(--background-color);
+    transition: background-color .25s;
+}
+
+#sale-view button:hover {
+    background-color: var(--table-header-color);
 }

@@ -10,10 +10,11 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
     gap: 4px;
 }
 
-#add-sale-form > * {
+#add-sale-form > div {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
