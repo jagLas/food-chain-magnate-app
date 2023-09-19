@@ -42,12 +42,21 @@
     color: black;
 }
 
-.card-format>div {
+.card-format>* {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 .card-format h2 {
     width: min-content;
     transform: rotate(-10deg);
+}
+
+.card-format select {
+    width: 90%;
+    height: 90%;
+    text-overflow: ellipsis;
+    white-space: wrap;
+    text-align: center;
 }

@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useState} from 'react'
 import LoadGameLink from './LoadGameLink'
-import { cardChoices } from '../card-schemes'
+import { CardColor } from '../card-schemes'
 
 const LoadGames = () => {
     const [games, setGames] = useState([])
@@ -24,10 +24,8 @@ const LoadGames = () => {
         const rows = []
     
         for (const [key, game] of Object.entries(games)) {
-            
-            const choice = key % 6
             rows.push(
-                <LoadGameLink key={game.id} cardScheme={cardChoices[choice]} game={game} />
+                <LoadGameLink key={game.id} cardScheme={CardColor.getCardScheme(key)} game={game} />
             )
         }
         return rows

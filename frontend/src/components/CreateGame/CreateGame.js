@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import PlayerField from "./PlayerField"
 import { useNavigate } from "react-router-dom"
+import { CardColor } from "../card-schemes"
 
 const CreateGameForm = () => {
     const [playerList, setPlayerList] = useState([])
@@ -9,7 +10,6 @@ const CreateGameForm = () => {
     const [player3, setPlayer3] = useState('')
     const [player4, setPlayer4] = useState('')
     const [player5, setPlayer5] = useState('')
-
 
 
     useEffect(() => {
@@ -63,15 +63,13 @@ const CreateGameForm = () => {
         try{
             const gameData = await createGame(JSON.stringify(payload));
 
-            let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameData.id}/rounds`, {
+            // creates a starting set of rounds after creating a new game
+            await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameData.id}/rounds`, {
                 method: 'POST'
             })
 
-            data = await data.json();
-
             navigate(`/games/${gameData.id}/rounds/1`);
-    
-            data = await data.json()
+
         } catch(error){
             console.log(error)
         }
@@ -92,14 +90,18 @@ const CreateGameForm = () => {
                 setPlayer={setPlayers[i]}  //the player variable setting function
                 playerList={playerList}  //list of all players in db
                 key={i}
-                playerNum={i}/>)  //which player number it is for
+                playerNum={i}
+                cardScheme={CardColor.getCardScheme(i)}
+                />)  //which player number it is for
     }
 
 
     return (
         <>
-            <form>
-                {playerFields}
+            <form id="create-game">
+                <ul className="card-list">
+                    {playerFields}
+                </ul>
                 <button onClick={formHandler}>Create Game</button>
             </form>
         </>

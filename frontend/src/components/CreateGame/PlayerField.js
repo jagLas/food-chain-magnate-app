@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 
 
-const PlayerField = ({playerList, player, setPlayer, playerNum, selectedPlayers}) => {
+const PlayerField = ({playerList, player, setPlayer, playerNum, selectedPlayers, cardScheme}) => {
     // creates a filtered player list to use for options in select
     const [filteredPlayers, setFilteredPlayers] = useState(playerList.slice())
 
@@ -16,16 +16,26 @@ const PlayerField = ({playerList, player, setPlayer, playerNum, selectedPlayers}
     }, [playerList, selectedPlayers])
 
     return (
-        <>
-            <label>{'Player ' + parseInt(playerNum + 1)}
-                <select value={player} onChange={(event) => {setPlayer(event.target.value)}}>
-                    <option value={null}></option>
-                    {filteredPlayers.map((player) => {
-                        return <option key={player.id} value={player.id}>{player.name}</option>
-                    })}
-                </select>
+        <li className="card-format" style={{
+            "--card-color": cardScheme.background,
+            "--card-text-color": cardScheme.text
+        }}>
+            <label className="card-top">
+                <h2>{'Player ' + parseInt(playerNum + 1)}</h2>
             </label>
-        </>
+            <div className="card-bottom">
+                <select value={player} onChange={(event) => {setPlayer(event.target.value)}}>
+                        <option value={null}></option>
+                        {filteredPlayers.map((player) => {
+                            return <option
+                                        key={player.id}
+                                        value={player.id}
+                                    >{player.name}</option>
+                        })}
+                </select>
+            </div>
+
+        </li>
     )
 }
 

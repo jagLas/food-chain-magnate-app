@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { cardChoices } from "./card-schemes"
+import { CardColor } from "./card-schemes"
 
 const LandingPageLink = ({to, cardScheme, title, description}) => {
     return (
@@ -23,25 +23,25 @@ const LandingPage = () => {
             <ul className="card-list">
                 <LandingPageLink
                     to={'games/create-game'}
-                    cardScheme={cardChoices[0]}
+                    cardScheme={CardColor.getCardScheme(0)}
                     title='Create Game'
                     description={'Start a new game'}
                     />
                 <LandingPageLink 
                     to={'games'}
-                    cardScheme={cardChoices[1]}
+                    cardScheme={CardColor.getCardScheme(1)}
                     title={'Load Game'}
                     description={'Continue a previous game'}
                 />
                 <LandingPageLink 
                     to={'players/create-player'}
-                    cardScheme={cardChoices[3]}
+                    cardScheme={CardColor.getCardScheme(3)}
                     title={'Create Player'}
                     description={'Make a new player'}
                 />
                 <LandingPageLink 
                     to={'players'}
-                    cardScheme={cardChoices[2]}
+                    cardScheme={CardColor.getCardScheme(2)}
                     title={'View Players'}
                     description={'See all players'}
                 />
