@@ -90,9 +90,9 @@ const CreateGameForm = () => {
                 setPlayer={setPlayers[i]}  //the player variable setting function
                 playerList={playerList}  //list of all players in db
                 key={i}
-                playerNum={i}
+                playerNum={i} //which player number it is for
                 cardScheme={CardColor.getCardScheme(i)}
-                />)  //which player number it is for
+                />)  
     }
 
 
