@@ -105,9 +105,9 @@ const RoundRow = ({round}) => {
             <div className='player-name-field'>{round.player_name}</div>
             <div  className="table-subgroup milestones" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
                 <div className="round-field">
-                    <label htmlFor={'first-burger-' + round.player_name}>First Burger</label>
+                    <label htmlFor={'first-burger-' + round.player_name + '-round-' + round.round}>First Burger</label>
                     <input
-                        id={'first-burger-' + round.player_name}
+                        id={'first-burger-' + round.player_name + '-round-' + round.round}
                         checked={firstBurger}
                         type="checkbox"
                         onChange={()=> setFirstBurger(!firstBurger)}
@@ -115,9 +115,9 @@ const RoundRow = ({round}) => {
                     </input>
                 </div>
                 <div className="round-field">
-                    <label htmlFor={'first-pizza-' + round.player_name}>First Pizza</label>
+                    <label htmlFor={'first-pizza-' + round.player_name + '-round-' + round.round}>First Pizza</label>
                     <input
-                        id={'first-pizza-' + round.player_name}
+                        id={'first-pizza-' + round.player_name + '-round-' + round.round}
                         checked={firstPizza}
                         type="checkbox"
                         onChange={()=> setFirstPizza(!firstPizza)}
@@ -125,9 +125,9 @@ const RoundRow = ({round}) => {
                     </input>
                 </div>
                 <div className="round-field">
-                    <label htmlFor={'first-drink-' + round.player_name}>First Drink</label>
+                    <label htmlFor={'first-drink-' + round.player_name + '-round-' + round.round}>First Drink</label>
                     <input
-                        id={'first-drink-' + round.player_name}
+                        id={'first-drink-' + round.player_name + '-round-' + round.round}
                         checked={firstDrink}
                         type="checkbox"
                         onChange={()=> setFirstDrink(!firstDrink)}
@@ -135,9 +135,9 @@ const RoundRow = ({round}) => {
                     </input>
                 </div>
                 <div className="round-field">
-                    <label htmlFor={'first-waitress-' + round.player_name}>First Waitress</label>
+                    <label htmlFor={'first-waitress-' + round.player_name + '-round-' + round.round}>First Waitress</label>
                     <input
-                        id={'first-waitress-' + round.player_name}
+                        id={'first-waitress-' + round.player_name + '-round-' + round.round}
                         checked={firstWaitress}
                         type="checkbox"
                         onChange={()=> setFirstWaitress(!firstWaitress)}
@@ -145,9 +145,9 @@ const RoundRow = ({round}) => {
                     </input>
                 </div>
                 <div className="round-field">
-                    <label htmlFor={'cfo-' + round.player_name}>CFO</label>
+                    <label htmlFor={'cfo-' + round.player_name + '-round-' + round.round}>CFO</label>
                     <input
-                        id={'cfo-' + round.player_name}
+                        id={'cfo-' + round.player_name + '-round-' + round.round}
                         checked={cfo}
                         type="checkbox"
                         onChange={()=> setCfo(!cfo)}
@@ -159,28 +159,28 @@ const RoundRow = ({round}) => {
                 <div className="round-field">
                     <label
                         className='single-row-label'
-                        htmlFor={'unit-price-' + round.player_name}
+                        htmlFor={'unit-price-' + round.player_name + '-round-' + round.round}
                     >Unit Price</label>
                     <input
-                        id={'unit-price-' + round.player_name}
+                        id={'unit-price-' + round.player_name + '-round-' + round.round}
                         value={unitPrice}
                         onChange={(e) => setUnitPrice(e.target.value)}
                         type='number'
                     ></input>
                 </div>
                 <div className="round-field">
-                    <label htmlFor={'waitresses-' + round.player_name}>Waitress</label>
+                    <label htmlFor={'waitresses-' + round.player_name + '-round-' + round.round}>Waitress</label>
                     <input
-                        id={'waitresses-' + round.player_name}
+                        id={'waitresses-' + round.player_name + '-round-' + round.round}
                         value={waitresses}
                         onChange={(e) => setWaitresses(e.target.value)}
                         type='number'
                     ></input>
                 </div>
                 <div className="round-field">
-                    <label htmlFor={'salaries-paid' + round.player_name}>Salaries</label>
+                    <label htmlFor={'salaries-paid' + round.player_name + '-round-' + round.round}>Salaries</label>
                     <input
-                        id={'salaries-paid' + round.player_name}
+                        id={'salaries-paid' + round.player_name + '-round-' + round.round}
                         value={salariesPaid}
                         onChange={(e) => setSalariesPaid(e.target.value)}
                         type='number'
