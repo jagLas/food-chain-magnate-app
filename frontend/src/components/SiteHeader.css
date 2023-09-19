@@ -1,6 +1,7 @@
 #site-header {
     --logo-height: calc(var(--logo-width) / 1.54);
     --logo-width: 20vw;
+    font-size: 2.5vw;
     display: grid;
     box-sizing: border-box;
     grid-template-columns: var(--logo-width) 4fr;
@@ -58,11 +59,7 @@
 }
 
 #site-header h1 {
-    /* max-height: 0; */
-    /* visibility: hidden; */
-    /* text-align: left; */
-    font-size: 2vw;
-    background-color: var(--site-header-color);
+    font-size: 1em;
     color: #bc3330;
     font-family: 'Anja-Eliane-accent-Nornal', 'Arial Narrow Bold', sans-serif;
     text-transform: uppercase;
@@ -73,24 +70,25 @@
     letter-spacing: 6px;
     border-radius: 12px;
     z-index: 0;
-    padding: 8px 4px;
+    padding: 8px 8px 8px 12px;
 }
 
-@media screen and (max-width: 970px) {
-    #site-header h1 {
-        font-size: 16px;
+
+@media screen and (min-width: 1200px) {
+    /* controls max logo and font-size for header */
+    #site-header {
+        --logo-width: 240px;
+        font-size: 30px;
     }
 }
 
 @media screen and (max-width: 600px) {
+    /* controls minimum sizes */
     #site-header {
         display: flex;
         justify-content: center;
         height: fit-content;
-    }
-
-    #site-header h1 {
-        font-size: 16px;
+        font-size: 15px;
     }
 
     .App-logo {
