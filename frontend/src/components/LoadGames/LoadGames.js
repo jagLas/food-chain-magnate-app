@@ -1,5 +1,6 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useMemo, useState} from 'react'
 import LoadGameLink from './LoadGameLink'
+import { cardChoices } from '../card-schemes'
 
 const LoadGames = () => {
     const [games, setGames] = useState([])
@@ -17,15 +18,20 @@ const LoadGames = () => {
 
     useEffect(() => {
         fetchGames()
-    },[])
+    }, [])
 
-    const rows = []
-
-    for (const [key, value] of Object.entries(games)) {
-        rows.push(
-            <LoadGameLink key={key} game={value} />
-        )
-    }
+    const rows = useMemo(()=> {
+        const rows = []
+    
+        for (const [key, game] of Object.entries(games)) {
+            
+            const choice = key % 6
+            rows.push(
+                <LoadGameLink key={game.id} cardScheme={cardChoices[choice]} game={game} />
+            )
+        }
+        return rows
+    }, [games])
 
     return (
         <>

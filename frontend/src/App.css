@@ -1,4 +1,5 @@
 /* @import "Reset.css"; */
+@import "CardFormat.css";
 
 @font-face {
   font-family: 'Bazooka-Regular';
@@ -23,7 +24,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
 :root{
-  --background-color: #fff8db
+  --background-color: #fff8db;
+  --red-card: #c23331;
+  --purple-card: #BA9ACA;
+  --green-card: #95A850;
+  --blue-card: #98d4cd;
+  --gray-card: #bfb5b3;
 }
 
 html {
@@ -58,7 +64,6 @@ h3 {
 }
 
 input, select, button {
-  background-color: #fff8db;
   text-align: center;
   background-color: var(--background-color);
   border: none;

@@ -15,14 +15,18 @@
     box-shadow: 2px 1px 5px black, 1px 4px 6px black;
     width: 120px;
     text-decoration: none;
-    color: var(--background-color);
+    --card-color: #BA9ACA;
+    --card-text-color: black;
 }
 
 .card-top {
+    color: var(--card-text-color);
     grid-area: 'top';
-    background-color: #BA9ACA;
+    background-color: var(--card-color);
     border-radius: var(--radius) var(--radius) 0px 0px;
-    /* height: 59%; */
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
 }
 
 .card-bottom{
@@ -34,4 +38,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+.card-format h2 {
+    width: min-content;
+    transform: rotate(-10deg);
 }
