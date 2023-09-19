@@ -135,14 +135,6 @@ p {
   background-color: rgba(0,0,0,.5);
 }
 
-.App-logo {
-  background-image: url("../public/food-chain-logo.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  height: 128px;
-  pointer-events: none;
-}
-
 .hidden {
   visibility: hidden;
 }

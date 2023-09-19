@@ -1,10 +1,16 @@
 #site-header {
+    --logo-height: calc(var(--logo-width) / 1.54);
+    --logo-width: 20vw;
     display: grid;
     box-sizing: border-box;
-    grid-template-columns: 120px 4fr 60px;
-    grid-template-areas: 'logo header .';
+    grid-template-columns: var(--logo-width) 4fr;
+    height: var(--logo-height);
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: 
+        'logo .'
+        'logo header'
+        'logo . ';
     --site-header-color: #98d3d1;
-    justify-content: stretch;
     align-items: center;
     align-content: center;
     margin: 16px;
@@ -14,9 +20,26 @@
     /* position: absolute; */
     /* left: -50px; */
     /* top: -12px; */
-    /* height: 64px; */
+    height: 100%;
+    width: 100%;
     grid-area: logo;
-    transform: translateX(50%);
+    z-index: 1;
+    transform: translate(0px, 10px);
+    /* transform: translateX(50%); */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-image: url('../../public/food-chain-logo-no-text.png');
+}
+
+.logo-bar {
+    grid-area: header;
+    height: 100%;
+    width: 100%;
+    background-color: var(--site-header-color);
+    transform: translateX(calc(-1 * var(--logo-width)));
+    z-index: -1;
+    border-radius: 12px;
 }
 
 #site-title {
@@ -26,24 +49,55 @@
     display: flex;
     justify-content: center;
     align-items: center; */
-    height: min-content;
+    height: 100%;
     grid-area: header;
+    background-color: var(--site-header-color);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
 }
 
 #site-header h1 {
+    /* max-height: 0; */
     /* visibility: hidden; */
-    text-align: left;
+    /* text-align: left; */
+    font-size: 2vw;
     background-color: var(--site-header-color);
     color: #bc3330;
     font-family: 'Anja-Eliane-accent-Nornal', 'Arial Narrow Bold', sans-serif;
     text-transform: uppercase;
-    text-shadow: 1px 1px black;
-    margin-top: 16px;
-        text-shadow: 1px 0 #fff, -1px 0 #fff, 0 1px #fff, 0 -1px #fff,
-                     .5px .5px #fff, -.5px -.5px #fff, .5px -.5px #fff, -.5px .5px #fff,
-                     3px 0 black, -3px 0 black, 0 3px black, 0 -3px black,
-                     2px 2px black, -2px -2px black, 2px -2px black, -2px 2px black;
+    text-shadow: 1px 0 #fff, -1px 0 #fff, 0 1px #fff, 0 -1px #fff,
+                .5px .5px #fff, -.5px -.5px #fff, .5px -.5px #fff, -.5px .5px #fff,
+                3px 0 black, -3px 0 black, 0 3px black, 0 -3px black,
+                2px 2px black, -2px -2px black, 2px -2px black, -2px 2px black;
     letter-spacing: 6px;
-    padding: 8px 0px 0px 72px;
     border-radius: 12px;
+    z-index: 0;
+    padding: 8px 4px;
+}
+
+@media screen and (max-width: 970px) {
+    #site-header h1 {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #site-header {
+        display: flex;
+        justify-content: center;
+        height: fit-content;
+    }
+
+    #site-header h1 {
+        font-size: 16px;
+    }
+
+    .App-logo {
+        display: none;
+    }
+    
+    .logo-bar{
+        display: none;
+    }
 }
