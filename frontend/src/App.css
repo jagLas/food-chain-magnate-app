@@ -8,6 +8,16 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Anja-Eliane-accent-Nornal';
+  src:url('../public/Anja-Eliane-accent-Nornal.ttf.woff') format('woff'),
+      url('../public/Anja-Eliane-accent-Nornal.ttf.svg#Anja-Eliane-accent-Nornal') format('svg'),
+      url('../public/Anja-Eliane-accent-Nornal.ttf.eot'),
+      url('../public/Anja-Eliane-accent-Nornal.ttf.eot?#iefix') format('embedded-opentype'); 
+  font-weight: normal;
+  font-style: normal;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
 :root{
@@ -36,6 +46,7 @@ body > * {
 h1, h2, h3 {
   font-family: 'Bazooka-Regular', 'Impact';
   font-weight: 500;
+  margin: 0;
 }
 
 h3 {
@@ -125,7 +136,10 @@ p {
 }
 
 .App-logo {
-  height: 40vmin;
+  background-image: url("../public/food-chain-logo.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 128px;
   pointer-events: none;
 }
 

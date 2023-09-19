@@ -6,12 +6,13 @@ import {Route, Routes} from 'react-router-dom'
 import LandingPage from './components/LandingPage';
 import LoadGames from './components/LoadGames/LoadGames';
 import CreatePlayer from './components/CreatePlayer';
+import SiteHeader from './components/SiteHeader';
 
 function App() {
   return (
 
     <div className="App">
-      <h1>Food Chain Magnate Helper</h1>
+      <SiteHeader/>
       <Routes>
         <Route path='/' element={<LandingPage />}></Route>
         <Route path='games'>

@@ -1,0 +1,49 @@
+#site-header {
+    display: grid;
+    box-sizing: border-box;
+    grid-template-columns: 120px 4fr 60px;
+    grid-template-areas: 'logo header .';
+    --site-header-color: #98d3d1;
+    justify-content: stretch;
+    align-items: center;
+    align-content: center;
+    margin: 16px;
+}
+
+.App-logo {
+    /* position: absolute; */
+    /* left: -50px; */
+    /* top: -12px; */
+    /* height: 64px; */
+    grid-area: logo;
+    transform: translateX(50%);
+}
+
+#site-title {
+    /* height: min-content;
+    padding: 0px 16px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center; */
+    height: min-content;
+    grid-area: header;
+}
+
+#site-header h1 {
+    /* visibility: hidden; */
+    text-align: left;
+    background-color: var(--site-header-color);
+    color: #bc3330;
+    font-family: 'Anja-Eliane-accent-Nornal', 'Arial Narrow Bold', sans-serif;
+    text-transform: uppercase;
+    text-shadow: 1px 1px black;
+    margin-top: 16px;
+        text-shadow: 1px 0 #fff, -1px 0 #fff, 0 1px #fff, 0 -1px #fff,
+                     .5px .5px #fff, -.5px -.5px #fff, .5px -.5px #fff, -.5px .5px #fff,
+                     3px 0 black, -3px 0 black, 0 3px black, 0 -3px black,
+                     2px 2px black, -2px -2px black, 2px -2px black, -2px 2px black;
+    letter-spacing: 6px;
+    padding: 8px 0px 0px 72px;
+    border-radius: 12px;
+}
