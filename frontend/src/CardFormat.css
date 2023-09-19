@@ -4,6 +4,7 @@
     flex-flow: row wrap;
     gap: 32px;
     justify-content: center;
+    align-items: center;
 }
 
 .card-format {
@@ -17,6 +18,13 @@
     text-decoration: none;
     --card-color: #BA9ACA;
     --card-text-color: black;
+    transition: width .5s, margin .5s;
+    margin: 8px 5px;
+}
+
+.card-format:hover {
+    width: 130px;
+    margin: 0;
 }
 
 .card-top {
