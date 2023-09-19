@@ -37,15 +37,18 @@ export default function CreatePlayer() {
 
     return (
         <>
-            <form>
-                <label>
-                    Name: 
-                    <input type="text" value={playerName} onChange={(event) => setPlayerName(event.target.value)}></input>
-                </label>
-                <label>
-                    password: 
-                    <input type="text" value={password} onChange={event => setPassword(event.target.value)}></input>
-                </label>
+            <form id='create-player'>
+                <div className="card-format">
+                    <label className="card-top">
+                        <h2>Name: </h2>
+                        <input type="text" value={playerName} onChange={(event) => setPlayerName(event.target.value)}></input>
+                    </label>
+                    <label className="card-bottom">
+                        password: 
+                        <input type="text" value={password} onChange={event => setPassword(event.target.value)}></input>
+                    </label>
+                </div>
+
                 <button onClick={formHandler}>Create Player</button>
             </form>
         </>

@@ -48,6 +48,7 @@
     justify-content: center;
     align-items: center;
 }
+
 .card-format h2 {
     width: min-content;
     transform: rotate(-10deg);
@@ -59,4 +60,21 @@
     text-overflow: ellipsis;
     white-space: wrap;
     text-align: center;
+}
+
+#create-player {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#create-player .card-format {
+    width: 200px;
+    margin: 8px;
+}
+#create-player input {
+    background-color: #E8D5D5;
+    border-radius: 4px;
+    margin: 16px 0px;
 }
