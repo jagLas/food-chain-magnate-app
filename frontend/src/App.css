@@ -1,3 +1,5 @@
+/* @import "Reset.css"; */
+
 @font-face {
   font-family: 'Bazooka-Regular';
   src:url('./fonts/Bazooka-Regular.ttf.woff') format('woff'),
@@ -113,6 +115,12 @@ select>option:nth-child(2n+1) {
 
 select option:checked {
   background-color: var(--table-header-color);
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
 p {

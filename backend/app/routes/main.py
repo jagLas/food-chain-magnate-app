@@ -2,6 +2,7 @@
 
 from flask import Blueprint, jsonify, request, abort
 from sqlalchemy.orm import joinedload
+from sqlalchemy import desc
 from ..models import db, Game, Player, Sale, Round
 from ..queries import round_total_sales, house_sales_query, sale_with_calc, result_to_dict
 
@@ -19,7 +20,7 @@ def index():
 def get_games():
     """Retrieves all games in db"""
 
-    games = Game.query.all()
+    games = Game.query.order_by(desc(Game.id)).all()
     return [game.as_dict() for game in games]
 
 

@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import LoadGameLink from './LoadGameRow'
+import LoadGameLink from './LoadGameLink'
 
 const LoadGames = () => {
     const [games, setGames] = useState([])
@@ -29,7 +29,7 @@ const LoadGames = () => {
 
     return (
         <>
-            <ul>
+            <ul className='card-list'>
                 {rows}
             </ul>
         </>

@@ -1,0 +1,37 @@
+.card-list {
+    --radius: 12px;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 32px;
+    justify-content: center;
+}
+
+.card-format {
+    display: grid;
+    grid-template-rows: 59fr 41fr;
+    aspect-ratio: 56/87;
+    grid-template-areas: 'top' 'bottom';
+    border-radius: var(--radius);
+    box-shadow: 2px 1px 5px black, 1px 4px 6px black;
+    width: 120px;
+    text-decoration: none;
+    color: var(--background-color);
+}
+
+.card-top {
+    grid-area: 'top';
+    background-color: #BA9ACA;
+    border-radius: var(--radius) var(--radius) 0px 0px;
+    /* height: 59%; */
+}
+
+.card-bottom{
+    grid-area: 'bottom';
+    color: black;
+}
+
+.card-format>div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
