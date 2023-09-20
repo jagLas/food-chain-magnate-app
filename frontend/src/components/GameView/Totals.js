@@ -9,7 +9,7 @@ const Totals = () => {
     const dispatch = useGameDispatch();
 
     const totals = useMemo(() => {
-      // console.log('Recalculating totals')
+      console.log('Recalculating totals')
       // creates totals object with total property
       const totals = {
         total: {
@@ -85,7 +85,7 @@ const Totals = () => {
       // dependency array needs to have bank properties separate, otherwise infinite loop
       // bank.total needs to be in dependency array so that total gets recalculated when
       // game is fetched
-    },[dispatch, totals.total.income, bank.total, bank.reserve, bank.start])
+    },[dispatch, totals.total.income, bank.reserve, bank.start])
 
     return (
       <div id='totals-view' className="table-container">

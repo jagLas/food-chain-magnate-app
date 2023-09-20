@@ -34,7 +34,8 @@ export default function gameReducer(game, action) {
                 rounds: payload.roundData.sort(roundSortingFn),
                 sales: payload.salesData,
                 players: payload.playersData,
-                bank: payload.bankData
+                bank: payload.bankData,
+                isLoaded: true
             }
         case actions.ADD_SALE:
             return {

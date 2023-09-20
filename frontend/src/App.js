@@ -1,7 +1,6 @@
 
 import './App.css';
 
-
 import GameView from './components/GameView/GameView';
 import CreateGameForm from './components/CreateGame/CreateGame';
 import {Route, Routes} from 'react-router-dom'
@@ -9,6 +8,7 @@ import LandingPage from './components/LandingPage';
 import LoadGames from './components/LoadGames/LoadGames';
 import CreatePlayer from './components/CreatePlayer';
 import SiteHeader from './components/SiteHeader';
+import { GameProvider } from './components/GameView/GameContext/GameContext';
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
         <Route path='games'>
           <Route path='' element={<LoadGames />}></Route>
           <Route path='create-game' element={<CreateGameForm />}></Route>
-          <Route path=':gameId' element={<GameView />}>
+          <Route path=':gameId' element={<GameProvider children={<GameView />}/>}>
             <Route path='rounds/:roundNum' element={<></>}></Route>
           </Route>
         </Route>
