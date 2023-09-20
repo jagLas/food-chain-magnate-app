@@ -1,10 +1,34 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql import functions as func
 from sqlalchemy.sql.expression import true
 from sqlalchemy import case
 
 db = SQLAlchemy()
+
+
+class User(db.Model, UserMixin):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(255), nullable=False, unique=True)
+    hashed_password = db.Column(db.String(255), nullable=False)
+
+    players = db.relationship('Player', back_populates='user')
+    games = db.relationship('Game', back_populates='user')
+
+    @property
+    def password(self):
+        return self.hashed_password
+
+    @password.setter
+    def password(self, password):
+        self.hashed_password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
 
 
 game_player = db.Table(
@@ -19,23 +43,13 @@ class Player(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-    hashed_password = db.Column(db.String(255), nullable=False)
-
-    @property
-    def password(self):
-        return self.hashed_password
-
-    @password.setter
-    def password(self, password):
-        self.hashed_password = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.password, password)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     rounds = db.relationship('Round', back_populates='player')
     games = db.relationship("Game",
                             secondary=game_player,
                             back_populates="players")
+    user = db.relationship('User', back_populates='players')
 
     def as_dict(self):
         return {
@@ -50,12 +64,14 @@ class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     bank_start = db.Column(db.Integer, nullable=False)
     bank_reserve = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     players = db.relationship("Player",
                               secondary=game_player,
                               back_populates="games")
 
     rounds = db.relationship('Round', back_populates='game')
+    user = db.relationship('User', back_populates='games')
 
     def as_dict(self):
         return {
