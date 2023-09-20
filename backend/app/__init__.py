@@ -6,6 +6,7 @@ from .config import Configuration
 from .routes import main, seed, auth
 from werkzeug.exceptions import HTTPException
 from flask_jwt_extended import JWTManager
+
 # import logging
 
 # initialize Flask app

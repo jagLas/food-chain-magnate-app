@@ -5,7 +5,7 @@ from sqlalchemy.orm import joinedload
 from sqlalchemy import desc
 from ..models import db, Game, Player, Sale, Round
 from ..queries import round_total_sales, house_sales_query, sale_with_calc, result_to_dict
-from flask_jwt_extended import jwt_required, get_jwt_identity, current_user
+from flask_jwt_extended import jwt_required, current_user
 
 bp = Blueprint('main', __name__)
 
@@ -15,6 +15,7 @@ bp = Blueprint('main', __name__)
 def test_route():
     # current_user = get_jwt_identity()
     print(current_user)
+    print(current_user.games)
     return jsonify(
         id=current_user.id,
         name=current_user.name,
