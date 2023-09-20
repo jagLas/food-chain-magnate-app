@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from ..models import db, Game, Player, Round, Sale
+from ..models import db, Game, Player, Round, Sale, User
 
 
 bp = Blueprint('seed', __name__)
@@ -8,14 +8,21 @@ bp = Blueprint('seed', __name__)
 @bp.route('/seed-db')
 def seed_db():
 
-    player1 = Player(name='Gloria', password='password')
-    player2 = Player(name='Jean', password='password')
+    user1 = User(name='Bill', password='password', email='bill@demo.com')
+    user2 = User(name='Mona', password='password', email='mona@demo.com')
 
-    db.session.add(player1)
-    db.session.add(player2)
+    db.session.add_all([user1, user2])
 
-    game = Game(bank_start=100, bank_reserve=150, players=[player1, player2])
-    db.session.add(game)
+    player1 = Player(name='Gloria', user=user1)
+    player2 = Player(name='Jean', user=user1)
+    player3 = Player(name='Stefan', user=user2)
+    player4 = Player(name='Greg', user=user2)
+
+    db.session.add_all([player1, player2, player3, player4])
+
+    game = Game(bank_start=200, bank_reserve=100, players=[player1, player2], user=user1)
+    game2 = Game(bank_start=200, players=[player3, player4], user=user2)
+    db.session.add_all([game, game2])
 
     round1 = Round(game=game, round=1, player=player1, first_waitress=True,
                    waitresses=2, first_drink=True, cfo=True, salaries_paid=2)
