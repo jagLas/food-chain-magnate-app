@@ -10,7 +10,7 @@ from flask_jwt_extended import jwt_required, current_user
 bp = Blueprint('main', __name__)
 
 
-@bp.route('/test-auth')
+@bp.route('/test-auth', methods=['GET', 'POST'])
 @jwt_required()
 def test_route():
     # current_user = get_jwt_identity()
@@ -21,7 +21,6 @@ def test_route():
         name=current_user.name,
         email=current_user.email,
     )
-    return 'you made it'
 
 
 @bp.route('/')

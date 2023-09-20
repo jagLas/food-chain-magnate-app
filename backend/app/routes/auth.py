@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, set_access_cookies, unset_jwt_cookies
 from ..models import User
 
 
@@ -16,4 +16,13 @@ def login():
         return jsonify({"msg": "Wrong email or password"}), 401
 
     access_token = create_access_token(identity=user)
-    return jsonify(access_token=access_token)
+    response = jsonify({"msg": "login successful"})
+    set_access_cookies(response, access_token)
+    return response
+
+
+@bp.route("/logout", methods=["POST"])
+def logout_with_cookies():
+    response = jsonify({"msg": "logout successful"})
+    unset_jwt_cookies(response)
+    return response
