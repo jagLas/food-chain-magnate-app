@@ -1,19 +1,24 @@
 import {useEffect, useMemo, useState} from 'react'
 import LoadGameLink from './LoadGameLink'
 import { CardColor } from '../card-schemes'
+import { authFetch } from '../../utilities/auth'
+import { useNavigate } from 'react-router-dom'
 
 const LoadGames = () => {
     const [games, setGames] = useState([])
+    const navigate = useNavigate()
 
     const fetchGames = async () => {
         try{
-            let data = await fetch(`${process.env.REACT_APP_DB_URL}/games`, {
-                credentials: 'include'
-            })
-            data = await data.json()
+            let data = await authFetch('/games')
+
             setGames(data)
         } catch(error){
-            console.log(error)
+            console.error(error)
+            if (error.statusCode === 401) {
+                console.log('navigated')
+                navigate('/')
+            }
         }
 
     }

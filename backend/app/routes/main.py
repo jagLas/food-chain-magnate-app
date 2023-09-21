@@ -2,7 +2,6 @@
 
 from flask import Blueprint, jsonify, request, abort
 from sqlalchemy.orm import joinedload
-from sqlalchemy import desc
 from ..models import db, Game, Player, Sale, Round
 from ..queries import round_total_sales, house_sales_query, sale_with_calc, result_to_dict
 from flask_jwt_extended import jwt_required, current_user
@@ -37,11 +36,11 @@ def get_games():
     """Retrieves all games in db"""
     games = current_user.games
 
-    # games = Game.query.order_by(desc(Game.id)).all()
     return [game.as_dict() for game in games]
 
 
 @bp.route('/games', methods=['POST'])
+@jwt_required()
 def create_game():
     """create a new game. Use JSON Encoded data"""
 

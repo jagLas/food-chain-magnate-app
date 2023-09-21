@@ -13,7 +13,7 @@ def login():
 
     user = User.query.filter_by(email=email).one_or_none()
     if not user or not user.check_password(password):
-        return jsonify({"msg": "Wrong email or password"}), 401
+        return jsonify({"code": 401, "msg": "Wrong email or password"}), 401
 
     access_token = create_access_token(identity=user)
     response = jsonify({"msg": "login successful"})

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import PlayerField from "./PlayerField"
 import { useNavigate } from "react-router-dom"
 import { CardColor } from "../card-schemes"
+import { authFetch } from "../../utilities/auth"
 
 const CreateGameForm = () => {
     const [playerList, setPlayerList] = useState([])
@@ -28,15 +29,11 @@ const CreateGameForm = () => {
 
 
     const createGame = async (payload) => {
-        let data = await fetch(`${process.env.REACT_APP_DB_URL}/games`, {
+        let data = await authFetch(`/games`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             body: payload
         })
 
-        data = await data.json()
         return data
     }
 

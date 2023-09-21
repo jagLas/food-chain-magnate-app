@@ -10,3 +10,4 @@ class Configuration:
     JWT_COOKIE_SECURE = True  # might cause issues in development. We'll find out.
     JWT_TOKEN_LOCATION = ["headers", "cookies"]
     JWT_COOKIE_SAMESITE = "None"
+    JWT_ERROR_MESSAGE_KEY = 'description'
