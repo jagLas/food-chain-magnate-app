@@ -7,6 +7,7 @@ from ..models import db, Game, Player, Sale, Round
 from ..queries import round_total_sales, house_sales_query, sale_with_calc, result_to_dict
 from flask_jwt_extended import jwt_required, current_user
 
+
 bp = Blueprint('main', __name__)
 
 
@@ -31,10 +32,12 @@ def index():
 
 
 @bp.route('/games')
+@jwt_required()
 def get_games():
     """Retrieves all games in db"""
+    games = current_user.games
 
-    games = Game.query.order_by(desc(Game.id)).all()
+    # games = Game.query.order_by(desc(Game.id)).all()
     return [game.as_dict() for game in games]
 
 

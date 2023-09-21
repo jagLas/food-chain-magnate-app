@@ -7,7 +7,9 @@ const LoadGames = () => {
 
     const fetchGames = async () => {
         try{
-            let data = await fetch(`${process.env.REACT_APP_DB_URL}/games`)
+            let data = await fetch(`${process.env.REACT_APP_DB_URL}/games`, {
+                credentials: 'include'
+            })
             data = await data.json()
             setGames(data)
         } catch(error){

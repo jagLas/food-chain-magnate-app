@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { CardColor } from "./card-schemes"
+import Login from "./Login"
 
 const LandingPageLink = ({to, cardScheme, title, description}) => {
     return (
@@ -46,6 +47,7 @@ const LandingPage = () => {
                     description={'See all players'}
                 />
             </ul>
+            <Login />
         </>
     )
 }
