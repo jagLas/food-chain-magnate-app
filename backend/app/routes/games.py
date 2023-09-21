@@ -48,6 +48,11 @@ def create_game():
     game = Game(**data)
     game.user = current_user
     db.session.add(game)
+
+    for player in data['players']:
+        new_round = Round(round=1, player=player, game=game)
+        db.session.add(new_round)
+
     db.session.commit()
     return game.as_dict()
 
@@ -102,7 +107,8 @@ def add_round(game_id):
         records = [result_to_dict((round_total_sales(id=round.id)).one()) for round in new_records]
         return records
 
-    # otherwise, create a record for each player
+    # otherwise, create a record for each player. This should not be needed as rounds are
+    # starting rounds are created automatically
     # goes through each player and game and creates a record for them
     for player in game.players:
         new_round = Round(round=last_round + 1, player=player)
