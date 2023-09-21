@@ -10,19 +10,6 @@ from flask_jwt_extended import jwt_required, current_user
 bp = Blueprint('main', __name__)
 
 
-@bp.route('/test-auth', methods=['GET', 'POST'])
-@jwt_required()
-def test_route():
-    # current_user = get_jwt_identity()
-    print(current_user)
-    print(current_user.games)
-    return jsonify(
-        id=current_user.id,
-        name=current_user.name,
-        email=current_user.email,
-    )
-
-
 @bp.route('/')
 def index():
     """Route to test that server is running"""
@@ -180,6 +167,7 @@ def update_round(game_id, round_id):
 
 
 @bp.route('/games/<int:game_id>/sales')
+@jwt_required()
 def get_sales(game_id):
     """Retrieves all sale records for a given game_id"""
 
@@ -188,6 +176,7 @@ def get_sales(game_id):
 
 
 @bp.route('/games/<int:game_id>/sales', methods=['POST'])
+@jwt_required()
 def add_sale(game_id):
     """adds a sale record to given game_id. JSON must be formated as per the following example:
         {
@@ -224,6 +213,7 @@ def add_sale(game_id):
 
 
 @bp.route('/games/<int:game_id>/sales/<int:sale_id>', methods=['DELETE'])
+@jwt_required()
 def delete_sale(game_id, sale_id):
     """Deletes a sale by sale_id and returns the recalculated round record"""
     sale = Sale.query.get_or_404(
@@ -244,6 +234,7 @@ def delete_sale(game_id, sale_id):
 
 
 @bp.route('/games/<int:game_id>/players')
+@jwt_required()
 def get_game_players(game_id):
     """Retrieves all sale records for a given game_id"""
 
@@ -252,6 +243,7 @@ def get_game_players(game_id):
 
 
 @bp.route('/games/<int:game_id>/bank')
+@jwt_required()
 def get_bank(game_id):
     """Returns how much money is left in the bank for a supplied game"""
 
@@ -269,6 +261,7 @@ def get_bank(game_id):
 
 
 @bp.route('/games/<int:game_id>/bank', methods=['PATCH'])
+@jwt_required()
 def edit_game(game_id):
     """create a new game. Use JSON Encoded data"""
 

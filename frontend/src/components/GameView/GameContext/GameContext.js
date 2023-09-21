@@ -30,14 +30,12 @@ export function GameProvider({ children }) {
             try{
                 let roundData = await authFetch(`/games/${gameId}/rounds`)
 
-                let salesData = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/sales`)
-                salesData = await salesData.json()
+                let salesData = await authFetch(`/games/${gameId}/sales`)
 
-                let playersData = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/players`)
-                playersData = await playersData.json()
+                let playersData = await authFetch(`/games/${gameId}/players`)
 
-                let bankData = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/bank`)
-                bankData = await bankData.json()
+                let bankData = await authFetch(`/games/${gameId}/bank`)
+
                 dispatch({type: actions.FETCH_DATA,
                     payload: {salesData, roundData, playersData, bankData}})
             } catch(error) {

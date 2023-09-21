@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useParams } from "react-router-dom"
 import { useGame, useGameDispatch } from "./GameContext/GameContext"
 import { actions } from "./GameContext/GameReducer"
+import { authFetch } from "../../utilities/auth"
 import './AddSaleForm.css'
 
 function SalePlayerfield({player}){
@@ -39,15 +40,10 @@ export default function AddSaleForm() {
         }
 
         try{
-            let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/sales`,{
+            let data = await authFetch(`/games/${gameId}/sales`,{
                 method: 'POST',
-                headers: {
-                    "Content-Type": "application/json"
-                },
                 body: JSON.stringify(payload)
             })
-    
-            data = await data.json()
             
             dispatch({
                 type: actions.ADD_SALE,

@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom"
 import { useGame, useGameDispatch } from "./GameContext/GameContext"
 import { useEffect, useState } from "react"
 import { actions } from "./GameContext/GameReducer"
+import { authFetch } from "../../utilities/auth"
 
 export default function Bank ({totals}) {
     const {bank} = useGame()
@@ -19,18 +20,13 @@ export default function Bank ({totals}) {
     }
 
     const onBlurHandler = async () => {
-        let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/bank`, {
+        let data = await authFetch(`/games/${gameId}/bank`, {
             method: 'PATCH',
-            headers: {
-                'Content-type': 'application/json'
-            },
             body: JSON.stringify({
                 reserve
             })
         })
-
-        data = await data.json()
-
+        
         dispatch({
             type: actions.UPDATE_BANK_RESERVE,
             payload: data
