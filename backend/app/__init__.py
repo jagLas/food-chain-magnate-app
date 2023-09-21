@@ -11,13 +11,14 @@ from flask_jwt_extended import JWTManager
 
 # initialize Flask app
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)  # supports credentials needed to send cookies
 app.config.from_object(Configuration)
 
 # JWT Stuff
 jwt = JWTManager(app)
 
 
+# JWT Setup for auto user loading
 @jwt.user_identity_loader
 def user_identity_lookup(user):
     return user.id
@@ -44,6 +45,7 @@ app.register_blueprint(seed.bp)
 app.register_blueprint(auth.bp)
 
 
+# # Uncomment to turn on printing of SQL statements
 # logging.basicConfig()
 # logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
