@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useReducer } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import gameReducer, {actions} from './GameReducer';
 import { authFetch } from '../../../utilities/auth';
 
@@ -17,6 +17,8 @@ const initialGameState = {
 };
 
 export function GameProvider({ children }) {
+    const navigate = useNavigate()
+
     const [game, dispatch] = useReducer(
         gameReducer,
         initialGameState
@@ -39,6 +41,9 @@ export function GameProvider({ children }) {
                 dispatch({type: actions.FETCH_DATA,
                     payload: {salesData, roundData, playersData, bankData}})
             } catch(error) {
+                if (error.statusCode === 401) {
+                    navigate('/error')
+                }
                 console.log(error)
             }
         }

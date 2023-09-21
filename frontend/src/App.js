@@ -9,6 +9,7 @@ import LoadGames from './components/LoadGames/LoadGames';
 import CreatePlayer from './components/CreatePlayer';
 import SiteHeader from './components/SiteHeader';
 import { GameProvider } from './components/GameView/GameContext/GameContext';
+import ErrorPage from './components/ErrorPage';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path='players'>
           <Route path='create-player' element={<CreatePlayer />}></Route>
         </Route>
+        <Route path='/error' element={<ErrorPage/>}></Route>
       </Routes>
     </div>
 
