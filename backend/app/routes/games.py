@@ -10,7 +10,20 @@ from flask_jwt_extended import jwt_required, current_user
 bp = Blueprint('games', __name__, url_prefix='/games')
 
 
-@bp.route('')
+# bug was occuring using @jwt_required() in a before_request route when using methods other than
+# 'GET'.
+# function needs to be called within in each route passing in the current_user, game_id
+# and other variables that need to be checked
+def checkCredentials(current_user, game_id):
+    """Checks that the requested records are in a game that the player is a user of"""
+
+    game = Game.query.get_or_404(game_id)
+
+    if game not in current_user.games:
+        abort(401, 'You do not have access to these records')
+
+
+@bp.route('/')
 @jwt_required()
 def get_games():
     """Retrieves all games in db"""
@@ -19,15 +32,18 @@ def get_games():
     return [game.as_dict() for game in games]
 
 
-@bp.route('', methods=['POST'])
+@bp.route('/', methods=['POST'])
 @jwt_required()
 def create_game():
-    """create a new game. Use JSON Encoded data"""
 
+    # TODO add check to make sure players added belong to user
+
+    """create a new game. Use JSON Encoded data"""
     data = request.json
     data['players'] = Player.query.filter(Player.id.in_(data['player_ids'])).all()
     data.pop('player_ids')
     game = Game(**data)
+    game.user = current_user
     db.session.add(game)
     db.session.commit()
     return game.as_dict()
@@ -37,6 +53,7 @@ def create_game():
 @jwt_required()
 def get_rounds(game_id):
     """Retrieves all round records for a given game_id"""
+    checkCredentials(current_user, game_id)  # check that game_id belongs to user
 
     rounds = round_total_sales(game_id=game_id).all()
     return result_to_dict(rounds)
@@ -45,6 +62,8 @@ def get_rounds(game_id):
 @bp.route('/<int:game_id>/rounds', methods=['POST'])
 @jwt_required()
 def add_round(game_id):
+    checkCredentials(current_user, game_id)  # check that game_id belongs to user
+
     # eager loads the game by id and joins with the players and rounds
     try:
         game = db.session.query(Game)\
@@ -116,6 +135,8 @@ def update_round(game_id, round_id):
     If the sales for the round would be affected, those are returned too
     under a "sales" key. Otherwise, "sales" is set to False
     """
+    checkCredentials(current_user, game_id)  # check that game_id belongs to user
+
     game_round = Round.query.get_or_404(round_id)
 
     # checks verifies integreity of game_id and round_id combination
@@ -164,6 +185,8 @@ def update_round(game_id, round_id):
 def get_sales(game_id):
     """Retrieves all sale records for a given game_id"""
 
+    checkCredentials(current_user, game_id)  # check that game_id belongs to user
+
     sales = house_sales_query(game_id=game_id).all()
     return result_to_dict(sales)
 
@@ -182,6 +205,8 @@ def add_sale(game_id):
             "drinks": 3
         }
     """
+
+    checkCredentials(current_user, game_id)  # check that game_id belongs to user
 
     data = request.json
 
@@ -209,12 +234,19 @@ def add_sale(game_id):
 @jwt_required()
 def delete_sale(game_id, sale_id):
     """Deletes a sale by sale_id and returns the recalculated round record"""
+
+    checkCredentials(current_user, game_id)  # check that game_id belongs to user
+
     sale = Sale.query.get_or_404(
         sale_id,
         description=f'Sale could not be found with id {sale_id}'
-    )
+    )  # check that the sale exists with the given id
 
-    round_record = sale.round
+    round_record = sale.round  # retrieves the round record associated with sale
+
+    # aborts if game_id from params does not match game_id on round record
+    if round_record.game_id != game_id:
+        abort(400, 'Game id does not match')
 
     db.session.delete(sale)
     db.session.commit()
@@ -230,6 +262,7 @@ def delete_sale(game_id, sale_id):
 @jwt_required()
 def get_game_players(game_id):
     """Retrieves all sale records for a given game_id"""
+    checkCredentials(current_user, game_id)  # check that game_id belongs to user
 
     players = Game.query.get_or_404(game_id).players
     return [player.as_dict() for player in players]
@@ -239,6 +272,8 @@ def get_game_players(game_id):
 @jwt_required()
 def get_bank(game_id):
     """Returns how much money is left in the bank for a supplied game"""
+
+    checkCredentials(current_user, game_id)  # check that game_id belongs to user
 
     # Retrives bank funds
     bank = Game.query.get_or_404(game_id)
@@ -257,6 +292,8 @@ def get_bank(game_id):
 @jwt_required()
 def edit_game(game_id):
     """create a new game. Use JSON Encoded data"""
+
+    checkCredentials(current_user, game_id)  # check that game_id belongs to user
 
     data = request.json
     game = Game.query.get_or_404(game_id)

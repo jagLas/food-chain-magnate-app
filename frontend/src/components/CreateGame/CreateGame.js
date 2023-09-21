@@ -29,7 +29,7 @@ const CreateGameForm = () => {
 
 
     const createGame = async (payload) => {
-        let data = await authFetch(`/games`, {
+        let data = await authFetch(`/games/`, {
             method: 'POST',
             body: payload
         })
@@ -61,7 +61,7 @@ const CreateGameForm = () => {
             const gameData = await createGame(JSON.stringify(payload));
 
             // creates a starting set of rounds after creating a new game
-            await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameData.id}/rounds`, {
+            await authFetch(`/games/${gameData.id}/rounds`, {
                 method: 'POST'
             })
 
