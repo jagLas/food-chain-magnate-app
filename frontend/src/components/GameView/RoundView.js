@@ -4,6 +4,7 @@ import SalesView from "./SalesView"
 import { useMemo } from "react"
 import { useGame, useGameDispatch } from "./GameContext/GameContext"
 import { actions } from "./GameContext/GameReducer"
+import { authFetch } from "../../utilities/auth"
 import './RoundView.css'
 import './RoundNav.css'
 
@@ -30,11 +31,9 @@ export default function RoundView () {
         event.preventDefault()
 
         try {
-            let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/rounds`, {
+            let data = await authFetch(`/games/${gameId}/rounds`, {
                 method: 'POST'
             })
-    
-            data = await data.json()
     
             dispatch({
                 type: actions.ADD_ROUNDS,

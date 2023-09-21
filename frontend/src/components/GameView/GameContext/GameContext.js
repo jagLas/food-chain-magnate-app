@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useReducer } from 'react';
 import { useParams } from 'react-router-dom';
 import gameReducer, {actions} from './GameReducer';
+import { authFetch } from '../../../utilities/auth';
 
 const GameContext = createContext(null);
 
@@ -27,8 +28,7 @@ export function GameProvider({ children }) {
     useEffect(() => {
         const fetchRounds = async () => {
             try{
-                let roundData = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/rounds`)
-                roundData = await roundData.json()
+                let roundData = await authFetch(`/games/${gameId}/rounds`)
 
                 let salesData = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/sales`)
                 salesData = await salesData.json()

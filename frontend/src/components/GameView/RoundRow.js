@@ -2,6 +2,7 @@ import { useCallback, useState } from "react"
 import { useGameDispatch } from "./GameContext/GameContext"
 import { useParams } from "react-router-dom"
 import { actions } from "./GameContext/GameReducer";
+import { authFetch } from "../../utilities/auth";
 
 
 
@@ -62,15 +63,11 @@ const RoundRow = ({round}) => {
             }
     
             // fetch statement code here post PATCH round to api
-            let data = await fetch(`${process.env.REACT_APP_DB_URL}/games/${gameId}/rounds/${round.round_id}`, {
+            let data = await authFetch(`/games/${gameId}/rounds/${round.round_id}`, {
                 method: 'PATCH',
-                headers: {
-                    'Content-type': 'application/json'
-                },
                 body: JSON.stringify(payload)
             })
-    
-            data = await data.json()
+
     
             // add dispatch for round record returned
             dispatch({

@@ -54,6 +54,7 @@ def create_game():
 
 
 @bp.route('/games/<int:game_id>/rounds')
+@jwt_required()
 def get_rounds(game_id):
     """Retrieves all round records for a given game_id"""
 
@@ -62,6 +63,7 @@ def get_rounds(game_id):
 
 
 @bp.route('/games/<int:game_id>/rounds', methods=['POST'])
+@jwt_required()
 def add_round(game_id):
     # eager loads the game by id and joins with the players and rounds
     try:
@@ -116,6 +118,7 @@ def add_round(game_id):
 
 
 @bp.route('/games/<int:game_id>/rounds/<int:round_id>', methods=['PATCH'])
+@jwt_required()
 def update_round(game_id, round_id):
     """Takes a json request in the following form
     {
