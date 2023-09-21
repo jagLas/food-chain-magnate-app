@@ -36,11 +36,14 @@ def get_games():
 @jwt_required()
 def create_game():
 
-    # TODO add check to make sure players added belong to user
-
     """create a new game. Use JSON Encoded data"""
+
     data = request.json
     data['players'] = Player.query.filter(Player.id.in_(data['player_ids'])).all()
+
+    # checks that all players being added belong to current user
+    [abort(401) for player in data['players'] if player.user != current_user]
+
     data.pop('player_ids')
     game = Game(**data)
     game.user = current_user
