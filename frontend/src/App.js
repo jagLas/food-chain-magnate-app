@@ -12,6 +12,8 @@ import { GameProvider } from './components/GameView/GameContext/GameContext';
 import ErrorPage from './components/ErrorPage';
 import { createContext, useContext, useState } from 'react';
 import { getCookie } from './utilities/auth';
+import ViewPlayers from './components/ViewPlayers';
+import InConstruction from './components/InConstruction';
 
 const UserContext = createContext(null)
 
@@ -39,7 +41,9 @@ function App() {
           </Route>
 
           <Route path='players'>
+            <Route path='' element={<ViewPlayers />}></Route>
             <Route path='create-player' element={<CreatePlayer />}></Route>
+            <Route path=':playerId' element={<InConstruction />}></Route>
           </Route>
 
           <Route path='/error' element={<ErrorPage/>}></Route>
