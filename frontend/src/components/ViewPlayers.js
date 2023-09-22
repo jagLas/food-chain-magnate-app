@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { authFetch } from "../utilities/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CardColor } from "../utilities/card-schemes";
 
 function PlayerLink ({player, cardScheme}) {
@@ -22,6 +22,7 @@ function PlayerLink ({player, cardScheme}) {
 }
 
 export default function ViewPlayers() {
+    const navigate = useNavigate()
 
     const [players, setPlayers] = useState([]);
 
@@ -31,7 +32,7 @@ export default function ViewPlayers() {
                 let data = await authFetch(`/players`);
                 setPlayers(data)
             } catch(error) {
-                console.log(error)
+                navigate('/error', {state: { ...error }})
             }
         }
 

@@ -26,7 +26,7 @@ export default function CreatePlayer() {
             await createPlayer(JSON.stringify(payload));
             navigate(`/players`);
         } catch(error){
-            console.log(error)
+            navigate('/error', {state: { ...error }})
         }
     }
 

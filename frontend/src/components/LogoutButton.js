@@ -17,7 +17,7 @@ export default function LogoutButton () {
             setIsAuthenticated(false);
             navigate('/')
         } catch(error) {
-            console.log(error);
+            navigate('/error', {state: { ...error }})
         }
     }
 

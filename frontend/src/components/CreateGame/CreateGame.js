@@ -11,7 +11,7 @@ const CreateGameForm = () => {
     const [player3, setPlayer3] = useState('')
     const [player4, setPlayer4] = useState('')
     const [player5, setPlayer5] = useState('')
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPlayers = async () => {
@@ -28,15 +28,16 @@ const CreateGameForm = () => {
 
 
     const createGame = async (payload) => {
-        let data = await authFetch(`/games/`, {
-            method: 'POST',
-            body: payload
-        })
+            let data = await authFetch(`/games/`, {
+                method: 'POST',
+                body: payload
+            })
 
-        return data
+            return data
+
     }
 
-    const navigate = useNavigate();
+
     const formHandler = async (event) => {
         event.preventDefault()
         
@@ -62,7 +63,7 @@ const CreateGameForm = () => {
             navigate(`/games/${gameData.id}/rounds/1`);
 
         } catch(error){
-            console.log(error)
+            navigate('/error', {state: { ...error }})
         }
     }
 

@@ -31,7 +31,7 @@ export default function LoginForm() {
             await createPlayer(JSON.stringify(payload));
             setIsAuthenticated(true);
         } catch(error){
-            console.log(error)
+            navigate('/error', {state: { ...error }})
         }
     }
 
