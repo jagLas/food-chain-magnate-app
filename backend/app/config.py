@@ -1,4 +1,5 @@
 import os
+import datetime
 
 
 class Configuration:
@@ -11,3 +12,4 @@ class Configuration:
     JWT_TOKEN_LOCATION = ["headers", "cookies"]
     JWT_COOKIE_SAMESITE = "None"
     JWT_ERROR_MESSAGE_KEY = 'description'
+    JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(weeks=1)
