@@ -11,7 +11,7 @@ export function checkAuth() {
 export const authFetch = async (urlEndpoint, options={method: 'GET'}) => {
     // wrapper function to add necessary headers and credentials to an authorized request
     const myHeaders = new Headers();
-    if (options.method != 'GET') {
+    if (options.method !== 'GET') {
         myHeaders.append("Content-Type", "application/json")
         myHeaders.append("X-CSRF-TOKEN", getCookie('csrf_access_token'))
     }
