@@ -54,7 +54,6 @@ const LandingPage = () => {
                     description={'See all players'}
                 />
             </ul>
-            <Login />
         </>
     )
 }
