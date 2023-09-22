@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useState} from 'react'
 import LoadGameLink from './LoadGameLink'
-import { CardColor } from '../card-schemes'
+import { CardColor } from '../../utilities/card-schemes'
 import { authFetch } from '../../utilities/auth'
 import { useNavigate } from 'react-router-dom'
 

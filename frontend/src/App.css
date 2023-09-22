@@ -13,10 +13,10 @@
 
 @font-face {
   font-family: 'Anja-Eliane-accent-Nornal';
-  src:url('../public/Anja-Eliane-accent-Nornal.ttf.woff') format('woff'),
-      url('../public/Anja-Eliane-accent-Nornal.ttf.svg#Anja-Eliane-accent-Nornal') format('svg'),
-      url('../public/Anja-Eliane-accent-Nornal.ttf.eot'),
-      url('../public/Anja-Eliane-accent-Nornal.ttf.eot?#iefix') format('embedded-opentype'); 
+  src:url('./fonts/Anja-Eliane-accent-Nornal.ttf.woff') format('woff'),
+      url('./fonts/Anja-Eliane-accent-Nornal.ttf.svg#Anja-Eliane-accent-Nornal') format('svg'),
+      url('./fonts/Anja-Eliane-accent-Nornal.ttf.eot'),
+      url('./fonts/Anja-Eliane-accent-Nornal.ttf.eot?#iefix') format('embedded-opentype'); 
   font-weight: normal;
   font-style: normal;
 }

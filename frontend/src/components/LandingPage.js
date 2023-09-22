@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { CardColor } from "./card-schemes"
+import { CardColor } from "../utilities/card-schemes"
 import Login from "./Login"
 import { useUserContext } from "../App"
 
