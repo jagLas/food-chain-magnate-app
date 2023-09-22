@@ -1,21 +1,17 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { authFetch } from "../utilities/auth";
 
 export default function CreatePlayer() {
     const [playerName, setPlayerName] = useState('')
-    const [password, setPassword] = useState('')
     const navigate = useNavigate();
 
     const createPlayer = async (payload) => {
-        let data = await fetch(`${process.env.REACT_APP_DB_URL}/players`, {
+        let data = await authFetch(`/players`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             body: payload
         })
 
-        data = await data.json()
         return data
     }
     
@@ -24,12 +20,11 @@ export default function CreatePlayer() {
 
         const payload = {
             name: playerName,
-            password
         }
 
         try{
             await createPlayer(JSON.stringify(payload));
-            navigate(`/games/create-game`);
+            navigate(`/players`);
         } catch(error){
             console.log(error)
         }
@@ -39,15 +34,14 @@ export default function CreatePlayer() {
         <>
             <form id='create-player'>
                 <div className="card-format">
-                    <label className="card-top">
+                    <label htmlFor='create-player-input' className="card-top">
                         <h2>Name: </h2>
-                        <input type="text" value={playerName} onChange={(event) => setPlayerName(event.target.value)}></input>
                     </label>
-                    <label className="card-bottom">
-                        password: 
-                        <input type="text" value={password} onChange={event => setPassword(event.target.value)}></input>
-                    </label>
+                    <div className="card-bottom">
+                        <input id='create-player-input' type="text" value={playerName} onChange={(event) => setPlayerName(event.target.value)}></input>
+                    </div>
                 </div>
+
 
                 <button onClick={formHandler}>Create Player</button>
             </form>

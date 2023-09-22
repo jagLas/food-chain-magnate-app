@@ -23,7 +23,7 @@ const LandingPage = () => {
     const { isAuthenticated } = useUserContext()
 
     if (!isAuthenticated) {
-        return <Login/>
+        return <Login />
     }
 
     return (
