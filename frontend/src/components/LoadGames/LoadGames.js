@@ -11,15 +11,13 @@ const LoadGames = () => {
     const fetchGames = async () => {
         try{
             let data = await authFetch('/games')
-
             setGames(data)
         } catch(error){
             console.error(error)
             if (error.statusCode === 401) {
-                navigate('/')
+                navigate('/error')
             }
         }
-
     }
 
     useEffect(() => {
