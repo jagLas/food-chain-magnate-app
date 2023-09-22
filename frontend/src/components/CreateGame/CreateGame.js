@@ -16,8 +16,7 @@ const CreateGameForm = () => {
     useEffect(() => {
         const fetchPlayers = async () => {
             try {
-                let data = await fetch(`${process.env.REACT_APP_DB_URL}/players`);
-                data = await data.json();
+                let data = await authFetch(`/players`);
                 setPlayerList(data)
             } catch(error) {
                 console.log(error)

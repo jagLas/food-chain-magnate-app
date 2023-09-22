@@ -16,7 +16,6 @@ const LoadGames = () => {
         } catch(error){
             console.error(error)
             if (error.statusCode === 401) {
-                console.log('navigated')
                 navigate('/')
             }
         }
