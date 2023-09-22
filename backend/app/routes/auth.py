@@ -13,10 +13,10 @@ def login():
 
     user = User.query.filter_by(email=email).one_or_none()
     if not user or not user.check_password(password):
-        return jsonify({"code": 401, "msg": "Wrong email or password"}), 401
+        return jsonify({"code": 401, "description": "Wrong email or password"}), 401
 
     access_token = create_access_token(identity=user)
-    response = jsonify({"msg": "login successful"})
+    response = jsonify({"code": 200, "description": "login successful"})
     set_access_cookies(response, access_token)
 
     return response
@@ -24,6 +24,6 @@ def login():
 
 @bp.route("/logout", methods=["POST"])
 def logout_with_cookies():
-    response = jsonify({"msg": "logout successful"})
+    response = jsonify({"description": "logout successful"})
     unset_jwt_cookies(response)
     return response
