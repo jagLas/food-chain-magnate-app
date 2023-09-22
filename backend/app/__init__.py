@@ -1,4 +1,4 @@
-from flask import Flask, json
+from flask import Flask, json, jsonify, make_response
 from flask_cors import CORS
 from flask_migrate import Migrate
 from app.models import db, User
@@ -28,6 +28,16 @@ def user_identity_lookup(user):
 def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
     return User.query.filter_by(id=identity).one_or_none()
+
+
+@jwt.expired_token_loader
+def my_expired_token_callback(jwt_header, jwt_payload):
+    response = make_response(jsonify(
+        code=401, signout=True,
+        description="Your session has expired, and you have been signed out"), 401)
+    response.set_cookie('access_token_cookie', '', expires=0)
+    response.set_cookie('csrf_access_token', '', expires=0)
+    return response
 
 
 # sorting causes errors in jsonify for /games/<game_id>/player_totals route
