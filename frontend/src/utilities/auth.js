@@ -1,4 +1,4 @@
-function getCookie(name) {
+export function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
@@ -23,8 +23,8 @@ export const authFetch = async (urlEndpoint, options={method: 'GET'}) => {
 
     if (res.ok) {
         return resData
-    } 
-    
+    }
+
     const e = new Error()
     e.message = resData.description
     e.statusCode = res.status

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { CardColor } from "./card-schemes"
 import Login from "./Login"
+import { useUserContext } from "../App"
 
 const LandingPageLink = ({to, cardScheme, title, description}) => {
     return (
@@ -19,6 +20,12 @@ const LandingPageLink = ({to, cardScheme, title, description}) => {
 }
 
 const LandingPage = () => {
+    const { isAuthenticated } = useUserContext()
+
+    if (!isAuthenticated) {
+        return <Login/>
+    }
+
     return (
         <>
             <ul className="card-list">

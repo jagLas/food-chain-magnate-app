@@ -1,4 +1,8 @@
+import { useUserContext } from "../App";
+
 export default function Login () {
+
+    const { setIsAuthenticated } = useUserContext()
 
     function getCookie(name) {
         const value = `; ${document.cookie}`;
@@ -29,6 +33,7 @@ export default function Login () {
             console.log(data)
             let cookie = getCookie('csrf_access_token')
             console.log(cookie)
+            setIsAuthenticated(true)
         } catch(error) {
             console.log(error)
         }
@@ -49,6 +54,7 @@ export default function Login () {
             let data = await fetch(`${process.env.REACT_APP_DB_URL}/auth/logout`, requestOptions)
             data = await data.json()
             console.log(data)
+            setIsAuthenticated(false)
         } catch(error) {
             console.log(error)
         }
