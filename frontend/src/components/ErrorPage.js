@@ -1,12 +1,12 @@
 import { useEffect } from "react"
 import { useUserContext } from "../App"
 import { checkAuth } from "../utilities/auth"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 
-export default function ErrorPage () {
+export default function ErrorPage (props) {
     const { setIsAuthenticated } = useUserContext()
     const navigate = useNavigate()
-    const [params, setParams] = useSearchParams()
+    const {state} = useLocation()
 
     // useEffect(() => {
     //     const redirect = setTimeout(() => {
@@ -21,15 +21,12 @@ export default function ErrorPage () {
         }
     }, [])
 
-    const query = params.get("statusCode")
-    console.log(query)
     return (
         <>
             <h1>An Error occured</h1>
-            <h3>{params.get("statusCode")}</h3>
-            <h3>{params.get("message")}</h3>
+            <h2>{state && state.statusCode}</h2>
+            <h3>{state && state.message}</h3>
             <button onClick={() => navigate('/')}>Home</button>
         </>
-        
     )
 }

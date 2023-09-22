@@ -35,6 +35,9 @@ export const authFetch = async (urlEndpoint, options={method: 'GET'}) => {
     if (resData.name) {
         e.name = 'Error-' + resData.name
     }
+
     console.log(res.status, resData)
+    console.error(e)
+
     throw e
 }

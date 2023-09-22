@@ -4,6 +4,7 @@ import { CardColor } from '../../utilities/card-schemes'
 import { authFetch } from '../../utilities/auth'
 import { useNavigate } from 'react-router-dom'
 
+
 const LoadGames = () => {
     const [games, setGames] = useState([])
     const navigate = useNavigate()
@@ -13,12 +14,7 @@ const LoadGames = () => {
             let data = await authFetch('/games')
             setGames(data)
         } catch(error){
-            console.error(error)
-            if (error.statusCode === 401) {
-                const errorParams = new URLSearchParams(error)
-                console.log(errorParams)
-                navigate('/error' + `?${errorParams.toString()}`)
-            }
+            navigate('/error', {state: { ...error }})
         }
     }
 
