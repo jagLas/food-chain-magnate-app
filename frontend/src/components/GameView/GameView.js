@@ -1,6 +1,6 @@
-import Totals from './Totals';
+import Totals from './Totals/Totals';
 import {  useGame } from './GameContext/GameContext';
-import RoundView from './RoundView';
+import RoundView from './RoundView/RoundView';
 import BankReserveModal from './BankReserveModal';
 
 export default function GameView() {

@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom"
-import { useGame, useGameDispatch } from "./GameContext/GameContext"
+import { useGame, useGameDispatch } from "../GameContext/GameContext"
 import { useEffect, useState } from "react"
-import { actions } from "./GameContext/GameReducer"
-import { authFetch } from "../../utilities/auth"
+import { actions } from "../GameContext/GameReducer"
+import { authFetch } from "../../../utilities/auth"
 
 export default function Bank ({totals}) {
     const {bank} = useGame()

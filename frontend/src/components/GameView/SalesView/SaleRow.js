@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
-import { useGame, useGameDispatch } from "./GameContext/GameContext"
-import { actions } from "./GameContext/GameReducer"
-import { authFetch } from "../../utilities/auth";
+import { useGame, useGameDispatch } from "../GameContext/GameContext"
+import { actions } from "../GameContext/GameReducer"
+import { authFetch } from "../../../utilities/auth";
 
 export default function SaleRow({sale}) {
     const dispatch = useGameDispatch();

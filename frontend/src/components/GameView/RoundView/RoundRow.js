@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react"
-import { useGameDispatch } from "./GameContext/GameContext"
+import { useGameDispatch } from "../GameContext/GameContext"
 import { useParams } from "react-router-dom"
-import { actions } from "./GameContext/GameReducer";
-import { authFetch } from "../../utilities/auth";
+import { actions } from "../GameContext/GameReducer";
+import { authFetch } from "../../../utilities/auth";
 
 
 

@@ -1,10 +1,10 @@
 import { NavLink, useNavigate, useParams } from "react-router-dom"
 import RoundsTable from "./RoundsTable"
-import SalesView from "./SalesView"
+import SalesView from "../SalesView/SalesView"
 import { useMemo } from "react"
-import { useGame, useGameDispatch } from "./GameContext/GameContext"
-import { actions } from "./GameContext/GameReducer"
-import { authFetch } from "../../utilities/auth"
+import { useGame, useGameDispatch } from "../GameContext/GameContext"
+import { actions } from "../GameContext/GameReducer"
+import { authFetch } from "../../../utilities/auth"
 import './RoundView.css'
 import './RoundNav.css'
 

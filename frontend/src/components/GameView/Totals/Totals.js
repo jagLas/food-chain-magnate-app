@@ -1,7 +1,7 @@
 import TotalRow from "./TotalRow"
-import { useGame, useGameDispatch } from "./GameContext/GameContext"
 import { useEffect, useMemo } from "react";
-import { actions } from "./GameContext/GameReducer";
+import { actions } from "../GameContext/GameReducer";
+import { useGame, useGameDispatch } from "../GameContext/GameContext"
 import Bank from "./Bank";
 
 const Totals = () => {
@@ -78,6 +78,8 @@ const Totals = () => {
     useEffect(()=> {
       // updates the bank values if it has been initialized
       const newBankTotal = bank.start + bank.reserve - totals.total.income
+
+      console.log('dispatching', newBankTotal)
       dispatch({
         type: actions.UPDATE_BANK_TOTAL,
         payload: newBankTotal
@@ -85,7 +87,9 @@ const Totals = () => {
       // dependency array needs to have bank properties separate, otherwise infinite loop
       // bank.total needs to be in dependency array so that total gets recalculated when
       // game is fetched
-    },[dispatch, totals.total.income, bank.reserve, bank.start])
+      // bank.total NEEDS TO BE INCLUDED TO PREVENT INITIAL RENDERING BUG
+      //  UNTIL BETTER SOLUTION IS IMPLEMENTED
+    },[dispatch, totals.total.income, bank.reserve, bank.start, bank.total])
 
     return (
       <div id='totals-view' className="table-container">
