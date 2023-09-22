@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from 'react'
+import { useEffect, useMemo, useState} from 'react'
 import LoadGameLink from './LoadGameLink'
 import { CardColor } from '../../utilities/card-schemes'
 import { authFetch } from '../../utilities/auth'
@@ -15,7 +15,9 @@ const LoadGames = () => {
         } catch(error){
             console.error(error)
             if (error.statusCode === 401) {
-                navigate('/error')
+                const errorParams = new URLSearchParams(error)
+                console.log(errorParams)
+                navigate('/error' + `?${errorParams.toString()}`)
             }
         }
     }
