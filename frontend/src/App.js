@@ -11,7 +11,7 @@ import SiteHeader from './components/SiteHeader';
 import { GameProvider } from './components/GameView/GameContext/GameContext';
 import ErrorPage from './components/ErrorPage';
 import { createContext, useContext, useState } from 'react';
-import { getCookie } from './utilities/auth';
+import { checkAuth } from './utilities/auth';
 import ViewPlayers from './components/ViewPlayers';
 import InConstruction from './components/InConstruction';
 
@@ -22,7 +22,7 @@ export function useUserContext() {
 }
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(getCookie('csrf_access_token') || false)
+  const [isAuthenticated, setIsAuthenticated] = useState(checkAuth() || false)
 
   return (
     <div className="App">

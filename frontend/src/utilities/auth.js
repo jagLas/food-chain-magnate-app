@@ -1,7 +1,11 @@
-export function getCookie(name) {
+function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+export function checkAuth() {
+    return getCookie('csrf_access_token')
 }
 
 export const authFetch = async (urlEndpoint, options={method: 'GET'}) => {
