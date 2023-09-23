@@ -20,7 +20,7 @@ def index():
 def get_players():
     """Returns a list of players and their ids"""
 
-    players = current_user.players
+    players = Player.query.filter_by(user_id=current_user.id).order_by(Player.name).all()
     return [player.as_dict() for player in players]
 
 
