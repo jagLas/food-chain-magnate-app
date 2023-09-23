@@ -1,5 +1,4 @@
 .card-list {
-    --radius: 12px;
     display: flex;
     flex-flow: row wrap;
     gap: 32px;
@@ -8,6 +7,7 @@
 }
 
 .card-format {
+    --radius: 12px;
     display: grid;
     grid-template-rows: 59fr 41fr;
     aspect-ratio: 56/87;
@@ -39,7 +39,9 @@
 
 .card-bottom{
     grid-area: 'bottom';
+    background-color: var(--background-color);
     color: black;
+    border-radius: 0px 0px var(--radius) var(--radius) ;
 }
 
 .card-format>* {
