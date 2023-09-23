@@ -41,6 +41,9 @@ def create_game():
     data = request.json
     data['players'] = Player.query.filter(Player.id.in_(data['player_ids'])).all()
 
+    if len(data['players']) <= 1:
+        abort(400, 'A new game must contain at least 2 players')
+
     # checks that all players being added belong to current user
     [abort(401) for player in data['players'] if player.user != current_user]
 
