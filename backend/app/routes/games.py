@@ -1,6 +1,7 @@
 """Blueprint for game api routes"""
 
 from flask import Blueprint, request, abort
+from sqlalchemy import desc
 from sqlalchemy.orm import joinedload
 from ..models import db, Game, Player, Sale, Round
 from ..queries import round_total_sales, house_sales_query, sale_with_calc, result_to_dict
@@ -19,7 +20,7 @@ def checkCredentials(current_user, game_id):
 
     game = Game.query.get_or_404(game_id)
 
-    if game not in current_user.games:
+    if game.user_id is not current_user.id:
         abort(401, 'You do not have access to these records')
 
 
@@ -27,7 +28,7 @@ def checkCredentials(current_user, game_id):
 @jwt_required()
 def get_games():
     """Retrieves all games in db"""
-    games = current_user.games
+    games = Game.query.filter_by(user_id=current_user.id).order_by(desc(Game.id)).all()
 
     return [game.as_dict() for game in games]
 
