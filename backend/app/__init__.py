@@ -61,6 +61,19 @@ app.register_blueprint(auth.bp)
 # logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
 
+@app.errorhandler(Exception)
+def generic_error(error):
+    response = make_response()
+    response.data = json.dumps({
+        'code': 500,
+        'name': 'Internal Server Error',
+        'description': 'The server has encountered a situation it does not know how to handle.'
+    })
+
+    response.content_type = 'application/json'
+    return response, 500
+
+
 # turns errors into json responses
 @app.errorhandler(HTTPException)
 def not_found(error):
