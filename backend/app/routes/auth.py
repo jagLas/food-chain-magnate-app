@@ -1,9 +1,24 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, abort
 from flask_jwt_extended import create_access_token, set_access_cookies, unset_jwt_cookies
+from sqlalchemy.exc import IntegrityError
 from ..models import User
+from ..models import db
 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+
+@bp.route('/signup', methods=['POST'])
+def signup():
+    data = request.json
+    user = User(**data)
+    try:
+        db.session.add(user)
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        abort(409, 'This email is already associated with an account')
+    return user.as_dict(), 201
 
 
 @bp.route('/login', methods=['POST'])
