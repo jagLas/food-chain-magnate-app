@@ -6,6 +6,7 @@ from .config import Configuration
 from .routes import main, seed, auth, games
 from werkzeug.exceptions import HTTPException
 from flask_jwt_extended import JWTManager
+import traceback
 
 # import logging
 
@@ -63,11 +64,14 @@ app.register_blueprint(auth.bp)
 
 @app.errorhandler(Exception)
 def generic_error(error):
+    traceback.print_exc()
+
     response = make_response()
     response.data = json.dumps({
         'code': 500,
         'name': 'Internal Server Error',
-        'description': 'The server has encountered a situation it does not know how to handle.'
+        'description': 'The server has encountered a situation it does not know how to '
+                       + 'handle. Please check the server logs'
     })
 
     response.content_type = 'application/json'
