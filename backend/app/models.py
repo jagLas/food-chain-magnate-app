@@ -79,13 +79,27 @@ class Game(db.Model):
     rounds = db.relationship('Round', back_populates='game')
     user = db.relationship('User', back_populates='games')
 
-    def as_dict(self):
-        return {
+    def as_dict(self, **kwargs):
+        dictionary = {
             'id': self.id,
             'bank_start': self.bank_start,
             'bank_reserve': self.bank_reserve,
-            'players': [player.as_dict() for player in self.players]
         }
+
+        # option to add player information to the returned dictionary
+        if 'players' in kwargs and kwargs['players']:
+            dictionary['players'] = [player.as_dict() for player in self.players]
+
+        # option to add rounds information to the returned dictionary
+        if 'rounds' in kwargs and kwargs['rounds']:
+            dictionary['rounds'] = [round.as_dict() for round in self.rounds]
+
+        # option to add number of rounds to dictionary
+        if 'rounds' in dictionary and 'players' in dictionary:
+            dictionary['number_rounds'] = int(len(dictionary['rounds']) /
+                                              len(dictionary['players']))
+
+        return dictionary
 
 
 class Round(db.Model):

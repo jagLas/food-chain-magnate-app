@@ -28,9 +28,11 @@ def checkCredentials(current_user, game_id):
 @jwt_required()
 def get_games():
     """Retrieves all games in db"""
-    games = Game.query.filter_by(user_id=current_user.id).order_by(desc(Game.id)).all()
+    # eager loads with players
+    games = Game.query.filter_by(user_id=current_user.id)\
+        .options(joinedload(Game.players)).order_by(desc(Game.id)).all()
 
-    return [game.as_dict() for game in games]
+    return [game.as_dict(players=True) for game in games]
 
 
 @bp.route('/', methods=['POST'])
