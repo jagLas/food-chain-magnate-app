@@ -115,6 +115,7 @@ def add_round(game_id):
 
     # otherwise, create a record for each player. This should not be needed as rounds are
     # starting rounds are created automatically
+
     # goes through each player and game and creates a record for them
     for player in game.players:
         new_round = Round(round=last_round + 1, player=player)
