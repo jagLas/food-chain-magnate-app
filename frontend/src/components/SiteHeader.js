@@ -22,11 +22,13 @@ export default function SiteHeader () {
                     <div className='logo-bar'></div>
                 </div>
                 <div className='navbar'>
+                {isAuthenticated && <>
                     <NavLink to='/'>Home</NavLink>
                     <NavLink  to='/games/create-game'>Create Games</NavLink>
                     <NavLink to='/games' end>View Games</NavLink>
                     <NavLink to='/players' end>View Players</NavLink>
                     <NavLink to='/players/create-player'>Create Players</NavLink>
+                    </>}
                 </div>
             </div>
         </div>
