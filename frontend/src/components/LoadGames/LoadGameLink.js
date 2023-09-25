@@ -1,9 +1,16 @@
+import { useState } from 'react'
 import {Link} from 'react-router-dom'
 
 const LoadGameLink = ({game, cardScheme}) => {
+    const [isSelected, setIsSelected] = useState(false);
+
+    const onClickHandler = () => {
+        setIsSelected(!isSelected)
+    }
+
     return (
             <li>
-                <Link className='card-format' to={`${game.id}/rounds/all`}
+                <div className='card-format' onClick={onClickHandler} to={`${game.id}/rounds/all`}
                     style={{
                         "--card-color": cardScheme.background,
                         "--card-text-color": cardScheme.text
@@ -14,7 +21,15 @@ const LoadGameLink = ({game, cardScheme}) => {
                         <div>{game.id}</div>
                     </div>
                     <div className='card-bottom'>Players: {game.players.length}</div>
-                </Link>
+                </div>
+                {isSelected &&
+                <div className='card-options' onClick={onClickHandler}>
+                    <h2>{game.id}</h2>
+                    <button>Load</button>
+                    <button>Delete</button>
+                    <button>Stats</button>
+                </div>
+                }
             </li>
     )
 }
