@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
 const LoadGameLink = ({game, cardScheme}) => {
     const [isSelected, setIsSelected] = useState(false);
+    const navigate = useNavigate();
 
     const onClickHandler = () => {
         setIsSelected(!isSelected)
@@ -10,7 +11,7 @@ const LoadGameLink = ({game, cardScheme}) => {
 
     return (
             <li>
-                <div className='card-format' onClick={onClickHandler} to={`${game.id}/rounds/all`}
+                <div className='card-format' onClick={onClickHandler}
                     style={{
                         "--card-color": cardScheme.background,
                         "--card-text-color": cardScheme.text
@@ -25,7 +26,7 @@ const LoadGameLink = ({game, cardScheme}) => {
                 {isSelected &&
                 <div className='card-options' onClick={onClickHandler}>
                     <h2>{game.id}</h2>
-                    <button>Load</button>
+                    <button onClick={()=>navigate(`${game.id}/rounds/all`)}>Load</button>
                     <button>Delete</button>
                     <button>Stats</button>
                 </div>
