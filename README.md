@@ -16,7 +16,7 @@ This project can be run with [Docker](https://www.docker.com/). Please follow th
 
 ### Copy .env_example
 
-Copy the .env_example fil to a .env file in the root folder of the project. Configure the .env variables to inputs of your choosing.
+Copy the .env_example file to a .env file in the root folder of the project. Configure the .env variables to inputs of your choosing.
 
 ### Run docker-compose up
 
@@ -24,7 +24,7 @@ Once Docker has been installed and the .env file has been created, run docker-co
 
 ### Seed the DB (optional)
 
-If you wish to seed the database some example data, make a 'GET' request to the /seed-db route in a browser.
+If you wish to seed the database with some example data, make a 'GET' request to the /seed-db route in a browser.
 
 ### Load the site
 
@@ -45,5 +45,5 @@ This site's design is inspired by the design from the board game "Food Chain Mag
 This site uses the following free webfonts:
 
 - [Bazooka Regular](https://webfonts.ffonts.net/Bazooka-Regular.font)
-- [Pacifico](https://fonts.google.com/specimen/Pacifico)
+- [Pacifico](https://fonts.google.com/specimen/Pacifico) Under: [Open Fonts License](./frontend/public/OFL.txt)
 - [Anja Eliane](https://www.dafont.com/anja-eliane.font)
