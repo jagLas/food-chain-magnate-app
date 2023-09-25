@@ -1,6 +1,6 @@
 """Blueprint for game api routes"""
 
-from flask import Blueprint, request, abort
+from flask import Blueprint, request, abort, jsonify
 from sqlalchemy import desc
 from sqlalchemy.orm import joinedload
 from ..models import db, Game, Player, Sale, Round
@@ -61,6 +61,39 @@ def create_game():
 
     db.session.commit()
     return game.as_dict()
+
+
+@bp.route('/<int:game_id>', methods=['DELETE'])
+@jwt_required()
+def delete_game(game_id):
+    game = Game.query.options(joinedload(Game.rounds)).get_or_404(game_id)
+
+    if game.user_id != current_user.id:
+        abort(401)
+
+    # help prevent accidental deletions of started or finished games
+    if request.headers.get('Content-type') == 'application/json':
+        if request.json['delete'] == 'confirm':
+            db.session.delete(game)
+            db.session.commit()
+            return jsonify({
+                'deleted': True,
+                'game': game.as_dict(),
+                'msg': 'Game successfully deleted'
+            }), 200
+
+    if len(game.rounds):
+        return jsonify({
+            'deleted': False,
+            'game': game.as_dict(),
+            'msg': 'This game has round records. Either delete those round records, or '
+            + 'resubmit this request with a json payload object with a key of delete and '
+            + 'and value of confirm'
+        }), 202
+
+    return jsonify({
+        game.as_dict()
+    })
 
 
 @bp.route('/<int:game_id>/rounds')

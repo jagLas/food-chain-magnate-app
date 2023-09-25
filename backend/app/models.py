@@ -76,7 +76,7 @@ class Game(db.Model):
                               secondary=game_player,
                               back_populates="games")
 
-    rounds = db.relationship('Round', back_populates='game')
+    rounds = db.relationship('Round', back_populates='game', cascade="all")
     user = db.relationship('User', back_populates='games')
 
     def as_dict(self, **kwargs):
@@ -125,7 +125,7 @@ class Round(db.Model):
     # marketers = db.Column(db.Integer, default=0, nullable=False)
 
     player = db.relationship('Player', back_populates='rounds')
-    sales = db.relationship('Sale', back_populates='round')
+    sales = db.relationship('Sale', back_populates='round', cascade="all")
     game = db.relationship('Game', back_populates='rounds')
 
     def as_dict(self):
