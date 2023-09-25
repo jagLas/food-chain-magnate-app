@@ -102,8 +102,9 @@ export default function LoginForm() {
                     </label>
                 </div>
                 <div>
-                    <button className='menu-button' onClick={loginFormHandler}>Login</button>
+                    {!signup && <button className='menu-button' onClick={loginFormHandler}>Login</button>}
                     <button className='menu-button' onClick={signupFormHandler}>Sign Up</button>
+                    {signup && <button className="menu-button" onClick={() => setSignup(false)}>Return</button>}
                 </div>
             </form>
         </>
