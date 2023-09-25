@@ -49,7 +49,7 @@ class Player(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     rounds = db.relationship('Round', back_populates='player')
     games = db.relationship("Game",
@@ -106,9 +106,9 @@ class Round(db.Model):
     __tablename__ = 'rounds'
 
     id = db.Column(db.Integer, primary_key=True)
-    game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
+    game_id = db.Column(db.Integer, db.ForeignKey('games.id'), nullable=False)
     round = db.Column(db.Integer, nullable=False)
-    player_id = db.Column(db.Integer, db.ForeignKey('players.id'))
+    player_id = db.Column(db.Integer, db.ForeignKey('players.id'), nullable=False)
     first_burger = db.Column(db.Boolean, default=False)
     first_pizza = db.Column(db.Boolean, default=False)
     first_drink = db.Column(db.Boolean, default=False)
@@ -206,7 +206,7 @@ class Sale(db.Model):
     __tablename__ = 'sales'
 
     id = db.Column(db.Integer, primary_key=True)
-    round_id = db.Column(db.Integer, db.ForeignKey('rounds.id'))
+    round_id = db.Column(db.Integer, db.ForeignKey('rounds.id'), nullable=False)
     house_number = db.Column(db.Integer)
     garden = db.Column(db.Boolean, default=False)
     burgers = db.Column(db.Integer, default=0, nullable=False)
