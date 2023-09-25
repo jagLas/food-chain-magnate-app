@@ -26,6 +26,7 @@ export default function ErrorPage (props) {
             <h1>An Error occured</h1>
             <h2>{state && state.statusCode}</h2>
             <h3>{state && state.message}</h3>
+            <button className="menu-button" onClick={() => navigate(-1)}>Go Back</button>
             <button className="menu-button" onClick={() => navigate('/')}>Home</button>
         </>
     )
