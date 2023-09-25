@@ -94,7 +94,7 @@ const CreateGameForm = () => {
                 <ul className="card-list">
                     {playerFields}
                 </ul>
-                <button onClick={formHandler}>Create Game</button>
+                <button className='menu-button' onClick={formHandler}>Create Game</button>
             </form>
         </>
     )

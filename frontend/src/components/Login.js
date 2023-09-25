@@ -35,6 +35,15 @@ export default function LoginForm() {
         }
     }
 
+    const signupFormHandler = async (event) => {
+        event.preventDefault()
+
+        const payload = {
+            email: email,
+            password
+        }
+    }
+
     return (
         <>
             <form id='create-player'>
@@ -49,7 +58,8 @@ export default function LoginForm() {
                     </label>
                 </div>
 
-                <button onClick={loginFormHandler}>Login</button>
+                <button className='menu-button' onClick={loginFormHandler}>Login</button>
+                <button className='menu-button' onClick={signupFormHandler}>Sign Up</button>
             </form>
         </>
     )

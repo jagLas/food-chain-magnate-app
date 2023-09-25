@@ -43,7 +43,7 @@ export default function CreatePlayer() {
                 </div>
 
 
-                <button onClick={formHandler}>Create Player</button>
+                <button className='menu-button' onClick={formHandler}>Create Player</button>
             </form>
         </>
     )

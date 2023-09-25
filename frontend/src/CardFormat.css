@@ -85,17 +85,3 @@
     border-radius: 4px;
     margin: 16px 0px;
 }
-
-.card-list + button, .card-format + button {
-    height: fit-content;
-    width: fit-content;
-    padding: 0px 16px 8px;
-    font-size: 32px;
-    background-color: #F77448;
-    margin-top: 16px;
-    transition: background-color .5s;
-}
-
-.card-list + button:hover, .card-format + button:hover  {
-    background-color: #FF4000;
-}

@@ -151,3 +151,17 @@ p {
 .hidden {
   visibility: hidden;
 }
+
+.menu-button {
+  height: fit-content;
+  width: fit-content;
+  padding: 0px 16px 8px;
+  font-size: 32px;
+  background-color: #F77448;
+  margin-top: 16px;
+  transition: background-color .5s;
+}
+
+.menu-button:hover {
+  background-color: #FF4000;
+}
