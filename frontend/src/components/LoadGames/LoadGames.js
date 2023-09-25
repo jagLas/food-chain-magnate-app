@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 
 const LoadGames = () => {
     const [games, setGames] = useState([])
+    const [isLoaded, setIsLoaded] = useState(false)
     const navigate = useNavigate()
 
     const fetchGames = async () => {
@@ -16,6 +17,7 @@ const LoadGames = () => {
         } catch(error){
             navigate('/error', {state: { ...error }})
         }
+        setIsLoaded(true)
     }
 
     useEffect(() => {
@@ -32,6 +34,10 @@ const LoadGames = () => {
         }
         return rows
     }, [games])
+
+    if (!isLoaded) {
+        return false
+    }
 
     return (
         <div id='load-games'>

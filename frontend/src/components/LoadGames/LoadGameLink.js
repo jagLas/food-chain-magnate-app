@@ -26,9 +26,9 @@ const LoadGameLink = ({game, cardScheme}) => {
                 {isSelected &&
                 <div className='card-options' onClick={onClickHandler}>
                     <h2>{game.id}</h2>
-                    <button onClick={()=>navigate(`${game.id}/rounds/all`)}>Load</button>
-                    <button>Delete</button>
-                    <button>Stats</button>
+                    <button on className='menu-button small' onClick={()=>navigate(`${game.id}/rounds/all`)}>Load</button>
+                    <button className='menu-button small'>Delete</button>
+                    <button className='menu-button small'>Stats</button>
                 </div>
                 }
             </li>

@@ -162,6 +162,12 @@ p {
   transition: background-color .5s;
 }
 
+.menu-button.small {
+  margin: 0;
+  font-size: 20px;
+  padding: 3% 8%;
+}
+
 .menu-button:hover {
   background-color: #FF4000;
 }
