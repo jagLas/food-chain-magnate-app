@@ -1,6 +1,7 @@
 """Blueprint for game api routes"""
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, abort
+from sqlalchemy.orm import joinedload
 from ..models import db, Player
 from flask_jwt_extended import jwt_required, current_user
 
@@ -35,3 +36,27 @@ def create_player():
     db.session.add(player)
     db.session.commit()
     return player.as_dict()
+
+
+@bp.route('/players/<int:player_id>', methods=['DELETE'])
+@jwt_required()
+def delete_player(player_id):
+    """Creates a new player"""
+
+    player = Player.query.options(joinedload(Player.games)).get_or_404(player_id)
+
+    if player.user_id != current_user.id:
+        abort(401, 'You do not have access to this record')
+
+    if len(player.games):
+        response = {
+            'msg': 'This player has Games associated with it and cannot be deleted until the'
+            + ' following games have been removed',
+            'games': [game.as_dict() for game in player.games]
+        }
+        abort(400, response)
+
+    db.session.delete(player)
+    db.session.commit()
+
+    return jsonify({'player_record': player.as_dict(), 'msg': 'User deleted'})
