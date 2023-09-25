@@ -3,7 +3,7 @@
     --logo-width: 20vw;
     --site-header-color: #98d3d1;
     align-content: center;
-    align-items: center;
+    align-items: stretch;
     display: grid;
     font-size: 2.5vw;
     grid-template-columns: var(--logo-width) 4fr;
@@ -11,10 +11,10 @@
     grid-template-areas: 
         'logo .'
         'logo header'
-        'logo . ';
+        'logo navbar ';
     height: var(--logo-height);
     margin: 16px;
-    margin-bottom: -8px;
+    /* margin-bottom: -8px; */
 }
 
 .App-logo {
@@ -38,6 +38,35 @@
     transform: translateX(calc(-1 * var(--logo-width)));
     width: 100%;
     z-index: -1;
+}
+
+#site-header .navbar{
+    grid-area: navbar;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+#site-header .navbar>a{
+    font-family: 'Bazooka-Regular';
+    text-decoration: none;
+    font-size: 16px;
+    color: var(--site-header-color);
+    text-shadow:
+        1px 0 black, -1px 0 black, 0 1px black, 0 -1px black,
+        .5px .5px black, -.5px -.5px black, .5px -.5px black, -.5px .5px black;
+    letter-spacing: 1px;
+}
+
+#site-header .navbar>a.active{
+    /* text-decoration: underline; */
+    color: var(--red-card);
+    font-family: 'Bazooka-Regular';
+}
+
+#site-header .navbar>a:hover{
+    font-weight: bold;
 }
 
 #site-title {
