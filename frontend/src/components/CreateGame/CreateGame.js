@@ -89,14 +89,19 @@ const CreateGameForm = () => {
 
 
     return (
-        <>
+        <div>
+            <h2 className="menu-header">Create a Game</h2>
             <form id="create-game">
                 <ul className="card-list">
                     {playerFields}
                 </ul>
                 <button className='menu-button' onClick={formHandler}>Create Game</button>
+                <button
+                    className="menu-button"
+                    onClick={() => navigate('/players/create-player')}
+                >Create a player</button>
             </form>
-        </>
+        </div>
     )
 }
 

@@ -34,11 +34,17 @@ const LoadGames = () => {
     }, [games])
 
     return (
-        <>
+        <div id='load-games'>
+            <h2 className='menu-header'>Load Games</h2>
             <ul className='card-list'>
                 {rows}
             </ul>
-        </>
+            {!rows.length && <h3>You do not currently have any games!</h3>}
+            <button
+                className='menu-button'
+                onClick={() => navigate('create-game')}
+            >Create a Game</button>
+        </div>
     )
 }
 

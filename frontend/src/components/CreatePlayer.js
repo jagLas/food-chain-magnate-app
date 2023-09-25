@@ -31,7 +31,8 @@ export default function CreatePlayer() {
     }
 
     return (
-        <>
+        <div>
+            <h2 className="menu-header">Create a Player</h2>
             <form id='create-player'>
                 <div className="card-format">
                     <label htmlFor='create-player-input' className="card-top">
@@ -45,6 +46,6 @@ export default function CreatePlayer() {
 
                 <button className='menu-button' onClick={formHandler}>Create Player</button>
             </form>
-        </>
+        </div>
     )
 }

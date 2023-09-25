@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { CardColor } from "../utilities/card-schemes";
 
 function PlayerLink ({player, cardScheme}) {
+    const navigate = useNavigate();
+
     return (
         <li>
             <Link className='card-format' to={`${player.id}`}
@@ -42,14 +44,18 @@ export default function ViewPlayers() {
     
 
     return (
-        <ul className="card-list">
-            {players.map((player, i) => {
-                return <PlayerLink
-                            key={player.id}
-                            player={player}
-                            cardScheme={CardColor.getCardScheme(i)}
-                        />
-            })}
-        </ul>
+        <div className="view-players">
+            <h2 className="menu-header">Players</h2>
+            <ul className="card-list">
+                {players.map((player, i) => {
+                    return <PlayerLink
+                                key={player.id}
+                                player={player}
+                                cardScheme={CardColor.getCardScheme(i)}
+                            />
+                })}
+            </ul>
+            <button className="menu-button" onClick={()=> navigate('create-player')}>Create a Player</button>
+        </div>
     )
 }
