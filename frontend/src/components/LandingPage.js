@@ -27,7 +27,8 @@ const LandingPage = () => {
     }
 
     return (
-        <>
+        <div>
+            <h2 className="menu-header">Menu</h2>
             <ul className="card-list">
                 <LandingPageLink
                     to={'games/create-game'}
@@ -54,7 +55,7 @@ const LandingPage = () => {
                     description={'See all players'}
                 />
             </ul>
-        </>
+        </div>
     )
 }
 

@@ -1,5 +1,5 @@
 #site-header {
-    --logo-height: calc(var(--logo-width) / 1.54);
+    --logo-height: calc(var(--logo-width) / 1.737);
     --logo-width: 20vw;
     --site-header-color: #98d3d1;
     align-content: center;
@@ -14,16 +14,17 @@
         'logo . ';
     height: var(--logo-height);
     margin: 16px;
+    margin-bottom: -8px;
 }
 
 .App-logo {
-    background-image: url('../../public/food-chain-logo-no-text.png');
+    background-image: url('../../public/food-chain-logo-final.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     grid-area: logo;
     height: 100%;
-    transform: translate(0px, 10px);
+    transform: translate(0px, -5px);
     width: 100%;
     z-index: 1;
     cursor: pointer;
@@ -79,6 +80,7 @@
         font-size: 15px;
         height: fit-content;
         justify-content: center;
+        margin: 16px;
     }
 
     .App-logo {
