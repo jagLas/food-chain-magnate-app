@@ -18,7 +18,10 @@ def signup():
     except IntegrityError:
         db.session.rollback()
         abort(409, 'This email is already associated with an account')
-    return user.as_dict(), 201
+    access_token = create_access_token(identity=user)
+    response = jsonify({'code': 201, "description": 'User Created'})
+    set_access_cookies(response, access_token)
+    return response
 
 
 @bp.route('/login', methods=['POST'])
@@ -33,7 +36,6 @@ def login():
     access_token = create_access_token(identity=user)
     response = jsonify({"code": 200, "description": "login successful"})
     set_access_cookies(response, access_token)
-
     return response
 
 

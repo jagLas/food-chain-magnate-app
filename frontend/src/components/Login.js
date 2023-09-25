@@ -7,8 +7,10 @@ import { useNavigate } from "react-router-dom"
 export default function LoginForm() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const navigate = useNavigate();
+    const [signup, setSignup] = useState(false)
+    const [name, setName] = useState('');
     const { setIsAuthenticated } = useUserContext()
+    const navigate = useNavigate();
 
     const createPlayer = async (payload) => {
         let data = await authFetch(`/auth/login`, {
@@ -38,9 +40,27 @@ export default function LoginForm() {
     const signupFormHandler = async (event) => {
         event.preventDefault()
 
+        if (!signup) {
+            return setSignup(true)
+        }
+        
         const payload = {
-            email: email,
-            password
+            email,
+            password,
+            name
+        }
+
+        try {
+            const data = await authFetch('/auth/signup', {
+                method: 'POST',
+                body: JSON.stringify(payload)
+            })
+
+            console.log(data)
+
+            setIsAuthenticated(true);
+        } catch (e) {
+            navigate('/error', {state: { ...e }})
         }
     }
 
@@ -48,18 +68,43 @@ export default function LoginForm() {
         <>
             <form id='create-player'>
                 <div className="card-format">
-                    <label className="card-top">
-                        <h2>Email </h2>
-                        <input type="text" value={email} onChange={(event) => setEmail(event.target.value)}></input>
-                    </label>
+                    <div className="card-top">
+                        <label  htmlFor="login-email">
+                            <h2 style={{marginTop: '16px'}}>Email </h2>
+                        </label>
+                        <input
+                            id='login-email'
+                            type="text"
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
+                        />
+                        {signup &&
+                            <>
+                                <label htmlFor="name-signup">
+                                    <h2>Name:</h2>
+                                </label>
+                                <input
+                                    id='name-signup'
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                            </>
+                        }
+                    </div>
                     <label className="card-bottom">
                         password: 
-                        <input type="password" value={password} onChange={event => setPassword(event.target.value)}></input>
+                        <input id="login-password" 
+                            type="password"
+                            value={password}
+                            onChange={event => setPassword(event.target.value)}
+                        />
                     </label>
                 </div>
-
-                <button className='menu-button' onClick={loginFormHandler}>Login</button>
-                <button className='menu-button' onClick={signupFormHandler}>Sign Up</button>
+                <div>
+                    <button className='menu-button' onClick={loginFormHandler}>Login</button>
+                    <button className='menu-button' onClick={signupFormHandler}>Sign Up</button>
+                </div>
             </form>
         </>
     )
