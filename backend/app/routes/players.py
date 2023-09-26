@@ -37,14 +37,14 @@ def create_player():
 @bp.route('/<int:player_id>', methods=['PATCH'])
 @jwt_required()
 def modify_player(player_id):
-    data = request.json
+    name = request.json['name']
     player = Player.query.filter_by(user_id=current_user.id, id=player_id).one_or_404()
     try:
-        player.name = data['name']
+        player.name = name
         db.session.commit()
     except IntegrityError:
         db.session.rollback()
-        abort(400, 'Duplicate Name')
+        abort(400, f'Player names must be unique. {name} already exists')
 
     return player.as_dict(), 200
 
