@@ -1,4 +1,4 @@
-# food-chain-magnate-app
+# Food Chain Magnate Helper App
 
 ## About
 
