@@ -48,15 +48,29 @@ def delete_player(player_id):
     if player.user_id != current_user.id:
         abort(401, 'You do not have access to this record')
 
-    if len(player.games):
-        response = {
-            'msg': 'This player has Games associated with it and cannot be deleted until the'
-            + ' following games have been removed',
-            'games': [game.as_dict() for game in player.games]
-        }
-        abort(400, response)
+    status = {
+        'deleted': False,
+        'has_games': True if len(player.games) > 0 else False
+    }
 
-    db.session.delete(player)
-    db.session.commit()
+    status['ready'] = True if status['has_games'] is False else False
 
-    return jsonify({'player_record': player.as_dict(), 'msg': 'User deleted'})
+    if not status['ready']:
+        status['msg'] = (
+            'This player has Games associated with it and cannot be deleted until the'
+            + ' following games have been removed')
+        status['games'] = [game.as_dict() for game in player.games]
+        return status, 202
+    else:
+        status['msg'] = 'No Games Associated. Ready for deletion'
+
+    # if query string contains confirm=true, then game and all associated rounds and sales
+    # data will be deleted.
+    if 'confirm' in request.args and request.args['confirm'] == 'true':
+        db.session.delete(player)
+        db.session.commit()
+        status['deleted'] = True
+        status['msg'] = 'Player has been deleted'
+        return jsonify(status), 200
+
+    return status, 202
