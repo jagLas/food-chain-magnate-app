@@ -108,6 +108,10 @@ select {
   text-align: left;
 }
 
+select>option {
+  color: black;
+}
+
 select>option:nth-child(2n) {
   /* background: rgba(0,0,0,1); */
   background-color: var(--table-nth-row-color);

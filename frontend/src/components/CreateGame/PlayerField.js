@@ -24,8 +24,12 @@ const PlayerField = ({playerList, player, setPlayer, playerNum, selectedPlayers,
                 <h2>{'Player ' + parseInt(playerNum + 1)}</h2>
             </label>
             <div className="card-bottom">
-                <select value={player} onChange={(event) => {setPlayer(event.target.value)}}>
-                        <option value={null}></option>
+                <select 
+                    style={{color: player ? "unset" : 'grey'}}
+                    value={player}
+                    onChange={(event) => {setPlayer(event.target.value)}}
+                >
+                        <option value={''}>Select a Player</option>
                         {filteredPlayers.map((player) => {
                             return <option
                                         key={player.id}
