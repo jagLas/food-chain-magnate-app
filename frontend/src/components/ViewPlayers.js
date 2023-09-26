@@ -18,6 +18,8 @@ function PlayerLink ({player, cardScheme}) {
     const outsideClick = (event) => {
         if (ref.current && !ref.current.contains(event.target)) {
             setIsSelected(false);
+            setConfirmDelete(false);
+            setIsEdit(false);
         }
     }
 

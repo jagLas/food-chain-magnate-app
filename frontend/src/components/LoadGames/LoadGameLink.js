@@ -16,6 +16,7 @@ const LoadGameLink = ({game, cardScheme}) => {
     const outsideClick = (event) => {
         if (ref.current && !ref.current.contains(event.target)) {
             setIsSelected(false);
+            setConfirmDelete(false);
         }
     }
 
