@@ -66,7 +66,7 @@
 }
 
 #site-header .navbar>a:hover{
-    font-weight: bold;
+    text-decoration: underline;
 }
 
 #site-title {
