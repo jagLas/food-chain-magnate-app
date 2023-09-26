@@ -66,34 +66,43 @@ def create_game():
 @bp.route('/<int:game_id>', methods=['DELETE'])
 @jwt_required()
 def delete_game(game_id):
-    game = Game.query.options(joinedload(Game.rounds)).get_or_404(game_id)
+    game = Game.query.options(joinedload(Game.rounds))\
+        .options(joinedload(Game.players)).options(joinedload(Game.sales)).get_or_404(game_id)
 
     if game.user_id != current_user.id:
         abort(401)
 
-    # help prevent accidental deletions of started or finished games
-    if request.headers.get('Content-type') == 'application/json':
-        if request.json['delete'] == 'confirm':
-            db.session.delete(game)
-            db.session.commit()
-            return jsonify({
-                'deleted': True,
-                'game': game.as_dict(),
-                'msg': 'Game successfully deleted'
-            }), 200
+    status = {
+        'deleted': False,
+        'has_sales': True if len(game.sales) > 0 else False,
+        'has_multiple_rounds': True if len(game.rounds) / len(game.players) > 1 else False,
+        'game': game.as_dict()
+    }
 
-    if len(game.rounds):
-        return jsonify({
-            'deleted': False,
-            'game': game.as_dict(),
-            'msg': 'This game has round records. Either delete those round records, or '
-            + 'resubmit this request with a json payload object with a key of delete and '
-            + 'and value of confirm'
-        }), 202
+    # if query string contains confirm=true, then game and all associated rounds and sales
+    # data will be deleted.
+    if 'confirm' in request.args and request.args['confirm'] == 'true':
+        db.session.delete(game)
+        db.session.commit()
+        status['deleted'] = True
+        status['msg'] = 'Game has been deleted'
+        return jsonify(status), 200
 
-    return jsonify({
-        game.as_dict()
-    })
+    require_confirm = True if True in [value for value in status.values()] else False
+
+    if require_confirm:
+        status['ready'] = False
+        status['msg'] = (
+            'This game has multiple rounds or sales data. Deleting this game would delete '
+            + 'all of those records. This cannot be undone. '
+            + 'Resend request with query string confirm=true '
+            + 'if you are certain you want to proceed')
+
+    else:
+        status['ready'] = True
+        status['msg'] = 'Game is ready for deletion. Resend with query string confirm=true'
+
+    return jsonify(status), 202
 
 
 @bp.route('/<int:game_id>/rounds')
