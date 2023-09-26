@@ -13,3 +13,4 @@ class Configuration:
     JWT_COOKIE_SAMESITE = "None"
     JWT_ERROR_MESSAGE_KEY = 'description'
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(weeks=1)
+    JWT_SESSION_COOKIE = False
