@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from app.models import db, User
 from .config import Configuration
-from .routes import main, seed, auth, games
+from .routes import main, seed
 from werkzeug.exceptions import HTTPException
 from flask_jwt_extended import JWTManager
 import traceback
@@ -52,9 +52,7 @@ migrate = Migrate(app, db)
 
 # register routes
 app.register_blueprint(main.bp)
-app.register_blueprint(games.bp)
 app.register_blueprint(seed.bp)
-app.register_blueprint(auth.bp)
 
 
 # # Uncomment to turn on printing of SQL statements
