@@ -24,13 +24,17 @@ def get_players():
 def create_player():
     """Creates a new player"""
 
-    print(request)
-
     data = request.json
     player = Player(**data)
     player.user = current_user
-    db.session.add(player)
-    db.session.commit()
+    try:
+        db.session.add(player)
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        name = data['name']
+        abort(400, f'Player names must be unique. {name} already exists')
+
     return player.as_dict()
 
 
