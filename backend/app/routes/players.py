@@ -2,6 +2,7 @@
 
 from flask import Blueprint, jsonify, request, abort
 from sqlalchemy.orm import joinedload
+from sqlalchemy.exc import IntegrityError
 from ..models import db, Player
 from flask_jwt_extended import jwt_required, current_user
 
@@ -31,6 +32,21 @@ def create_player():
     db.session.add(player)
     db.session.commit()
     return player.as_dict()
+
+
+@bp.route('/<int:player_id>', methods=['PATCH'])
+@jwt_required()
+def modify_player(player_id):
+    data = request.json
+    player = Player.query.filter_by(user_id=current_user.id, id=player_id).one_or_404()
+    try:
+        player.name = data['name']
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        abort(400, 'Duplicate Name')
+
+    return player.as_dict(), 200
 
 
 @bp.route('/<int:player_id>', methods=['DELETE'])
