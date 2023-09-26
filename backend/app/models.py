@@ -51,6 +51,8 @@ class Player(db.Model):
     name = db.Column(db.String(50), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
+    db.UniqueConstraint(name, user_id, name='unique_player')
+
     rounds = db.relationship('Round', back_populates='player')
     games = db.relationship("Game",
                             secondary=game_player,
