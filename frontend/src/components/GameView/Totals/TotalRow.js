@@ -7,7 +7,7 @@ const TotalRow = ({row}) => {
                 <div style={{fontWeight: 400}} className="details">
                     <div>Revenue: {row.revenue}</div>
                     <div>Expenses: {-row.expenses}</div>
-                    <div>Revenue: {row.income}</div>
+                    <div>Income: {row.income}</div>
                 </div>
             </div>
             <div>{row.income}</div>
