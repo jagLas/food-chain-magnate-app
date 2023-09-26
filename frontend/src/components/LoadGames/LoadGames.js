@@ -30,7 +30,11 @@ const LoadGames = () => {
     
         for (const [key, game] of Object.entries(games)) {
             rows.push(
-                <LoadGameLink key={game.id} cardScheme={CardColor.getCardScheme(key)} game={game} />
+                <LoadGameLink
+                    key={game.id}
+                    cardScheme={CardColor.getCardScheme(key)}
+                    game={game}
+                />
             )
         }
         return rows

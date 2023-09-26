@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authFetch } from '../../utilities/auth';
 
@@ -11,6 +11,20 @@ const LoadGameLink = ({game, cardScheme}) => {
     const [confirmDelete, setConfirmDelete] = useState(false)
     const [isDeleted, setIsDeleted] = useState(false)
     const navigate = useNavigate();
+    const ref = useRef(null);
+
+    const outsideClick = (event) => {
+        if (ref.current && !ref.current.contains(event.target)) {
+            setIsSelected(false);
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('click', outsideClick, true)
+        return () => {
+            document.removeEventListener('click', outsideClick, true)
+        }
+    }, [])
 
     const onClickHandler = (e) => {
         setIsSelected(!isSelected)
@@ -44,47 +58,47 @@ const LoadGameLink = ({game, cardScheme}) => {
     }
 
     return (
-            <li>
-                <div className='card-format' onClick={onClickHandler}
-                    style={{
-                        "--card-color": cardScheme.background,
-                        "--card-text-color": cardScheme.text
-                    }}
-                >
-                    <div className='card-top'>
-                        <h2>ID</h2>
-                        <div>{game.id}</div>
-                    </div>
-                    <div className='card-bottom'>Players: {game.players.length}</div>
+        <li ref={ref}>
+            <div className='card-format' onClick={onClickHandler}
+                style={{
+                    "--card-color": cardScheme.background,
+                    "--card-text-color": cardScheme.text
+                }}
+            >
+                <div className='card-top'>
+                    <h2>ID</h2>
+                    <div>{game.id}</div>
                 </div>
-                {isSelected &&
-                <div className='card-options' onClick={onClickHandler}>
-                    <h2>{game.id}</h2>
-                    <button 
-                        className='menu-button small'
-                        onClick={()=>navigate(`${game.id}/rounds/all`)}
-                    >Load</button>
-                    <button
-                        className='menu-button small'
-                        onClick={()=>navigate(`${game.id}/stats`)}
-                    >Stats</button>
-                    <button className='menu-button small' onClick={deleteClickHandler}>Delete</button>
-                </div>
-                }
-                {confirmDelete &&
-                <div className='card-options confirm-delete'>
-                    <p>Are you sure you wish to continue?</p>
-                    <p style={{
-                        color: confirmDelete.ready ? 'green': 'red',
-                        fontSize: '12px', padding: '8px'
-                        }}>
-                        {confirmDelete.ready ? 'Ready to Delete' : warning}
-                    </p>
-                    <button className='menu-button small' onClick={deleteClickHandler}>Yes</button>
-                    <button className='menu-button small' onClick={cancelOnClick}>Cancel</button>
-                </div>
-                }
-            </li>
+                <div className='card-bottom'>Players: {game.players.length}</div>
+            </div>
+            {isSelected &&
+            <div className='card-options' onClick={onClickHandler}>
+                <h2>{game.id}</h2>
+                <button 
+                    className='menu-button small'
+                    onClick={()=>navigate(`${game.id}/rounds/all`)}
+                >Load</button>
+                <button
+                    className='menu-button small'
+                    onClick={()=>navigate(`${game.id}/stats`)}
+                >Stats</button>
+                <button className='menu-button small' onClick={deleteClickHandler}>Delete</button>
+            </div>
+            }
+            {confirmDelete &&
+            <div className='card-options confirm-delete'>
+                <p>Are you sure you wish to continue?</p>
+                <p style={{
+                    color: confirmDelete.ready ? 'green': 'red',
+                    fontSize: '12px', padding: '8px'
+                    }}>
+                    {confirmDelete.ready ? 'Ready to Delete' : warning}
+                </p>
+                <button className='menu-button small' onClick={deleteClickHandler}>Yes</button>
+                <button className='menu-button small' onClick={cancelOnClick}>Cancel</button>
+            </div>
+            }
+        </li>
     )
 }
 
