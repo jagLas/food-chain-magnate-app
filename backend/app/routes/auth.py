@@ -11,13 +11,16 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @bp.route('/signup', methods=['POST'])
 def signup():
     data = request.json
-    user = User(**data)
     try:
+        user = User(**data)
         db.session.add(user)
         db.session.commit()
     except IntegrityError:
         db.session.rollback()
         abort(409, 'This email is already associated with an account')
+    except ValueError:
+        db.session.rollback()
+        abort(400, 'Please provide a valid email')
     access_token = create_access_token(identity=user)
     response = jsonify({'code': 201, "description": 'User Created'})
     set_access_cookies(response, access_token)

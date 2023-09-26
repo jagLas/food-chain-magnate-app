@@ -19,6 +19,12 @@ class User(db.Model):
     players = db.relationship('Player', back_populates='user')
     games = db.relationship('Game', back_populates='user')
 
+    @validates('email')
+    def validate_email(self, key, email):
+        if '@' not in email:
+            raise ValueError('Not a valid email')
+        return email
+
     @property
     def password(self):
         return self.hashed_password
