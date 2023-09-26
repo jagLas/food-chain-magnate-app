@@ -73,6 +73,7 @@ export default function LoginForm() {
                             <h2 style={{marginTop: '16px'}}>Email </h2>
                         </label>
                         <input
+                            autoFocus
                             id='login-email'
                             type="text"
                             value={email}
@@ -84,6 +85,7 @@ export default function LoginForm() {
                                     <h2>Name:</h2>
                                 </label>
                                 <input
+                                    autoFocus
                                     id='name-signup'
                                     type="text"
                                     value={name}
@@ -102,9 +104,20 @@ export default function LoginForm() {
                     </label>
                 </div>
                 <div>
-                    {!signup && <button className='menu-button' onClick={loginFormHandler}>Login</button>}
-                    <button className='menu-button' onClick={signupFormHandler}>Sign Up</button>
-                    {signup && <button className="menu-button" onClick={() => setSignup(false)}>Return</button>}
+                    {!signup &&
+                    <button
+                        className='menu-button'
+                        onClick={loginFormHandler}
+                    >Login</button>}
+                    <button
+                        className='menu-button'
+                        onClick={signupFormHandler}
+                    >Sign Up</button>
+                    {signup &&
+                    <button
+                        className="menu-button"
+                        onClick={() => setSignup(false)}
+                    >Return</button>}
                 </div>
             </form>
         </>

@@ -39,7 +39,7 @@ export default function CreatePlayer() {
                         <h2>Name: </h2>
                     </label>
                     <div className="card-bottom">
-                        <input id='create-player-input' type="text" value={playerName} onChange={(event) => setPlayerName(event.target.value)}></input>
+                        <input autoFocus id='create-player-input' type="text" value={playerName} onChange={(event) => setPlayerName(event.target.value)}></input>
                     </div>
                 </div>
 
