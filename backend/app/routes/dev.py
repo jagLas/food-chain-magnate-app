@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify
 from ..models import db, Game, Player, Round, Sale, User
 
 
-bp = Blueprint('seed', __name__)
+bp = Blueprint('seed', __name__, url_prefix='/dev')
 
 
 @bp.route('/seed-db')
