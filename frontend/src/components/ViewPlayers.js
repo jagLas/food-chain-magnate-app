@@ -10,6 +10,8 @@ function PlayerLink ({player, cardScheme}) {
     const [isSelected, setIsSelected] = useState(false);
     const [confirmDelete, setConfirmDelete] = useState(false)
     const [isDeleted, setIsDeleted] = useState(false)
+    const [isEdit, setIsEdit] = useState(false)
+    const [nameField, setNameField ] = useState('');
     const navigate = useNavigate();
     const ref = useRef(null);
 
@@ -48,10 +50,29 @@ function PlayerLink ({player, cardScheme}) {
         }
     }
 
-    const cancelOnClick = (e) => {
+    const cancelDeleteClick = (e) => {
         e.stopPropagation()
-
         setConfirmDelete(false)
+    }
+
+    const changeNameClick = async (e) => {
+        e.preventDefault()
+        const payload = {
+            name: nameField
+        }
+
+        const body = JSON.stringify(payload)
+
+        try{
+            const data = await authFetch(`/players/${player.id}`, {
+                method: 'PATCH',
+                body
+            })
+            console.log(data)
+            navigate(0)
+        } catch (error) {
+            navigate('/error', {state: { ...error }})
+        }
     }
 
     if (isDeleted) {
@@ -80,10 +101,36 @@ function PlayerLink ({player, cardScheme}) {
                 >Stats</button>
                 <button
                     className='menu-button small'
-                    onClick={()=>navigate(`${player.id}/stats`)}
+                    onClick={()=> setIsEdit(true)}
                 >Edit</button>
                 <button className='menu-button small' onClick={deleteClickHandler}>Delete</button>
             </div>
+            }
+            {isEdit &&
+                <form className="card-options">
+                    <label htmlFor="change-name"><h2>Change Name:</h2></label>
+                    <input
+                        id="change-name"
+                        style={{border: '1px solid black'}}
+                        type="text"
+                        placeholder={player.name}
+                        value={nameField}
+                        onChange={(e) => setNameField(e.target.value)}
+                    />
+                    <button
+                    className="menu-button small"
+                        onClick={changeNameClick}
+                    >Confirm</button>
+                    <button
+                        className="menu-button small"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setIsEdit(false);
+                            setIsSelected(true);
+                        }}
+                    >Cancel</button>
+                </form>
+
             }
             {confirmDelete &&
             <div className='card-options confirm-delete'>
@@ -97,7 +144,7 @@ function PlayerLink ({player, cardScheme}) {
                 {confirmDelete.ready ? 
                     <button className='menu-button small' onClick={deleteClickHandler}>Yes</button> : false
                 }
-                <button className='menu-button small' onClick={cancelOnClick}>Cancel</button>
+                <button className='menu-button small' onClick={cancelDeleteClick}>Cancel</button>
             </div>
             }
         </li>
@@ -111,6 +158,7 @@ export default function ViewPlayers() {
 
     useEffect(() => {
         const fetchPlayers = async () => {
+            console.log('Fetching Players')
             try {
                 let data = await authFetch(`/players`);
                 setPlayers(data)
@@ -120,7 +168,7 @@ export default function ViewPlayers() {
         }
 
         fetchPlayers()
-    }, [])
+    }, [navigate])
 
     
 
