@@ -24,7 +24,8 @@ Once Docker has been installed and the .env file has been created, run docker-co
 
 ### Seed the DB (optional)
 
-If you wish to seed the database with some example data, make a 'GET' request to the /seed-db route in a browser.
+If you wish to seed the database with some example data, make a 'GET' request to 
+{DB_URL}/dev/seed-db route in a browser. Default DB_URL is localhost:5000.
 
 ### Load the site
 
