@@ -27,6 +27,16 @@ Once Docker has been installed and the .env file has been created, run docker-co
 If you wish to seed the database with some example data, make a 'GET' request to 
 {DB_URL}/dev/seed-db route in a browser. Default DB_URL is localhost:5000.
 
+Seeding the db creates two demo accounts that can be used.
+
+    Account 1
+    email: bill@demo.com
+    password: password
+
+    Account 2
+    email: mona@demo.com
+    password: password
+
 ### Load the site
 
 After that, you can run the app by visiting the link and port specified in the .env (http://localhost:3000 by default)
