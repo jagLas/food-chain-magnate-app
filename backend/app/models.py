@@ -25,6 +25,12 @@ class User(db.Model):
             raise ValueError('Not a valid email')
         return email
 
+    @validates('name')
+    def validate_name(self, key, name):
+        if len(name) < 1:
+            raise ValueError('Name cannot be blank')
+        return name
+
     @property
     def password(self):
         return self.hashed_password
@@ -62,7 +68,6 @@ class Player(db.Model):
     def validate_name(self, key, name):
         if len(name) < 1:
             raise ValueError('Name cannot be blank')
-
         return name
 
     db.UniqueConstraint(name, user_id, name='unique_player')

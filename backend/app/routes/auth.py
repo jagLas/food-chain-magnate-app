@@ -18,9 +18,9 @@ def signup():
     except IntegrityError:
         db.session.rollback()
         abort(409, 'This email is already associated with an account')
-    except ValueError:
+    except ValueError as inst:
         db.session.rollback()
-        abort(400, 'Please provide a valid email')
+        abort(400, inst.__str__())
     access_token = create_access_token(identity=user)
     response = jsonify({'code': 201, "description": 'User Created'})
     set_access_cookies(response, access_token)
