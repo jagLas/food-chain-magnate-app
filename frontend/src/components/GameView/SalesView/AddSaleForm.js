@@ -61,6 +61,8 @@ export default function AddSaleForm() {
 
             setGarden(false)
 
+            document.getElementById('player-field').focus()
+
         } catch (error){
             console.log(error)
         }
@@ -79,7 +81,7 @@ export default function AddSaleForm() {
             
             <label>Player:
                 <select
-                    id='add-player'
+                    id='player-field'
                     value={playerId}
                     onChange={(e) => setPlayerId(e.target.value)}
                 >
