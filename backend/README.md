@@ -166,14 +166,14 @@ Retrieve an array all round records for a given game_id. Each round record conta
 - [ ] Routes to edit entries
   - [ ] Edit a sale
   - [x] Edit a round
-  - [ ] Edit a game
-  - [ ] Edit a player
+  - [x] Edit a game
+  - [x] Edit a player
   - [ ] Edit an account
 - [ ] Routes to delete entries
   - [x] Delete a Sale
   - [ ] Delete a Round
-  - [ ] Delete a Game
-  - [ ] Delete a Player
+  - [x] Delete a Game
+  - [x] Delete a Player
   - [ ] Delete an Account
 - [ ] Player Statistics
 - [ ] Game Statistics
