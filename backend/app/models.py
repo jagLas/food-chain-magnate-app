@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql import functions as func
 from sqlalchemy.sql.expression import true
 from sqlalchemy import case
+from sqlalchemy.orm import validates
 
 db = SQLAlchemy()
 
@@ -50,6 +51,13 @@ class Player(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    @validates('name')
+    def validate_name(self, key, name):
+        if len(name) < 1:
+            raise ValueError('Name cannot be blank')
+
+        return name
 
     db.UniqueConstraint(name, user_id, name='unique_player')
 

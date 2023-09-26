@@ -25,15 +25,18 @@ def create_player():
     """Creates a new player"""
 
     data = request.json
-    player = Player(**data)
-    player.user = current_user
     try:
+        player = Player(**data)
+        player.user = current_user
+        name = data['name']
         db.session.add(player)
         db.session.commit()
     except IntegrityError:
         db.session.rollback()
-        name = data['name']
         abort(400, f'Player names must be unique. {name} already exists')
+    except ValueError:
+        db.session.rollback()
+        abort(400, 'Player name cannot be blank')
 
     return player.as_dict()
 
@@ -49,6 +52,9 @@ def modify_player(player_id):
     except IntegrityError:
         db.session.rollback()
         abort(400, f'Player names must be unique. {name} already exists')
+    except ValueError:
+        db.session.rollback()
+        abort(400, 'Player name cannot be blank')
 
     return player.as_dict(), 200
 
