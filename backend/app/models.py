@@ -78,6 +78,7 @@ class Game(db.Model):
 
     rounds = db.relationship('Round', back_populates='game', cascade="all")
     user = db.relationship('User', back_populates='games')
+    sales = db.relationship('Sale', secondary='rounds', viewonly=True)
 
     def as_dict(self, **kwargs):
         dictionary = {
@@ -214,6 +215,7 @@ class Sale(db.Model):
     drinks = db.Column(db.Integer, default=0, nullable=False)
 
     round = db.relationship('Round', back_populates='sales')
+    game = db.relationship('Game', secondary='rounds', viewonly=True)
 
     def as_dict(self):
         return {
