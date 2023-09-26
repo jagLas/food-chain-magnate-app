@@ -35,8 +35,9 @@ function App() {
           <Route path='games'>
             <Route path='' element={<LoadGames />}></Route>
             <Route path='create-game' element={<CreateGameForm />}></Route>
-            <Route path=':gameId' element={<GameProvider children={<GameView />}/>}>
-              <Route path='rounds/:roundNum' element={<></>}></Route>
+            <Route path=':gameId'>
+              <Route path='stats' element={<InConstruction/>}></Route>
+              <Route path='rounds/:roundNum' element={<GameProvider children={<GameView />}/>}></Route>
             </Route>
           </Route>
 

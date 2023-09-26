@@ -18,9 +18,9 @@ export default function RoundView () {
     const roundList = useMemo(() => {
         const numRounds = rounds.length / players.length
         const roundsArray = []
-        roundsArray.push(<NavLink className={'round-selector all-rounds-tab' } key={0} to={`rounds/all`}>All</NavLink>)
+        roundsArray.push(<NavLink className={'round-selector all-rounds-tab' } key={0} to={`../rounds/all`}>All</NavLink>)
         for (let i = 0; i < numRounds; i++) {
-            const navLink = <NavLink className={'round-selector'} key={i + 1} to={`rounds/${i + 1}`}>{i+1}</NavLink>
+            const navLink = <NavLink className={'round-selector'} key={i + 1} to={`../rounds/${i + 1}`}>{i+1}</NavLink>
             roundsArray.push(navLink)
         }
         return roundsArray
@@ -40,7 +40,7 @@ export default function RoundView () {
                 payload: data
             })
     
-            navigate(`rounds/${data[0].round}`)
+            navigate(`../rounds/${data[0].round}`)
 
         } catch (error) {
             console.log(error)

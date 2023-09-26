@@ -39,7 +39,7 @@ const LandingPage = () => {
                 <LandingPageLink 
                     to={'games'}
                     cardScheme={CardColor.getCardScheme(1)}
-                    title={'Load Game'}
+                    title={'View Games'}
                     description={'Continue a previous game'}
                 />
                 <LandingPageLink 

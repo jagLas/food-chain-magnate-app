@@ -10,19 +10,20 @@ const LoadGames = () => {
     const [isLoaded, setIsLoaded] = useState(false)
     const navigate = useNavigate()
 
-    const fetchGames = async () => {
-        try{
-            let data = await authFetch('/games')
-            setGames(data)
-        } catch(error){
-            navigate('/error', {state: { ...error }})
-        }
-        setIsLoaded(true)
-    }
-
     useEffect(() => {
+        async function fetchGames () {
+            console.log('fetching games')
+            try{
+                let data = await authFetch('/games')
+                setGames(data)
+            } catch(error){
+                navigate('/error', {state: { ...error }})
+            }
+            setIsLoaded(true)
+        }
+    
         fetchGames()
-    }, [])
+    }, [navigate])
 
     const rows = useMemo(()=> {
         const rows = []
@@ -41,11 +42,12 @@ const LoadGames = () => {
 
     return (
         <div id='load-games'>
-            <h2 className='menu-header'>Load Games</h2>
+            <h2 className='menu-header'>Games</h2>
             <ul className='card-list'>
                 {rows}
+                {!rows.length && <h3>You do not currently have any games!</h3>}
             </ul>
-            {!rows.length && <h3>You do not currently have any games!</h3>}
+
             <button
                 className='menu-button'
                 onClick={() => navigate('create-game')}
