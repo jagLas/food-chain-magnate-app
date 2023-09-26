@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { authFetch } from "../utilities/auth";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CardColor } from "../utilities/card-schemes";
 
 const warning = `This player has games associated with them and cannot be deleted
@@ -11,6 +11,20 @@ function PlayerLink ({player, cardScheme}) {
     const [confirmDelete, setConfirmDelete] = useState(false)
     const [isDeleted, setIsDeleted] = useState(false)
     const navigate = useNavigate();
+    const ref = useRef(null);
+
+    const outsideClick = (event) => {
+        if (ref.current && !ref.current.contains(event.target)) {
+            setIsSelected(false);
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('click', outsideClick, true)
+        return () => {
+            document.removeEventListener('click', outsideClick, true)
+        }
+    }, [])
 
     const onClickHandler = (e) => {
         setIsSelected(!isSelected)
@@ -45,7 +59,7 @@ function PlayerLink ({player, cardScheme}) {
     }
 
     return (
-        <li>
+        <li ref={ref}>
             <div className='card-format' onClick={onClickHandler}
                 style={{
                     "--card-color": cardScheme.background,
