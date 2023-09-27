@@ -22,10 +22,10 @@ services:
   api:
     build:
       context: ./backend
-      target: dev
+      target: prod
     image: food_chain_api
     ports:
-      - 5000:5000
+      - 8000:8000
     environment:
       - FLASK_ENV=development
       - DATABASE_URL=postgresql://${DB_USERNAME}:${DB_PASSWORD}@db/${DB_DATABASE}
@@ -44,20 +44,16 @@ services:
   frontend:
     build:
       context: ./frontend
-      target: dev
+      target: prod
     image: food_chain_frontend
     environment:
-      - REACT_APP_DB_URL=${DB_URL}
+      - REACT_APP_DB_URL=http://localhost:8000
     ports:
-      - 3000:3000
+      - 80:80
     depends_on:
       - api
-      - db
     networks:
       default:
-    volumes:
-      - ./frontend:/app:delegated
-      - /app/node_modules
     stdin_open: true
 
 volumes:
