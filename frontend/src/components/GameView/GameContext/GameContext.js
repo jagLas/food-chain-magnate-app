@@ -30,16 +30,14 @@ export function GameProvider({ children }) {
     useEffect(() => {
         const fetchRounds = async () => {
             try{
-                let roundData = await authFetch(`/games/${gameId}/rounds`)
-
-                let salesData = await authFetch(`/games/${gameId}/sales`)
-
-                let playersData = await authFetch(`/games/${gameId}/players`)
-
-                let bankData = await authFetch(`/games/${gameId}/bank`)
+                let gameData = await authFetch(`/games/${gameId}`)
 
                 dispatch({type: actions.FETCH_DATA,
-                    payload: {salesData, roundData, playersData, bankData}})
+                    payload: {
+                        salesData: gameData.sales,
+                        roundData: gameData.rounds,
+                        playersData: gameData.players,
+                        bankData: gameData.bank}})
             } catch(error) {
                 if (error.statusCode === 401) {
                     navigate('/error')

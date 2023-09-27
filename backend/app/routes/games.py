@@ -63,6 +63,28 @@ def create_game():
     return game.as_dict()
 
 
+@bp.route('/<int:game_id>')
+@jwt_required()
+def load_game(game_id):
+    game = Game.query.filter_by(user_id=current_user.id, id=game_id)\
+        .options(joinedload(Game.players)).one_or_404()
+
+    response = {
+        'players': [player.as_dict() for player in game.players],
+        'bank': {
+            'start': game.bank_start,
+            'reserve': 0 if game.bank_reserve is None else game.bank_reserve
+        }
+    }
+
+    response['bank']['total'] = response['bank']['start'] + response['bank']['reserve']
+
+    response['rounds'] = result_to_dict(round_total_sales(game_id=game_id).all())
+    response['sales'] = result_to_dict(house_sales_query(game_id=game_id).all())
+
+    return response
+
+
 @bp.route('/<int:game_id>', methods=['DELETE'])
 @jwt_required()
 def delete_game(game_id):
