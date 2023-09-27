@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useUserContext } from "../App"
 import { checkAuth } from "../utilities/auth"
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 export default function ErrorPage (props) {
     const { setIsAuthenticated } = useUserContext()
@@ -19,7 +19,7 @@ export default function ErrorPage (props) {
         if (!checkAuth()) {
             setIsAuthenticated(false)
         }
-    }, [])
+    }, [setIsAuthenticated])
 
     return (
         <>

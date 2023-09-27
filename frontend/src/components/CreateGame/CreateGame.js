@@ -24,7 +24,7 @@ const CreateGameForm = () => {
         }
 
         fetchPlayers()
-    }, [])
+    }, [navigate])
 
 
     const createGame = async (payload) => {

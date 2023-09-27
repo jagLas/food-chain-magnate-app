@@ -1,4 +1,4 @@
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import './SiteHeader.css'
 import LogoutButton from './LogoutButton'
 import { useUserContext } from '../App'
