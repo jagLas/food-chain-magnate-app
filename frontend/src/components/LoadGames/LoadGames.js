@@ -14,7 +14,7 @@ const LoadGames = () => {
         async function fetchGames () {
             console.log('fetching games')
             try{
-                let data = await authFetch('/games')
+                let data = await authFetch('/games/')
                 setGames(data)
             } catch(error){
                 navigate('/error', {state: { ...error }})
