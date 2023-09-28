@@ -14,7 +14,7 @@ flask-migrate = "*"
 flask = "*"
 python-dotenv = "*"
 sqlalchemy = "*"
-flask-cors = "*"
 flask-jwt-extended = "*"
+gunicorn = "*"
 
 [dev-packages]

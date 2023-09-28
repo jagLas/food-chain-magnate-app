@@ -1,5 +1,4 @@
 from flask import Flask, json, jsonify, make_response, render_template, request
-from flask_cors import CORS
 from flask_migrate import Migrate
 from app.models import db, User
 from .config import Configuration
@@ -16,7 +15,7 @@ app = Flask(__name__,
             static_folder='../build',
             template_folder='../build'
             )
-CORS(app, supports_credentials=True)  # supports credentials needed to send cookies
+
 app.config.from_object(Configuration)
 
 # JWT Stuff
