@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'food-chain-magnate-helper'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D4BEF1D3E2C041E8844379BE9040B6CF }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DB44D76A200B45F6BC0DC6DDC146A828 }}
