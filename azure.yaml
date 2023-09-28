@@ -1,0 +1,8 @@
+name: food-chain-magnate-helper
+metadata:
+  template: food-chain-magnate-helper@0.0.1-beta
+services:
+  web:
+    project: .
+    language: py
+    host: appservice
