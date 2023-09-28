@@ -7,7 +7,7 @@ export default function GameView() {
     const game = useGame()
 
     if(!game.isLoaded) {
-        return <div>Failed to fetch</div>
+        return <h2>Your Data - Coming Soon</h2>
     }
     return (
         <>
