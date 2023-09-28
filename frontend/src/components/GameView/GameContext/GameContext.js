@@ -46,7 +46,7 @@ export function GameProvider({ children }) {
             }
         }
         fetchRounds()
-    }, [gameId, navigate])
+    }, [gameId])
 
     return (
         <GameContext.Provider value={game}>
