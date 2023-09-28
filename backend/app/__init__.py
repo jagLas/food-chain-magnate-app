@@ -1,4 +1,4 @@
-from flask import Flask, json, jsonify, make_response
+from flask import Flask, json, jsonify, make_response, render_template, request
 from flask_cors import CORS
 from flask_migrate import Migrate
 from app.models import db, User
@@ -11,7 +11,11 @@ import traceback
 # import logging
 
 # initialize Flask app
-app = Flask(__name__)
+app = Flask(__name__,
+            static_url_path='',
+            static_folder='../build',
+            template_folder='../build'
+            )
 CORS(app, supports_credentials=True)  # supports credentials needed to send cookies
 app.config.from_object(Configuration)
 
@@ -75,9 +79,31 @@ def generic_error(error):
     return response, 500
 
 
+@app.errorhandler(404)
+def not_found(error):
+    print('404 error found')
+    print(request.path)
+
+    # handles 404 on the api routes
+    if str(request.path).startswith('/api'):
+        response = error.get_response()
+        response.data = json.dumps({
+            'code': error.code,
+            'name': error.name,
+            'description': error.description
+        })
+
+        response.content_type = 'application/json'
+
+        return response
+
+    # handles 404 on the non api routes. Reserves the react app
+    return render_template('index.html')
+
+
 # turns errors into json responses
 @app.errorhandler(HTTPException)
-def not_found(error):
+def handle_error(error):
     response = error.get_response()
     response.data = json.dumps({
         'code': error.code,
