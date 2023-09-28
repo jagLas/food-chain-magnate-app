@@ -48,6 +48,7 @@ function App() {
           </Route>
 
           <Route path='/error' element={<ErrorPage/>}></Route>
+          <Route path='*' element={<ErrorPage/>}></Route>
         </Routes>
       </UserContext.Provider>
     </div>
