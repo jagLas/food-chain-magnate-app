@@ -22,7 +22,7 @@ export const authFetch = async (urlEndpoint, options={method: 'GET'}) => {
         headers: myHeaders
     }
 
-    const res = await (fetch(`${process.env.REACT_APP_DB_URL + urlEndpoint}`, requestOptions))
+    const res = await (fetch(`${'/api' + urlEndpoint}`, requestOptions))
     const resData = await res.json()
 
     if (res.ok) {
