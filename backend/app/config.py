@@ -9,8 +9,8 @@ class Configuration:
     JWT_SECRET_KEY = os.environ.get('SECRET_KEY')
     # JWT_COOKIE_SECURE = os.environ.get('ENV') == 'Production'
     JWT_COOKIE_SECURE = True  # might cause issues in development. We'll find out.
-    JWT_TOKEN_LOCATION = ["headers", "cookies"]
-    JWT_COOKIE_SAMESITE = "None"
+    JWT_TOKEN_LOCATION = ["cookies"]
+    JWT_COOKIE_SAMESITE = "Lax"
     JWT_ERROR_MESSAGE_KEY = 'description'
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(weeks=1)
     JWT_SESSION_COOKIE = False
