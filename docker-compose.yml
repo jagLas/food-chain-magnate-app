@@ -30,6 +30,7 @@ services:
       - FLASK_ENV=development
       - DATABASE_URL=postgresql://${DB_USERNAME}:${DB_PASSWORD}@db/${DB_DATABASE}
       - SECRET_KEY=${SECRET_KEY}
+      # - AZURE_POSTGRESQL_CONNECTIONSTRING=${AZURE_POSTGRESQL_CONNECTIONSTRING}
     volumes:
       - ./backend:/app:delegated
     depends_on:
