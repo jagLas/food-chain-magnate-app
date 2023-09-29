@@ -25,8 +25,8 @@ export default function About () {
                     Player page and create one player for each person who will be playing.
                 </p>
                 <p>
-                    After you have created players, navigate to the Create Game page. On this page
-                    select who will be playing in this game from the players you created and press Create Game.
+                    After you have created players, navigate to the Create Game page.
+                    Select who will be playing in this game from the players you created and press Create Game.
                 </p>
                 <p>
                     Once the game has been created, you can modify round information in the Rounds table
@@ -37,8 +37,8 @@ export default function About () {
                 </p>
                 <p>
                     Sales can be added to a round using the top of the Sales table. Specify who the sale is for,
-                    and enter the necessary information for the sale, i.e., if the house had a garden and how many
-                    of each type of product was sold. House number is currently optional.
+                    and enter the necessary information for the sale, i.e., if the house has a garden and how many
+                    of each type of product is sold. House number is currently optional.
                 </p>
                 <p>
                     After submitting a sale or modifying a round, all calculations will update automatically.
@@ -46,7 +46,7 @@ export default function About () {
                     at the top of the page. Hovering over the game totals will reveal additional details.
                 </p>
                 <p>
-                    When enough money has been removed from the bank, a popup will ask you to add the reserve
+                    When enough money has been removed from the bank, a popup will ask you to add the bank reserve
                     information before you can continue. If you make a mistake when entering this information,
                     you can change it by hovering over the bank tab of the Totals table.
                 </p>

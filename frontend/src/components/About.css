@@ -17,3 +17,21 @@
 #about p{
     text-align: justify;
 }
+
+#about a{
+    font-weight: 600;
+    color: unset;
+}
+
+#about a:visited{
+    color: rgb(78, 78, 78);
+}
+
+#about a:link{
+    color: black;
+}
+
+
+#about a:hover{
+    color: rgb(46, 46, 46);
+}
