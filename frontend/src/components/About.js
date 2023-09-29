@@ -13,6 +13,7 @@ export default function About () {
                     This site can be used to store and track data for the board game 
                     <a
                         target='_blank'
+                        rel='noreferrer'
                         href="https://www.splottershop.com/products/food-chain-magnate"
                         style={{textDecoration: 'none'}}
                     > Food Chain Magnate </a> by Splotter Spellen.
@@ -69,12 +70,12 @@ export default function About () {
 
                 <p>This site uses the following free webfonts:</p>
                 <ul>
-                    <li><a target="blank" href="https://webfonts.ffonts.net/Bazooka-Regular.font">Bazooka Regular</a></li>
+                    <li><a rel='noreferrer' target="blank" href="https://webfonts.ffonts.net/Bazooka-Regular.font">Bazooka Regular</a></li>
                     <li>
-                        <a target="blank" href="https://fonts.google.com/specimen/Pacifico">Pacifico </a>
+                        <a rel='noreferrer' target="blank" href="https://fonts.google.com/specimen/Pacifico">Pacifico </a>
                     </li>
                     <li>
-                        <a target="blank" href="https://www.dafont.com/anja-eliane.font">Anja Eliane</a>
+                        <a rel='noreferrer' target="blank" href="https://www.dafont.com/anja-eliane.font">Anja Eliane</a>
                     </li>
                 </ul>
             </div>
