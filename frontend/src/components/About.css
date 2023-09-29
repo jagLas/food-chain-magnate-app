@@ -1,7 +1,7 @@
 #about {
-    max-width: 650px;
-    margin: 8px auto 64px;
     gap: 28px;
+    margin: 8px auto 64px;
+    max-width: 650px;
 }
 
 #about h3 {
@@ -9,9 +9,9 @@
 }
 
 #about ul {
+    align-items: flex-start;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
 }
 
 #about p{

@@ -7,8 +7,8 @@
       url('./fonts/Bazooka-Regular.ttf.svg#Bazooka-Regular') format('svg'),
       url('./fonts/Bazooka-Regular.ttf.eot'),
       url('./fonts/Bazooka-Regular.ttf.eot?#iefix') format('embedded-opentype'); 
-  font-weight: normal;
   font-style: normal;
+  font-weight: normal;
 }
 
 @font-face {
@@ -17,24 +17,24 @@
       url('./fonts/Anja-Eliane-accent-Nornal.ttf.svg#Anja-Eliane-accent-Nornal') format('svg'),
       url('./fonts/Anja-Eliane-accent-Nornal.ttf.eot'),
       url('./fonts/Anja-Eliane-accent-Nornal.ttf.eot?#iefix') format('embedded-opentype'); 
-  font-weight: normal;
   font-style: normal;
+  font-weight: normal;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
 :root{
   --background-color: #fff8db;
-  --red-card: #c23331;
-  --purple-card: #BA9ACA;
-  --green-card: #95A850;
   --blue-card: #98d4cd;
   --gray-card: #bfb5b3;
+  --green-card: #95A850;
+  --purple-card: #BA9ACA;
+  --red-card: #c23331;
 }
 
 html {
-  width: 100%;
   overflow-y: scroll;
+  width: 100%;
 }
 
 body {
@@ -64,14 +64,14 @@ h3 {
 }
 
 input, select, button {
-  text-align: center;
   background-color: var(--background-color);
   border: none;
-  width: fit-content;
-  margin: 3px;
-  height: 25px;
   box-sizing: border-box;
+  height: 25px;
+  margin: 3px;
   padding: 0px 8px;
+  text-align: center;
+  width: fit-content;
 }
 
 input[type='number'] {
@@ -98,14 +98,14 @@ input[type="checkbox"]:checked {
 }
 
 button, input[type=submit] {
+  background-color: var(--background-color);
   border-radius: 8px;
   font-family: 'Pacifico', "Brush Script MT", 'cursive';
-  background-color: var(--background-color);
 }
 
 select {
-  width: fit-content;
   text-align: left;
+  width: fit-content;
 }
 
 select>option {
@@ -141,19 +141,19 @@ a {
 }
 
 .modal {
-  position: fixed;
+  align-items: center;
+  background-color: rgba(0,0,0,.7);
+  bottom: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   height: 100%;
-  top: 0;
+  justify-content: center;
   left: 0;
-  bottom: 0;
+  position: fixed;
   right: 0;
+  top: 0;
   width: 100%;
   z-index: 100;
-  background-color: rgba(0,0,0,.7);
 }
 
 .hidden {
@@ -161,18 +161,18 @@ a {
 }
 
 .menu-button {
-  height: fit-content;
-  width: fit-content;
-  padding: 0px 16px 8px;
-  font-size: 32px;
   background-color: #F77448;
+  font-size: 32px;
+  height: fit-content;
   margin-top: 16px;
+  padding: 0px 16px 8px;
   transition: background-color .5s;
+  width: fit-content;
 }
 
 .menu-button.small {
-  margin: 0;
   font-size: 20px;
+  margin: 0;
   padding: 3% 8%;
 }
 
