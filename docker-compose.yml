@@ -21,7 +21,7 @@ services:
 
   api:
     build:
-      context: ./backend
+      context: .
       target: dev
     image: food_chain_api
     ports:
@@ -32,7 +32,7 @@ services:
       - SECRET_KEY=${SECRET_KEY}
       # - AZURE_POSTGRESQL_CONNECTIONSTRING=${AZURE_POSTGRESQL_CONNECTIONSTRING}
     volumes:
-      - ./backend:/app:delegated
+      - ./:/app:delegated
     depends_on:
       db:
         condition: service_healthy
@@ -42,24 +42,22 @@ services:
       foodapi:
     restart: on-failure
 
-  frontend:
-    build:
-      context: ./frontend
-      target: dev
-    image: food_chain_frontend
-    environment:
-      - REACT_APP_DB_URL=${DB_URL}
-    ports:
-      - 3000:3000
-    depends_on:
-      - api
-      - db
-    networks:
-      default:
-    volumes:
-      - ./frontend:/app:delegated
-      - /app/node_modules
-    stdin_open: true
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     target: dev
+  #   image: food_chain_frontend
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - api
+  #     - db
+  #   networks:
+  #     default:
+  #   volumes:
+  #     - ./frontend:/app:delegated
+  #     - /app/node_modules
+  #   stdin_open: true
 
 volumes:
   db-data:
