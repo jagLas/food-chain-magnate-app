@@ -12,6 +12,7 @@ ENV FLASK_DEBUG=1
 ENV FLASK_ENV=development
 
 FROM base as prod
+COPY . .
 EXPOSE 8000
 ENV ENV=development
 ENV FLASK_DEBUG=0
