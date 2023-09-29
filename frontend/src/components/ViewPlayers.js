@@ -187,6 +187,7 @@ export default function ViewPlayers() {
                 })}
             </ul>
             <button className="menu-button" onClick={()=> navigate('create-player')}>Create a Player</button>
+            <button className="menu-button" onClick={()=> navigate('/games/create-game')}>Create a Game</button>
         </div>
     )
 }
