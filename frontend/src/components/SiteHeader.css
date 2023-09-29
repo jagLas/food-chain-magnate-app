@@ -92,6 +92,9 @@
                 2px 2px black, -2px -2px black, 2px -2px black, -2px 2px black;
 }
 
+#logout-button:hover {
+    cursor: pointer;
+}
 
 @media screen and (min-width: 1200px) {
     /* controls max logo and font-size for header */
