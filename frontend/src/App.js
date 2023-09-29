@@ -14,6 +14,7 @@ import { createContext, useContext, useState } from 'react';
 import { checkAuth } from './utilities/auth';
 import ViewPlayers from './components/ViewPlayers';
 import InConstruction from './components/InConstruction';
+import About from './components/About';
 
 const UserContext = createContext(null)
 
@@ -46,7 +47,7 @@ function App() {
             <Route path='create-player' element={<CreatePlayer />}></Route>
             <Route path=':playerId' element={<InConstruction />}></Route>
           </Route>
-
+          <Route path='/about' element={<About/>}></Route>
           <Route path='/error' element={<ErrorPage/>}></Route>
           <Route path='*' element={<ErrorPage/>}></Route>
         </Routes>

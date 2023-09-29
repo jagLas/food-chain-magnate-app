@@ -54,6 +54,12 @@ const LandingPage = () => {
                     title={'View Players'}
                     description={'See all players'}
                 />
+                                <LandingPageLink 
+                    to={'about'}
+                    cardScheme={CardColor.getCardScheme(4)}
+                    title={'About'}
+                    description={'Learn about this site'}
+                />
             </ul>
         </div>
     )

@@ -175,7 +175,7 @@ export default function ViewPlayers() {
     
 
     return (
-        <div className="view-players">
+        <div id="view-players">
             <h2 className="menu-header">Players</h2>
             <ul className="card-list">
                 {players.map((player, i) => {
@@ -187,6 +187,7 @@ export default function ViewPlayers() {
                 })}
             </ul>
             <button className="menu-button" onClick={()=> navigate('create-player')}>Create a Player</button>
+            <button className="menu-button" onClick={()=> navigate('/games/create-game')}>Create a Game</button>
         </div>
     )
 }

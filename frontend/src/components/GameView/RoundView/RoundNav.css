@@ -1,28 +1,28 @@
 #round-nav {
+    align-content: stretch;
     display: flex;
     flex-wrap: wrap-reverse;
-    align-content: stretch;
     justify-content: stretch;
 }
 
 .round-selector {
+    background-color: #98d4cd;
+    border-radius: 12px 12px 0px  0px ;
     border: 1px solid black;
     color: black;
+    flex-grow: .1;
     padding: 4px 32px;
-    background-color: #98d4cd;
     text-decoration: none;
     width: 30px;
-    flex-grow: .1;
-    border-radius: 12px 12px 0px  0px ;
 }
 
 .add-round-button {
     background-color: #efa890;
-    padding: 4px 4px;
+    box-sizing: unset;
     flex-grow: 0;
     height: unset;
-    box-sizing: unset;
     margin: unset;
+    padding: 4px 4px;
 }
 
 .all-rounds-tab {
