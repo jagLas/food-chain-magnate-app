@@ -28,6 +28,10 @@
     width: 200px;
 }
 
+#view-players .card-format:hover, #load-games .card-format:hover {
+    cursor: pointer;
+}
+
 .card-top {
     align-items: center;
     background-color: var(--card-color);

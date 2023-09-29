@@ -175,7 +175,7 @@ export default function ViewPlayers() {
     
 
     return (
-        <div className="view-players">
+        <div id="view-players">
             <h2 className="menu-header">Players</h2>
             <ul className="card-list">
                 {players.map((player, i) => {
