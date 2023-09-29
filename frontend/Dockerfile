@@ -14,7 +14,6 @@ RUN npm install --only=development
 CMD ["npm", "start"]
 
 FROM base as build
-ENV REACT_APP_DB_URL=http://localhost:8000
 WORKDIR /app
 COPY . .
 RUN npm run build

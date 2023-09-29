@@ -4,7 +4,7 @@ COPY ./requirements.txt .
 RUN pip3 install -r /app/requirements.txt
 COPY ./entrypoint.sh .
 RUN chmod +x ./entrypoint.sh
-ENV FLASK_APP=food_chain_api.py
+ENV FLASK_APP=app.py
 
 FROM base as dev
 EXPOSE 5000
@@ -14,6 +14,6 @@ ENV FLASK_ENV=development
 FROM base as prod
 COPY . .
 EXPOSE 8000
-ENV ENV=development
+ENV ENV=production
 ENV FLASK_DEBUG=0
 ENV FLASK_ENV=production
