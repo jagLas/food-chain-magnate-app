@@ -1,0 +1,19 @@
+#about {
+    max-width: 650px;
+    margin: 8px auto 64px;
+    gap: 28px;
+}
+
+#about h3 {
+    margin: 0;
+}
+
+#about ul {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#about p{
+    text-align: justify;
+}

@@ -136,6 +136,10 @@ p {
   margin: 0;
 }
 
+a {
+  text-decoration: none;
+}
+
 .modal {
   position: fixed;
   display: flex;
@@ -178,4 +182,10 @@ p {
 
 .menu-header {
   margin: 0px 0px 16px;
+}
+
+.flex.column{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
