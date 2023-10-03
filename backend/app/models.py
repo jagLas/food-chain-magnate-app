@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql import functions as func
 from sqlalchemy.sql.expression import true
 from sqlalchemy import case
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import validates
 
 db = SQLAlchemy()
@@ -235,15 +236,59 @@ class Sale(db.Model):
     pizzas = db.Column(db.Integer, default=0, nullable=False)
     drinks = db.Column(db.Integer, default=0, nullable=False)
 
-    round = db.relationship('Round', back_populates='sales')
+    @hybrid_property
+    def total_product(self):
+        return self.burgers + self.pizzas + self.drinks
+
+    @hybrid_property
+    def base_revenue(self):
+        return self.total_product * self.round.unit_price
+
+    @hybrid_property
+    def garden_bonus(self):
+        return self.base_revenue if self.garden else 0
+
+    @hybrid_property
+    def burger_bonus(self):
+        return self.burgers * 5 if self.round.first_burger else 0
+
+    @hybrid_property
+    def pizza_bonus(self):
+        return self.pizzas * 5 if self.round.first_pizza else 0
+
+    @hybrid_property
+    def drink_bonus(self):
+        return self.drinks * 5 if self.round.first_drink else 0
+
+    @hybrid_property
+    def base_sale(self):
+        return self.round.unit_price * self.total_product
+
+    @hybrid_property
+    def sale_total(self):
+        return self.base_revenue + self.garden_bonus + self.burger_bonus + self.pizza_bonus \
+            + self.drink_bonus
+
+    round = db.relationship('Round', back_populates='sales', lazy='joined')
     game = db.relationship('Game', secondary='rounds', viewonly=True)
 
     def as_dict(self):
         return {
             'sale_id': self.id,
+            'player_id': self.round.player_id,
+            'round_id': self.round_id,
+            'round': self.round.round,
             'house_number': self.house_number,
             'garden': self.garden,
             'burgers': self.burgers,
             'pizzas': self.pizzas,
             'drinks': self.drinks,
+            'total_product': self.total_product,
+            'unit_price': self.round.unit_price,
+            'base_revenue': self.base_revenue,
+            'garden_bonus': self.garden_bonus,
+            'burger_bonus': self.burger_bonus,
+            'pizza_bonus': self.pizza_bonus,
+            'drink_bonus': self.drink_bonus,
+            'sale_total': self.sale_total
         }
