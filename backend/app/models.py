@@ -1,10 +1,11 @@
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy import case, select, cast, Integer
+from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm import validates
 from sqlalchemy.sql import functions as func
 from sqlalchemy.sql.expression import true
-from sqlalchemy import case, select
-from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import validates, column_property
+from werkzeug.security import generate_password_hash, check_password_hash
+import math
 
 db = SQLAlchemy()
 
@@ -152,12 +153,44 @@ class Round(db.Model):
     game = db.relationship('Game', back_populates='rounds')
 
     @hybrid_property
+    def waitress_income(self):
+        return self.waitresses * 5 if self.first_waitress else self.waitresses * 3
+
+    @waitress_income.inplace.expression
+    def _waitress_income_expression(cls):
+        return case(
+                (cls.first_waitress == true(), cls.waitresses * 5),
+                else_=cls.waitresses * 3
+                )
+
+    @hybrid_property
     def total_sales(self):
         return sum([sale.sale_total for sale in self.sales])
 
     @total_sales.inplace.expression
     def _total_sales_expression(cls):
         return func.coalesce(select(func.sum(Sale.sale_total)).where(Sale.round_id == cls.id), 0)
+
+    @hybrid_property
+    def pre_cfo_total(self):
+        return self.waitress_income + self.total_sales
+
+    @hybrid_property
+    def cfo_bonus(self):
+        return math.ceil(self.pre_cfo_total * .5) if self.cfo else 0
+
+    @cfo_bonus.inplace.expression
+    def _cfo_bonus_expression(cls):
+        return cast(
+            case(
+                (cls.cfo == true(),
+                 (cls.pre_cfo_total * .5)),
+                else_=0
+            ), Integer)
+
+    @hybrid_property
+    def round_total(self):
+        return self.pre_cfo_total + self.cfo_bonus
 
     def as_dict(self):
         return {
@@ -174,6 +207,10 @@ class Round(db.Model):
             'waitresses': self.waitresses,
             'salaries_paid': self.salaries_paid,
             'total_sales': self.total_sales,
+            'waitress_income': self.waitress_income,
+            'pre_cfo_total': self.pre_cfo_total,
+            'cfo_bonus': self.cfo_bonus,
+            'round_total': self.round_total,
             'sales': [sale.as_dict() for sale in self.sales]
         }
 
@@ -197,6 +234,7 @@ class Sale(db.Model):
     def base_revenue(self):
         return self.total_product * self.round.unit_price
 
+    # TODO fix bug in expressions linking to wrong unit_price
     @base_revenue.inplace.expression
     def _base_revenue_expression(cls):
         return (cls.total_product * Round.unit_price)
@@ -205,6 +243,7 @@ class Sale(db.Model):
     def garden_bonus(self):
         return self.base_revenue if self.garden else 0
 
+    # TODO fix bug in expressions linking to wrong unit_price
     @garden_bonus.inplace.expression
     def _garden_bonus_expression(cls):
         # print(cls)
