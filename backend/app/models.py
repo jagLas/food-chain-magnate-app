@@ -142,7 +142,7 @@ class Round(db.Model):
     waitresses = db.Column(db.Integer, default=0, nullable=False)
     salaries_paid = db.Column(db.Integer, default=0, nullable=False)
 
-    player = db.relationship('Player', back_populates='rounds')
+    player = db.relationship('Player', back_populates='rounds', lazy='joined')
     sales = db.relationship('Sale', back_populates='round', cascade="all", lazy='joined')
     game = db.relationship('Game', back_populates='rounds')
 
@@ -183,15 +183,37 @@ class Round(db.Model):
             ), Integer)
 
     @hybrid_property
-    def round_total(self):
+    def total_revenue(self):
         return self.pre_cfo_total + self.cfo_bonus
 
-    def as_dict(self):
+    @hybrid_property
+    def salaries_expense(self):
+        return self.salaries_paid * 5
+
+    @hybrid_property
+    def income(self):
+        return self.total_revenue - self.salaries_expense
+
+    # TODO player_name. salaries_expense, burger, pizza, and drink bonus
+    def as_dict(self, **kwargs):
+        if 'prev_round' in kwargs and kwargs['prev_round']:
+            return {
+                'game_id': self.game_id,
+                'player_id': self.player_id,
+                'round': self.round,
+                'first_burger': self.first_burger,
+                'first_pizza': self.first_pizza,
+                'first_drink': self.first_drink,
+                'first_waitress': self.first_waitress,
+                'cfo': self.cfo,
+            }
+
         return {
-            'round_id': self.id,
             'game_id': self.game_id,
-            'round': self.round,
+            'round_id': self.id,
             'player_id': self.player_id,
+            'player_name': self.player.name,
+            'round': self.round,
             'first_burger': self.first_burger,
             'first_pizza': self.first_pizza,
             'first_drink': self.first_drink,
@@ -200,12 +222,14 @@ class Round(db.Model):
             'unit_price': self.unit_price,
             'waitresses': self.waitresses,
             'salaries_paid': self.salaries_paid,
-            'total_sales': self.total_sales,
             'waitress_income': self.waitress_income,
+            'sale_total': self.total_sales,
             'pre_cfo_total': self.pre_cfo_total,
             'cfo_bonus': self.cfo_bonus,
-            'round_total': self.round_total,
-            'sales': [sale.as_dict() for sale in self.sales]
+            'round_total': self.total_revenue,
+            'salaries_expense': self.salaries_expense,
+            'round_income': self.income,
+            # 'sales': [sale.as_dict() for sale in self.sales],
         }
 
 
