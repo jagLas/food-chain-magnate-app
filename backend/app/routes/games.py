@@ -4,7 +4,6 @@ from flask import Blueprint, request, abort, jsonify
 from sqlalchemy import desc
 from sqlalchemy.orm import joinedload
 from ..models import db, Game, Player, Sale, Round
-from ..queries import round_total_sales, house_sales_query, sale_with_calc, result_to_dict
 from flask_jwt_extended import jwt_required, current_user
 
 
@@ -253,7 +252,8 @@ def update_round(game_id, round_id):
         'round': game_round.as_dict()
     }
 
-    return_data['sales'] = [sale.as_dict() for sale in game_round.sales] if sales_affected else False
+    return_data['sales'] = [sale.as_dict() for sale in game_round.sales] \
+        if sales_affected else False
 
     return return_data
 
@@ -265,8 +265,8 @@ def get_sales(game_id):
 
     checkCredentials(current_user, game_id)  # check that game_id belongs to user
 
-    sales = house_sales_query(game_id=game_id).all()
-    return result_to_dict(sales)
+    sales = Sale.query.join(Round).filter_by(game_id=game_id).all()
+    return [sale.as_dict() for sale in sales]
 
 
 @bp.route('/<int:game_id>/sales', methods=['POST'])
@@ -302,8 +302,8 @@ def add_sale(game_id):
     db.session.add(sale)
     db.session.commit()
     result = {}
-    result['sale'] = result_to_dict(sale_with_calc(sale.id))
-    result['round'] = result_to_dict(round_total_sales(game_id=game_id, id=sale.round.id).one())
+    result['sale'] = sale.as_dict()
+    result['round'] = game_round.as_dict()
 
     return result
 
@@ -329,9 +329,7 @@ def delete_sale(game_id, sale_id):
     db.session.delete(sale)
     db.session.commit()
 
-    return_record = result_to_dict(
-        round_total_sales(id=round_record.id).one()
-    )
+    return_record = round_record.as_dict()
 
     return return_record
 
