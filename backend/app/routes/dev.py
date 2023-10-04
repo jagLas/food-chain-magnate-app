@@ -1,8 +1,23 @@
 from flask import Blueprint, jsonify
 from ..models import db, Game, Player, Round, Sale, User
-
+from sqlalchemy.sql import functions as func
+from sqlalchemy import desc
+from ..queries import result_to_dict
 
 bp = Blueprint('seed', __name__, url_prefix='/dev')
+
+
+@bp.route('/rounds')
+def query_test():
+    rounds = Round.query.order_by(Round.total_sales).all()
+    return [round.as_dict() for round in rounds]
+
+
+@bp.route('/sales')
+def sale_test():
+    sales = Sale.query.order_by((Sale.sale_total)).all()
+
+    return [sale.as_dict() for sale in sales]
 
 
 @bp.route('/seed-db')
