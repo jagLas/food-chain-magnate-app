@@ -1,0 +1,32 @@
+.loading {
+    height: min-content;
+    min-height: 312px;
+    margin: 0px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading>.sign{
+    aspect-ratio: 2/1;
+    height: min-content;
+    margin-top: 32px;
+    padding: 16px 32px;
+    border: 1px solid black;
+}
+
+.loading>.sign h2 {
+    transform: rotate(-10deg);
+    margin: 8px 0px 16px;
+}
+
+.loading>.sign{
+    font-family: 'Pacifico';
+}
+
+.loading>.sign-post{
+    background-color: black;
+    width: 2px;
+    height: 128px;
+}

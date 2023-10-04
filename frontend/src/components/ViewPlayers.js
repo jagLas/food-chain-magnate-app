@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react"
 import { authFetch } from "../utilities/auth";
 import { useNavigate } from "react-router-dom";
 import { CardColor } from "../utilities/card-schemes";
+import Loading from "./Loading";
 
 const warning = `This player has games associated with them and cannot be deleted
     until all this player's games have been removed.`
@@ -155,11 +156,12 @@ function PlayerLink ({player, cardScheme}) {
 
 export default function ViewPlayers() {
     const navigate = useNavigate()
-
+    const [isLoading, setIsLoading] = useState(false);
     const [players, setPlayers] = useState([]);
 
     useEffect(() => {
         const fetchPlayers = async () => {
+            setIsLoading(true)
             console.log('Fetching Players')
             try {
                 let data = await authFetch(`/players`);
@@ -167,16 +169,17 @@ export default function ViewPlayers() {
             } catch(error) {
                 navigate('/error', {state: { ...error }})
             }
+            setIsLoading(false)
         }
 
         fetchPlayers()
     }, [navigate])
 
-    
 
     return (
         <div id="view-players">
             <h2 className="menu-header">Players</h2>
+            {isLoading ? <Loading /> :
             <ul className="card-list">
                 {players.map((player, i) => {
                     return <PlayerLink
@@ -185,7 +188,7 @@ export default function ViewPlayers() {
                                 cardScheme={CardColor.getCardScheme(i)}
                             />
                 })}
-            </ul>
+            </ul>}
             <button className="menu-button" onClick={()=> navigate('create-player')}>Create a Player</button>
             <button className="menu-button" onClick={()=> navigate('/games/create-game')}>Create a Game</button>
         </div>
