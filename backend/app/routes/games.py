@@ -79,8 +79,10 @@ def load_game(game_id):
 
     response['bank']['total'] = response['bank']['start'] + response['bank']['reserve']
 
-    response['rounds'] = result_to_dict(round_total_sales(game_id=game_id).all())
-    response['sales'] = result_to_dict(house_sales_query(game_id=game_id).all())
+    rounds = Round.query.filter_by(game_id=game_id).order_by(Round.id).all()
+    response['rounds'] = [round.as_dict() for round in rounds]
+    sales = Sale.query.join(Round).filter_by(game_id=game_id).all()
+    response['sales'] = [sale.as_dict() for sale in sales]
 
     return response
 
@@ -132,9 +134,8 @@ def delete_game(game_id):
 def get_rounds(game_id):
     """Retrieves all round records for a given game_id"""
     checkCredentials(current_user, game_id)  # check that game_id belongs to user
-
-    rounds = round_total_sales(game_id=game_id).all()
-    return result_to_dict(rounds)
+    rounds = Round.query.filter_by(game_id=game_id).order_by(Round.id).all()
+    return [round.as_dict() for round in rounds]
 
 
 @bp.route('/<int:game_id>/rounds', methods=['POST'])
@@ -159,12 +160,12 @@ def add_round(game_id):
 
     # Queries the previous rounds for each player and turns to dict
     prev_rounds = Round.query.filter_by(game_id=game_id, round=last_round).all()
-    prev_rounds = [round.as_dict() for round in prev_rounds]
+    prev_rounds = [round.as_dict(prev_round=True) for round in prev_rounds]
 
     # Goes throuh each previous round and copies them to next round num
     new_records = []
     for prev_round in prev_rounds:
-        [prev_round.pop(key) for key in ['round_id', 'unit_price', 'waitresses', 'salaries_paid']]
+        print(prev_round)
         prev_round['round'] = last_round + 1
         next_round = Round(**prev_round)
         new_records.append(next_round)
@@ -174,8 +175,7 @@ def add_round(game_id):
 
     # if rounds were created return results
     if len(new_records) != 0:
-        records = [result_to_dict((round_total_sales(id=round.id)).one()) for round in new_records]
-        return records
+        return [record.as_dict() for record in new_records]
 
     # otherwise, create a record for each player. This should not be needed as rounds are
     # starting rounds are created automatically
@@ -191,7 +191,7 @@ def add_round(game_id):
     db.session.commit()
 
     # returns new round records as json
-    records = [result_to_dict((round_total_sales(id=round.id)).one()) for round in game.rounds]
+    records = [record.as_dict() for record in game.rounds]
 
     return records
 
