@@ -250,12 +250,10 @@ def update_round(game_id, round_id):
             sales_affected = True
 
     return_data = {
-        'round': result_to_dict(round_total_sales(game_id=game_id, id=round_id).one())
+        'round': game_round.as_dict()
     }
 
-    return_data['sales'] = result_to_dict(
-        house_sales_query(game_id, id=round_id).all()
-        ) if sales_affected else False
+    return_data['sales'] = [sale.as_dict() for sale in game_round.sales] if sales_affected else False
 
     return return_data
 
