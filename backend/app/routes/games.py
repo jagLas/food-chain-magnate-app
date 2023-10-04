@@ -145,7 +145,7 @@ def add_round(game_id):
 
     # eager loads the game by id and joins with the players and rounds
     try:
-        game = db.session.query(Game)\
+        game = Game.query\
             .filter_by(id=game_id)\
             .options(joinedload(Game.players))\
             .options(joinedload(Game.rounds))\
@@ -177,7 +177,7 @@ def add_round(game_id):
     if len(new_records) != 0:
         return [record.as_dict() for record in new_records]
 
-    # otherwise, create a record for each player. This should not be needed as rounds are
+    # otherwise, create a record for each player. This should not be needed as
     # starting rounds are created automatically
 
     # goes through each player and game and creates a record for them
