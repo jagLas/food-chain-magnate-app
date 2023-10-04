@@ -7,7 +7,7 @@ from werkzeug.exceptions import HTTPException
 from flask_jwt_extended import JWTManager
 import traceback
 
-# import logging
+import logging
 
 # initialize Flask app
 app = Flask(__name__,
@@ -58,8 +58,8 @@ app.register_blueprint(main.bp)
 
 
 # # Uncomment to turn on printing of SQL statements
-# logging.basicConfig()
-# logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
+logging.basicConfig()
+logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
 
 @app.errorhandler(Exception)

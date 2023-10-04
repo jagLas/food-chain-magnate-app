@@ -1,9 +1,11 @@
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy import case, select, cast, Integer
+from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm import validates
 from sqlalchemy.sql import functions as func
 from sqlalchemy.sql.expression import true
-from sqlalchemy import case
-from sqlalchemy.orm import validates
+from werkzeug.security import generate_password_hash, check_password_hash
+import math
 
 db = SQLAlchemy()
 
@@ -140,22 +142,78 @@ class Round(db.Model):
     waitresses = db.Column(db.Integer, default=0, nullable=False)
     salaries_paid = db.Column(db.Integer, default=0, nullable=False)
 
-    # # for future development. Columns to auto calculate salary discount
-    # first_to_train = db.Column(db.Boolean)
-    # first_billboard = db.Column(db.Boolean)
-    # unused_hr = db.Column(db.Integer, default=0, nullable=False)
-    # marketers = db.Column(db.Integer, default=0, nullable=False)
-
-    player = db.relationship('Player', back_populates='rounds')
-    sales = db.relationship('Sale', back_populates='round', cascade="all")
+    player = db.relationship('Player', back_populates='rounds', lazy='joined')
+    sales = db.relationship('Sale', back_populates='round', cascade="all", lazy='joined')
     game = db.relationship('Game', back_populates='rounds')
 
-    def as_dict(self):
+    @hybrid_property
+    def waitress_income(self):
+        return self.waitresses * 5 if self.first_waitress else self.waitresses * 3
+
+    @waitress_income.inplace.expression
+    def _waitress_income_expression(cls):
+        return case(
+                (cls.first_waitress == true(), cls.waitresses * 5),
+                else_=cls.waitresses * 3
+                )
+
+    @hybrid_property
+    def total_sales(self):
+        return sum([sale.sale_total for sale in self.sales])
+
+    @total_sales.inplace.expression
+    def _total_sales_expression(cls):
+        return func.coalesce(select(func.sum(Sale.sale_total)).where(Sale.round_id == cls.id), 0)
+
+    @hybrid_property
+    def pre_cfo_total(self):
+        return self.waitress_income + self.total_sales
+
+    @hybrid_property
+    def cfo_bonus(self):
+        return math.ceil(self.pre_cfo_total * .5) if self.cfo else 0
+
+    @cfo_bonus.inplace.expression
+    def _cfo_bonus_expression(cls):
+        return cast(
+            case(
+                (cls.cfo == true(),
+                 (cls.pre_cfo_total * .5)),
+                else_=0
+            ), Integer)
+
+    @hybrid_property
+    def total_revenue(self):
+        return self.pre_cfo_total + self.cfo_bonus
+
+    @hybrid_property
+    def salaries_expense(self):
+        return self.salaries_paid * 5
+
+    @hybrid_property
+    def income(self):
+        return self.total_revenue - self.salaries_expense
+
+    # TODO player_name. salaries_expense, burger, pizza, and drink bonus
+    def as_dict(self, **kwargs):
+        if 'prev_round' in kwargs and kwargs['prev_round']:
+            return {
+                'game_id': self.game_id,
+                'player_id': self.player_id,
+                'round': self.round,
+                'first_burger': self.first_burger,
+                'first_pizza': self.first_pizza,
+                'first_drink': self.first_drink,
+                'first_waitress': self.first_waitress,
+                'cfo': self.cfo,
+            }
+
         return {
-            'round_id': self.id,
             'game_id': self.game_id,
-            'round': self.round,
+            'round_id': self.id,
             'player_id': self.player_id,
+            'player_name': self.player.name,
+            'round': self.round,
             'first_burger': self.first_burger,
             'first_pizza': self.first_pizza,
             'first_drink': self.first_drink,
@@ -164,64 +222,15 @@ class Round(db.Model):
             'unit_price': self.unit_price,
             'waitresses': self.waitresses,
             'salaries_paid': self.salaries_paid,
+            'waitress_income': self.waitress_income,
+            'sale_total': self.total_sales,
+            'pre_cfo_total': self.pre_cfo_total,
+            'cfo_bonus': self.cfo_bonus,
+            'round_total': self.total_revenue,
+            'salaries_expense': self.salaries_expense,
+            'round_income': self.income,
+            # 'sales': [sale.as_dict() for sale in self.sales],
         }
-
-    def get_totals(self):
-
-        """Returns itself as_dict but appends total sales"""
-
-        base_data = self.as_dict()
-
-        query_case = case(
-            (Sale.garden == true(), self.unit_price * 2 *
-             (Sale.burgers + Sale.pizzas + Sale.drinks)),
-            else_=self.unit_price * (Sale.burgers + Sale.pizzas + Sale.drinks)
-        )
-
-        totals = db.session.query(
-            (Round.game_id).label('game_id'),
-            (Sale.round_id).label('round_id'),
-            (Sale.garden).label('garden'),
-            func.sum(Sale.burgers).label('burger_total'),
-            func.sum(Sale.pizzas).label('pizza_total'),
-            func.sum(Sale.drinks).label('drink_total'),
-            func.sum(query_case.label('revenue')).label('revenue_total')
-            ) \
-            .group_by(Sale.round_id, Round.game_id, Sale.garden).join(Round).\
-            filter_by(id=self.id).all()
-
-        base_data['totals'] = {
-            'total': {
-                'burgers': 0,
-                'pizzas': 0,
-                'drinks': 0,
-                'revenue': 0
-            }
-        }
-
-        # Separates totals into those with and those without gardens
-        for total in totals:
-            if total.garden is True:
-                base_data['totals']['garden'] = {
-                    'burgers': total.burger_total,
-                    'pizzas': total.pizza_total,
-                    'drinks': total.drink_total,
-                    'revenue': total.revenue_total
-                }
-            else:
-                base_data['totals']['plain'] = {
-                    'burgers': total.burger_total,
-                    'pizzas': total.pizza_total,
-                    'drinks': total.drink_total,
-                    'revenue': total.revenue_total
-                }
-            # creates combined total for garden and non-garden sales
-            base_data['totals']['total']['burgers'] += total.burger_total
-            base_data['totals']['total']['pizzas'] += total.pizza_total
-            base_data['totals']['total']['drinks'] += total.drink_total
-            base_data['totals']['total']['revenue'] += total.revenue_total
-
-        return base_data
 
 
 class Sale(db.Model):
@@ -235,15 +244,91 @@ class Sale(db.Model):
     pizzas = db.Column(db.Integer, default=0, nullable=False)
     drinks = db.Column(db.Integer, default=0, nullable=False)
 
-    round = db.relationship('Round', back_populates='sales')
+    @hybrid_property
+    def total_product(self):
+        return self.burgers + self.pizzas + self.drinks
+
+    @hybrid_property
+    def base_revenue(self):
+        return self.total_product * self.round.unit_price
+
+    @base_revenue.inplace.expression
+    def _base_revenue_expression(cls):
+        return (cls.total_product * select(Round.unit_price).where(cls.round_id == Round.id))
+
+    @hybrid_property
+    def garden_bonus(self):
+        return self.base_revenue if self.garden else 0
+
+    @garden_bonus.inplace.expression
+    def _garden_bonus_expression(cls):
+        # print(cls)
+        return case(
+                (cls.garden == true(),
+                 select(Round.unit_price).where(cls.round_id == Round.id) * cls.total_product),
+                else_=0)
+
+    @hybrid_property
+    def burger_bonus(self):
+        return self.burgers * 5 if self.round.first_burger else 0
+
+    @burger_bonus.inplace.expression
+    def _burger_bonus_expression(cls):
+        return case(
+                (select(Round.first_burger).where(cls.round_id == Round.id) == true(),
+                 cls.burgers * 5),
+                else_=0
+                )
+
+    @hybrid_property
+    def pizza_bonus(self):
+        return self.pizzas * 5 if self.round.first_pizza else 0
+
+    @pizza_bonus.inplace.expression
+    def _pizza_bonus_expression(cls):
+        return case(
+                (select(Round.first_pizza).where(cls.round_id == Round.id) == true(),
+                 cls.pizzas * 5),
+                else_=0
+                )
+
+    @hybrid_property
+    def drink_bonus(self):
+        return self.drinks * 5 if self.round.first_drink else 0
+
+    @drink_bonus.inplace.expression
+    def _drink_bonus_expression(cls):
+        return case(
+                (select(Round.first_drink).where(cls.round_id == Round.id) == true(),
+                 cls.drinks * 5),
+                else_=0
+                )
+
+    @hybrid_property
+    def sale_total(self):
+        return self.base_revenue + self.garden_bonus + self.burger_bonus + self.pizza_bonus \
+            + self.drink_bonus
+
+    round = db.relationship('Round', back_populates='sales', lazy='joined')
     game = db.relationship('Game', secondary='rounds', viewonly=True)
 
     def as_dict(self):
         return {
             'sale_id': self.id,
+            'player_id': self.round.player_id,
+            'round_id': self.round_id,
+            'round': self.round.round,
             'house_number': self.house_number,
             'garden': self.garden,
             'burgers': self.burgers,
             'pizzas': self.pizzas,
             'drinks': self.drinks,
+            'total_product': self.total_product,
+            'unit_price': self.round.unit_price,
+            'base_revenue': self.base_revenue,
+            'garden_bonus': self.garden_bonus,
+            'burger_bonus': self.burger_bonus,
+            'pizza_bonus': self.pizza_bonus,
+            'drink_bonus': self.drink_bonus,
+            'sale_total': self.sale_total
         }
