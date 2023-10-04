@@ -142,12 +142,6 @@ class Round(db.Model):
     waitresses = db.Column(db.Integer, default=0, nullable=False)
     salaries_paid = db.Column(db.Integer, default=0, nullable=False)
 
-    # # for future development. Columns to auto calculate salary discount
-    # first_to_train = db.Column(db.Boolean)
-    # first_billboard = db.Column(db.Boolean)
-    # unused_hr = db.Column(db.Integer, default=0, nullable=False)
-    # marketers = db.Column(db.Integer, default=0, nullable=False)
-
     player = db.relationship('Player', back_populates='rounds')
     sales = db.relationship('Sale', back_populates='round', cascade="all", lazy='joined')
     game = db.relationship('Game', back_populates='rounds')
@@ -234,21 +228,20 @@ class Sale(db.Model):
     def base_revenue(self):
         return self.total_product * self.round.unit_price
 
-    # TODO fix bug in expressions linking to wrong unit_price
     @base_revenue.inplace.expression
     def _base_revenue_expression(cls):
-        return (cls.total_product * Round.unit_price)
+        return (cls.total_product * select(Round.unit_price).where(cls.round_id == Round.id))
 
     @hybrid_property
     def garden_bonus(self):
         return self.base_revenue if self.garden else 0
 
-    # TODO fix bug in expressions linking to wrong unit_price
     @garden_bonus.inplace.expression
     def _garden_bonus_expression(cls):
         # print(cls)
         return case(
-                (cls.garden == true(), Round.unit_price * cls.total_product),
+                (cls.garden == true(),
+                 select(Round.unit_price).where(cls.round_id == Round.id) * cls.total_product),
                 else_=0)
 
     @hybrid_property
@@ -258,7 +251,8 @@ class Sale(db.Model):
     @burger_bonus.inplace.expression
     def _burger_bonus_expression(cls):
         return case(
-                (Round.first_burger == true(), cls.burgers * 5),
+                (select(Round.first_burger).where(cls.round_id == Round.id) == true(),
+                 cls.burgers * 5),
                 else_=0
                 )
 
@@ -269,7 +263,8 @@ class Sale(db.Model):
     @pizza_bonus.inplace.expression
     def _pizza_bonus_expression(cls):
         return case(
-                (Round.first_pizza == true(), cls.pizzas * 5),
+                (select(Round.first_pizza).where(cls.round_id == Round.id) == true(),
+                 cls.pizzas * 5),
                 else_=0
                 )
 
@@ -280,7 +275,8 @@ class Sale(db.Model):
     @drink_bonus.inplace.expression
     def _drink_bonus_expression(cls):
         return case(
-                (Round.first_drink == true(), cls.drinks * 5),
+                (select(Round.first_drink).where(cls.round_id == Round.id) == true(),
+                 cls.drinks * 5),
                 else_=0
                 )
 
