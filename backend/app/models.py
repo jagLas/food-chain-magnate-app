@@ -2,9 +2,9 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql import functions as func
 from sqlalchemy.sql.expression import true
-from sqlalchemy import case
+from sqlalchemy import case, select
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import validates
+from sqlalchemy.orm import validates, column_property
 
 db = SQLAlchemy()
 
@@ -148,8 +148,16 @@ class Round(db.Model):
     # marketers = db.Column(db.Integer, default=0, nullable=False)
 
     player = db.relationship('Player', back_populates='rounds')
-    sales = db.relationship('Sale', back_populates='round', cascade="all")
+    sales = db.relationship('Sale', back_populates='round', cascade="all", lazy='joined')
     game = db.relationship('Game', back_populates='rounds')
+
+    @hybrid_property
+    def total_sales(self):
+        return sum([sale.sale_total for sale in self.sales])
+
+    @total_sales.inplace.expression
+    def _total_sales_expression(cls):
+        return func.coalesce(select(func.sum(Sale.sale_total)).where(Sale.round_id == cls.id), 0)
 
     def as_dict(self):
         return {
@@ -165,64 +173,9 @@ class Round(db.Model):
             'unit_price': self.unit_price,
             'waitresses': self.waitresses,
             'salaries_paid': self.salaries_paid,
+            'total_sales': self.total_sales,
+            'sales': [sale.as_dict() for sale in self.sales]
         }
-
-    def get_totals(self):
-
-        """Returns itself as_dict but appends total sales"""
-
-        base_data = self.as_dict()
-
-        query_case = case(
-            (Sale.garden == true(), self.unit_price * 2 *
-             (Sale.burgers + Sale.pizzas + Sale.drinks)),
-            else_=self.unit_price * (Sale.burgers + Sale.pizzas + Sale.drinks)
-        )
-
-        totals = db.session.query(
-            (Round.game_id).label('game_id'),
-            (Sale.round_id).label('round_id'),
-            (Sale.garden).label('garden'),
-            func.sum(Sale.burgers).label('burger_total'),
-            func.sum(Sale.pizzas).label('pizza_total'),
-            func.sum(Sale.drinks).label('drink_total'),
-            func.sum(query_case.label('revenue')).label('revenue_total')
-            ) \
-            .group_by(Sale.round_id, Round.game_id, Sale.garden).join(Round).\
-            filter_by(id=self.id).all()
-
-        base_data['totals'] = {
-            'total': {
-                'burgers': 0,
-                'pizzas': 0,
-                'drinks': 0,
-                'revenue': 0
-            }
-        }
-
-        # Separates totals into those with and those without gardens
-        for total in totals:
-            if total.garden is True:
-                base_data['totals']['garden'] = {
-                    'burgers': total.burger_total,
-                    'pizzas': total.pizza_total,
-                    'drinks': total.drink_total,
-                    'revenue': total.revenue_total
-                }
-            else:
-                base_data['totals']['plain'] = {
-                    'burgers': total.burger_total,
-                    'pizzas': total.pizza_total,
-                    'drinks': total.drink_total,
-                    'revenue': total.revenue_total
-                }
-            # creates combined total for garden and non-garden sales
-            base_data['totals']['total']['burgers'] += total.burger_total
-            base_data['totals']['total']['pizzas'] += total.pizza_total
-            base_data['totals']['total']['drinks'] += total.drink_total
-            base_data['totals']['total']['revenue'] += total.revenue_total
-
-        return base_data
 
 
 class Sale(db.Model):
@@ -244,25 +197,53 @@ class Sale(db.Model):
     def base_revenue(self):
         return self.total_product * self.round.unit_price
 
+    @base_revenue.inplace.expression
+    def _base_revenue_expression(cls):
+        return (cls.total_product * Round.unit_price)
+
     @hybrid_property
     def garden_bonus(self):
         return self.base_revenue if self.garden else 0
+
+    @garden_bonus.inplace.expression
+    def _garden_bonus_expression(cls):
+        # print(cls)
+        return case(
+                (cls.garden == true(), Round.unit_price * cls.total_product),
+                else_=0)
 
     @hybrid_property
     def burger_bonus(self):
         return self.burgers * 5 if self.round.first_burger else 0
 
+    @burger_bonus.inplace.expression
+    def _burger_bonus_expression(cls):
+        return case(
+                (Round.first_burger == true(), cls.burgers * 5),
+                else_=0
+                )
+
     @hybrid_property
     def pizza_bonus(self):
         return self.pizzas * 5 if self.round.first_pizza else 0
+
+    @pizza_bonus.inplace.expression
+    def _pizza_bonus_expression(cls):
+        return case(
+                (Round.first_pizza == true(), cls.pizzas * 5),
+                else_=0
+                )
 
     @hybrid_property
     def drink_bonus(self):
         return self.drinks * 5 if self.round.first_drink else 0
 
-    @hybrid_property
-    def base_sale(self):
-        return self.round.unit_price * self.total_product
+    @drink_bonus.inplace.expression
+    def _drink_bonus_expression(cls):
+        return case(
+                (Round.first_drink == true(), cls.drinks * 5),
+                else_=0
+                )
 
     @hybrid_property
     def sale_total(self):
