@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 
 
-const PlayerField = ({playerList, player, setPlayer, playerNum, selectedPlayers, cardScheme}) => {
+const PlayerField = ({isLoading, playerList, player, setPlayer, playerNum, selectedPlayers, cardScheme}) => {
     // creates a filtered player list to use for options in select
     const [filteredPlayers, setFilteredPlayers] = useState(playerList.slice())
 
@@ -29,7 +29,7 @@ const PlayerField = ({playerList, player, setPlayer, playerNum, selectedPlayers,
                     value={player}
                     onChange={(event) => {setPlayer(event.target.value)}}
                 >
-                        <option value={''}>Select a Player</option>
+                        <option value={''}>{isLoading ? 'Loading Players' : 'Select a Player'}</option>
                         {filteredPlayers.map((player) => {
                             return <option
                                         key={player.id}
