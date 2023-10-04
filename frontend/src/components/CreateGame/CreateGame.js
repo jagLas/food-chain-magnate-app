@@ -3,8 +3,10 @@ import PlayerField from "./PlayerField"
 import { useNavigate } from "react-router-dom"
 import { CardColor } from "../../utilities/card-schemes"
 import { authFetch } from "../../utilities/auth"
+import Loading from "../Loading"
 
 const CreateGameForm = () => {
+    const [isLoading, setIsLoading] = useState(false)
     const [playerList, setPlayerList] = useState([])
     const [player1, setPlayer1] = useState('')
     const [player2, setPlayer2] = useState('')
@@ -14,13 +16,17 @@ const CreateGameForm = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+
         const fetchPlayers = async () => {
+            setIsLoading(true)
+            console.log('fetching players')
             try {
                 let data = await authFetch(`/players`);
                 setPlayerList(data)
             } catch(error) {
                 navigate('/error', {state: { ...error }})
             }
+            setIsLoading(false)
         }
 
         fetchPlayers()
@@ -92,9 +98,10 @@ const CreateGameForm = () => {
         <div>
             <h2 className="menu-header">Create a Game</h2>
             <form id="create-game">
+                {isLoading ? <Loading /> :
                 <ul className="card-list">
                     {playerFields}
-                </ul>
+                </ul>}
                 <button className='menu-button' onClick={formHandler}>Create Game</button>
                 <button
                     className="menu-button"

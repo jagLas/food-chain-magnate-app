@@ -30,27 +30,30 @@ function App() {
       {/* provider for authentication boolean */}
       <UserContext.Provider value={{isAuthenticated, setIsAuthenticated}}>  
         <SiteHeader/>
-        <Routes>
-          <Route path='/' element={<LandingPage />}></Route>
+        <div id='content'>
+          <Routes>
+            <Route path='/' element={<LandingPage />}></Route>
 
-          <Route path='games'>
-            <Route path='' element={<LoadGames />}></Route>
-            <Route path='create-game' element={<CreateGameForm />}></Route>
-            <Route path=':gameId'>
-              <Route path='stats' element={<InConstruction/>}></Route>
-              <Route path='rounds/:roundNum' element={<GameProvider children={<GameView />}/>}></Route>
+            <Route path='games'>
+              <Route path='' element={<LoadGames />}></Route>
+              <Route path='create-game' element={<CreateGameForm />}></Route>
+              <Route path=':gameId'>
+                <Route path='stats' element={<InConstruction/>}></Route>
+                <Route path='rounds/:roundNum' element={<GameProvider children={<GameView />}/>}></Route>
+              </Route>
             </Route>
-          </Route>
 
-          <Route path='players'>
-            <Route path='' element={<ViewPlayers />}></Route>
-            <Route path='create-player' element={<CreatePlayer />}></Route>
-            <Route path=':playerId' element={<InConstruction />}></Route>
-          </Route>
-          <Route path='/about' element={<About/>}></Route>
-          <Route path='/error' element={<ErrorPage/>}></Route>
-          <Route path='*' element={<ErrorPage/>}></Route>
-        </Routes>
+            <Route path='players'>
+              <Route path='' element={<ViewPlayers />}></Route>
+              <Route path='create-player' element={<CreatePlayer />}></Route>
+              <Route path=':playerId' element={<InConstruction />}></Route>
+            </Route>
+            <Route path='/about' element={<About/>}></Route>
+            <Route path='/error' element={<ErrorPage/>}></Route>
+            <Route path='*' element={<ErrorPage/>}></Route>
+          </Routes>
+        </div>
+
       </UserContext.Provider>
     </div>
   );
