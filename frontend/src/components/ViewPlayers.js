@@ -163,15 +163,16 @@ export default function ViewPlayers() {
             <h2 className="menu-header">Players</h2>
             {isLoading ? <Loading /> :
             <ul className="card-list">
-                {players.length ? players.map((player, i) => {
-                    return <PlayerLink
-                                key={player.id}
-                                player={player}
-                                cardScheme={CardColor.getCardScheme(i)}
-                            />
-                })
+                {players.length ?
+                    players.map((player, i) => {
+                        return <PlayerLink
+                                    key={player.id}
+                                    player={player}
+                                    cardScheme={CardColor.getCardScheme(i)}
+                                />
+                    })
                 :
-                <h3>You do not currently have any players!</h3>
+                    <h3>You do not currently have any players!</h3>
                 }
             </ul>}
             <button className="menu-button" onClick={()=> navigate('create-player')}>Create a Player</button>

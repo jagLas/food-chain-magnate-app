@@ -67,11 +67,11 @@ const CreateGameForm = () => {
                 player={players[i]}  //the player variable
                 selectedPlayers={players.slice(0, i).concat(players.slice(i + 1))}  //players selected in other fields
                 setPlayer={setPlayers[i]}  //the player variable setting function
-                playerList={playerList}  //list of all players in db
-                key={i}
+                playerList={playerList ? playerList : []}  //list of all players in db
+                key={i} // normally, not ok, but this list will not be sorted or added or deleted
                 playerNum={i} //which player number it is for
                 cardScheme={CardColor.getCardScheme(i)}
-                />)  
+                />)
     }
 
 

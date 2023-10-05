@@ -46,12 +46,11 @@ export const authFetch = async (urlEndpoint, options={method: 'GET'}) => {
 }
 
 export function useFetch(urlEndpoint) {
-    const [data, setData] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [data, setData] = useState();
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
-        setIsLoading(true)
         authFetch(urlEndpoint)
             .then((res) => setData(res))
             .catch((error) => {

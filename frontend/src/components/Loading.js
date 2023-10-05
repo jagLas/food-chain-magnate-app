@@ -3,7 +3,7 @@ import './Loading.css'
 export default function Loading() {
     return (
         <div className='loading'>
-            <div class='sign'>
+            <div className='sign'>
                 <h2>Loading</h2>
                 <div>Your Data:</div>
                 <div>Coming Soon!</div>
