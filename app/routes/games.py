@@ -4,7 +4,6 @@ from flask import Blueprint, request, abort, jsonify
 from sqlalchemy import desc
 from sqlalchemy.orm import joinedload
 from ..models import db, Game, Player, Sale, Round
-from ..queries import round_total_sales, house_sales_query, sale_with_calc, result_to_dict
 from flask_jwt_extended import jwt_required, current_user
 
 
@@ -79,8 +78,10 @@ def load_game(game_id):
 
     response['bank']['total'] = response['bank']['start'] + response['bank']['reserve']
 
-    response['rounds'] = result_to_dict(round_total_sales(game_id=game_id).all())
-    response['sales'] = result_to_dict(house_sales_query(game_id=game_id).all())
+    rounds = Round.query.filter_by(game_id=game_id).order_by(Round.id).all()
+    response['rounds'] = [round.as_dict() for round in rounds]
+    sales = Sale.query.join(Round).filter_by(game_id=game_id).all()
+    response['sales'] = [sale.as_dict() for sale in sales]
 
     return response
 
@@ -132,9 +133,8 @@ def delete_game(game_id):
 def get_rounds(game_id):
     """Retrieves all round records for a given game_id"""
     checkCredentials(current_user, game_id)  # check that game_id belongs to user
-
-    rounds = round_total_sales(game_id=game_id).all()
-    return result_to_dict(rounds)
+    rounds = Round.query.filter_by(game_id=game_id).order_by(Round.id).all()
+    return [round.as_dict() for round in rounds]
 
 
 @bp.route('/<int:game_id>/rounds', methods=['POST'])
@@ -144,7 +144,7 @@ def add_round(game_id):
 
     # eager loads the game by id and joins with the players and rounds
     try:
-        game = db.session.query(Game)\
+        game = Game.query\
             .filter_by(id=game_id)\
             .options(joinedload(Game.players))\
             .options(joinedload(Game.rounds))\
@@ -159,12 +159,12 @@ def add_round(game_id):
 
     # Queries the previous rounds for each player and turns to dict
     prev_rounds = Round.query.filter_by(game_id=game_id, round=last_round).all()
-    prev_rounds = [round.as_dict() for round in prev_rounds]
+    prev_rounds = [round.as_dict(prev_round=True) for round in prev_rounds]
 
     # Goes throuh each previous round and copies them to next round num
     new_records = []
     for prev_round in prev_rounds:
-        [prev_round.pop(key) for key in ['round_id', 'unit_price', 'waitresses', 'salaries_paid']]
+        print(prev_round)
         prev_round['round'] = last_round + 1
         next_round = Round(**prev_round)
         new_records.append(next_round)
@@ -174,10 +174,9 @@ def add_round(game_id):
 
     # if rounds were created return results
     if len(new_records) != 0:
-        records = [result_to_dict((round_total_sales(id=round.id)).one()) for round in new_records]
-        return records
+        return [record.as_dict() for record in new_records]
 
-    # otherwise, create a record for each player. This should not be needed as rounds are
+    # otherwise, create a record for each player. This should not be needed as
     # starting rounds are created automatically
 
     # goes through each player and game and creates a record for them
@@ -191,7 +190,7 @@ def add_round(game_id):
     db.session.commit()
 
     # returns new round records as json
-    records = [result_to_dict((round_total_sales(id=round.id)).one()) for round in game.rounds]
+    records = [record.as_dict() for record in game.rounds]
 
     return records
 
@@ -250,12 +249,11 @@ def update_round(game_id, round_id):
             sales_affected = True
 
     return_data = {
-        'round': result_to_dict(round_total_sales(game_id=game_id, id=round_id).one())
+        'round': game_round.as_dict()
     }
 
-    return_data['sales'] = result_to_dict(
-        house_sales_query(game_id, id=round_id).all()
-        ) if sales_affected else False
+    return_data['sales'] = [sale.as_dict() for sale in game_round.sales] \
+        if sales_affected else False
 
     return return_data
 
@@ -267,8 +265,8 @@ def get_sales(game_id):
 
     checkCredentials(current_user, game_id)  # check that game_id belongs to user
 
-    sales = house_sales_query(game_id=game_id).all()
-    return result_to_dict(sales)
+    sales = Sale.query.join(Round).filter_by(game_id=game_id).all()
+    return [sale.as_dict() for sale in sales]
 
 
 @bp.route('/<int:game_id>/sales', methods=['POST'])
@@ -304,8 +302,8 @@ def add_sale(game_id):
     db.session.add(sale)
     db.session.commit()
     result = {}
-    result['sale'] = result_to_dict(sale_with_calc(sale.id))
-    result['round'] = result_to_dict(round_total_sales(game_id=game_id, id=sale.round.id).one())
+    result['sale'] = sale.as_dict()
+    result['round'] = game_round.as_dict()
 
     return result
 
@@ -331,9 +329,7 @@ def delete_sale(game_id, sale_id):
     db.session.delete(sale)
     db.session.commit()
 
-    return_record = result_to_dict(
-        round_total_sales(id=round_record.id).one()
-    )
+    return_record = round_record.as_dict()
 
     return return_record
 
