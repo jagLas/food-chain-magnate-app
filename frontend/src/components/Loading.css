@@ -1,25 +1,30 @@
 .loading {
-    height: min-content;
-    min-height: 312px;
-    margin: 0px 16px;
+    align-items: center;
     display: flex;
     flex-direction: column;
+    height: min-content;
     justify-content: center;
-    align-items: center;
+    margin: 0px 16px;
+    min-height: 312px;
     opacity: .4;
 }
 
 .loading>.sign{
+    animation-direction: alternate;
+    animation-duration: 5s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation: rotateHorizontal;
     aspect-ratio: 2/1;
+    border: 1px solid black;
     height: min-content;
     margin-top: 32px;
     padding: 16px 32px;
-    border: 1px solid black;
 }
 
 .loading>.sign h2 {
-    transform: rotate(-10deg);
     margin: 8px 0px 16px;
+    transform: rotate(-10deg);
 }
 
 .loading>.sign{
@@ -28,6 +33,19 @@
 
 .loading>.sign-post{
     background-color: black;
-    width: 2px;
     height: 128px;
+    width: 2px;
+}
+
+@keyframes rotateHorizontal {
+    0% {
+        transform: rotateY(0deg);
+        -webkit-animation-timing-function: ease-in;
+    }
+    50% {
+        transform: rotateY(180deg);
+        -webkit-animation-timing-function: ease-out;}
+    100% {
+        transform: rotateY(0deg);
+        -webkit-animation-timing-function: ease-in;}
 }
