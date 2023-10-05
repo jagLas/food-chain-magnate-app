@@ -39,9 +39,7 @@ export function GameProvider({ children }) {
                         playersData: gameData.players,
                         bankData: gameData.bank}})
             } catch(error) {
-                if (error.statusCode === 401) {
-                    navigate('/error')
-                }
+                navigate('/error', {state: { ...error }})
                 console.log(error)
             }
         }
