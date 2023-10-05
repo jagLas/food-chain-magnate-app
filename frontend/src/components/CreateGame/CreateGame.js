@@ -3,7 +3,6 @@ import PlayerField from "./PlayerField"
 import { useNavigate } from "react-router-dom"
 import { CardColor } from "../../utilities/card-schemes"
 import { authFetch } from "../../utilities/auth"
-import Loading from "../Loading"
 
 const CreateGameForm = () => {
     const [isLoading, setIsLoading] = useState(false)
@@ -83,6 +82,7 @@ const CreateGameForm = () => {
     for (let i = 0; i < 5; i++) {
         playerFields.push(
             <PlayerField
+                isLoading={isLoading}
                 player={players[i]}  //the player variable
                 selectedPlayers={players.slice(0, i).concat(players.slice(i + 1))}  //players selected in other fields
                 setPlayer={setPlayers[i]}  //the player variable setting function
@@ -98,10 +98,9 @@ const CreateGameForm = () => {
         <div>
             <h2 className="menu-header">Create a Game</h2>
             <form id="create-game">
-                {isLoading ? <Loading /> :
                 <ul className="card-list">
                     {playerFields}
-                </ul>}
+                </ul>
                 <button className='menu-button' onClick={formHandler}>Create Game</button>
                 <button
                     className="menu-button"
