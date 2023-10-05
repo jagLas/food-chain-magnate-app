@@ -1,31 +1,14 @@
-import { useEffect, useMemo, useState} from 'react'
+import { useMemo } from 'react'
 import LoadGameLink from './LoadGameLink'
 import { CardColor } from '../../utilities/card-schemes'
-import { authFetch } from '../../utilities/auth'
+import { useFetch } from '../../utilities/auth'
 import { useNavigate } from 'react-router-dom'
 import Loading from '../Loading'
 
 
 const LoadGames = () => {
-    const [games, setGames] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
+    const [games, isLoading] = useFetch('/games/')
     const navigate = useNavigate()
-
-    useEffect(() => {
-        async function fetchGames () {
-            console.log('fetching games')
-            setIsLoading(true)
-            try{
-                let data = await authFetch('/games/')
-                setGames(data)
-            } catch(error){
-                navigate('/error', {state: { ...error }})
-            }
-            setIsLoading(false)
-        }
-    
-        fetchGames()
-    }, [navigate])
 
     const rows = useMemo(()=> {
         const rows = []

@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -40,4 +43,23 @@ export const authFetch = async (urlEndpoint, options={method: 'GET'}) => {
     console.error(e)
 
     throw e
+}
+
+export function useFetch(urlEndpoint) {
+    const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        setIsLoading(true)
+        authFetch(urlEndpoint)
+            .then((res) => setData(res))
+            .catch((error) => {
+                console.error(error)
+                navigate('/error', {state: { ...error }})
+            })
+            .finally(() => setIsLoading(false))
+    }, [urlEndpoint])
+
+    return [data, isLoading]
 }

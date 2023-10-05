@@ -1,36 +1,18 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import PlayerField from "./PlayerField"
 import { useNavigate } from "react-router-dom"
 import { CardColor } from "../../utilities/card-schemes"
-import { authFetch } from "../../utilities/auth"
+import { authFetch, useFetch } from "../../utilities/auth"
 
 const CreateGameForm = () => {
-    const [isLoading, setIsLoading] = useState(false)
-    const [playerList, setPlayerList] = useState([])
+    const [playerList, isLoading] = useFetch('/players')
+
     const [player1, setPlayer1] = useState('')
     const [player2, setPlayer2] = useState('')
     const [player3, setPlayer3] = useState('')
     const [player4, setPlayer4] = useState('')
     const [player5, setPlayer5] = useState('')
     const navigate = useNavigate();
-
-    useEffect(() => {
-
-        const fetchPlayers = async () => {
-            setIsLoading(true)
-            console.log('fetching players')
-            try {
-                let data = await authFetch(`/players`);
-                setPlayerList(data)
-            } catch(error) {
-                navigate('/error', {state: { ...error }})
-            }
-            setIsLoading(false)
-        }
-
-        fetchPlayers()
-    }, [navigate])
-
 
     const createGame = async (payload) => {
             let data = await authFetch(`/games/`, {
@@ -39,7 +21,6 @@ const CreateGameForm = () => {
             })
 
             return data
-
     }
 
 

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react"
-import { authFetch } from "../utilities/auth";
+import { authFetch, useFetch } from "../utilities/auth";
 import { useNavigate } from "react-router-dom";
 import { CardColor } from "../utilities/card-schemes";
 import Loading from "./Loading";
@@ -156,25 +156,7 @@ function PlayerLink ({player, cardScheme}) {
 
 export default function ViewPlayers() {
     const navigate = useNavigate()
-    const [isLoading, setIsLoading] = useState(false);
-    const [players, setPlayers] = useState([]);
-
-    useEffect(() => {
-        const fetchPlayers = async () => {
-            setIsLoading(true)
-            console.log('Fetching Players')
-            try {
-                let data = await authFetch(`/players`);
-                setPlayers(data)
-            } catch(error) {
-                navigate('/error', {state: { ...error }})
-            }
-            setIsLoading(false)
-        }
-
-        fetchPlayers()
-    }, [navigate])
-
+    const [players, isLoading] = useFetch('/players');
 
     return (
         <div id="view-players">
