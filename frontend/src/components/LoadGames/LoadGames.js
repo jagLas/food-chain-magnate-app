@@ -1,12 +1,12 @@
 import LoadGameLink from './LoadGameLink'
 import { CardColor } from '../../utilities/card-schemes'
-import { useFetch } from '../../utilities/auth'
+import { useGet } from '../../utilities/auth'
 import { useNavigate } from 'react-router-dom'
 import Loading from '../Loading'
 
 
 const LoadGames = () => {
-    const [games, isLoading] = useFetch('/games/', false, [])
+    const [data, isLoading] = useGet('/games/', [])
     const navigate = useNavigate()
 
     return (
@@ -14,8 +14,8 @@ const LoadGames = () => {
             <h2 className='menu-header'>Games</h2>
             {isLoading ? <Loading /> : 
             <ul className='card-list'>
-                {games.length ? 
-                    games.map((game, i) => {
+                {data.length ? 
+                    data.map((game, i) => {
                         return <LoadGameLink
                             key={game.id}
                             cardScheme={CardColor.getCardScheme(i)}

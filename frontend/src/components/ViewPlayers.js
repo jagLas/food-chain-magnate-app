@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react"
-import { authFetch, useFetch } from "../utilities/auth";
+import { authFetch, useGet } from "../utilities/auth";
 import { useNavigate } from "react-router-dom";
 import { CardColor } from "../utilities/card-schemes";
 import Loading from "./Loading";
@@ -156,7 +156,7 @@ function PlayerLink ({player, cardScheme}) {
 
 export default function ViewPlayers() {
     const navigate = useNavigate()
-    const [players, isLoading] = useFetch('/players', false, []);
+    const [players, isLoading] = useGet('/players', []);
 
     return (
         <div id="view-players">

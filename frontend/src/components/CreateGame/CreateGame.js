@@ -2,10 +2,10 @@ import { useState } from "react"
 import PlayerField from "./PlayerField"
 import { useNavigate } from "react-router-dom"
 import { CardColor } from "../../utilities/card-schemes"
-import { authFetch, useFetch } from "../../utilities/auth"
+import { authFetch, useGet } from "../../utilities/auth"
 
 const CreateGameForm = () => {
-    const [playerList, isLoading] = useFetch('/players')
+    const [playerList, isLoading] = useGet('/players')
 
     const [player1, setPlayer1] = useState('')
     const [player2, setPlayer2] = useState('')

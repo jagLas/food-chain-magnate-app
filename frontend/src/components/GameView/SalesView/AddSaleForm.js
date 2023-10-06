@@ -2,8 +2,9 @@ import { useState } from "react"
 import { useParams } from "react-router-dom"
 import { useGame, useGameDispatch } from "../GameContext/GameContext"
 import { actions } from "../GameContext/GameReducer"
-import { authFetch } from "../../../utilities/auth"
+import { usePost } from "../../../utilities/auth"
 import './AddSaleForm.css'
+import Loading from "../../Loading"
 
 function SalePlayerfield({player}){
     return (
@@ -23,9 +24,22 @@ export default function AddSaleForm() {
 
     const {gameId, roundNum} = useParams()
     const game = useGame()
+
     const dispatch = useGameDispatch()
+    const dataProcessor =  () => {
+        dispatch({
+            type: actions.ADD_SALE,
+            payload: data.sale
+        })
 
+        dispatch({
+            type: actions.UPDATE_ROUND,
+            payload: data.round
+        })
+    }
 
+    const [data, isLoading, sendData] = usePost(`/games/${gameId}/sales`, dataProcessor)
+     
     const formHandler = async (event) => {
         event.preventDefault()
 
@@ -39,33 +53,14 @@ export default function AddSaleForm() {
             drinks: parseInt(drinks)
         }
 
-        try{
-            let data = await authFetch(`/games/${gameId}/sales`,{
-                method: 'POST',
-                body: JSON.stringify(payload)
-            })
-            
-            dispatch({
-                type: actions.ADD_SALE,
-                payload: data.sale
-            })
+        sendData(payload)
 
-            dispatch({
-                type: actions.UPDATE_ROUND,
-                payload: data.round
-            })
-
-            for (const setter of [setBurgers, setPlayerId, setDrinks, setPizzas, setHouseNum].values()){
-                setter('')
-            }
-
-            setGarden(false)
-
-            document.getElementById('player-field').focus()
-
-        } catch (error){
-            console.log(error)
+        for (const setter of [setBurgers, setPlayerId, setDrinks, setPizzas, setHouseNum].values()){
+            setter('')
         }
+        setGarden(false)
+
+        document.getElementById('player-field').focus()
     }
 
     const options = []
@@ -73,12 +68,14 @@ export default function AddSaleForm() {
         options.push(<SalePlayerfield key={player.id} player={player}/>)
     }
 
+    if (isLoading) {
+        return <Loading message='Processing' />
+    }
 
     return (
         <>
         <h3>Add a Sale</h3>
         <form id='add-sale-form'>
-            
             <label>Player:
                 <select
                     id='player-field'
@@ -144,6 +141,5 @@ export default function AddSaleForm() {
             </div>
         </form>
         </>
-
     )
 }

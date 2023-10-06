@@ -1,20 +1,12 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { authFetch, useFetch } from "../utilities/auth";
+import { usePost } from "../utilities/auth";
 import Loading from "./Loading";
 
 export default function CreatePlayer() {
     const [playerName, setPlayerName] = useState('')
-    const [data, isLoading, setRequestOptions] = useFetch('/players', true);
+    const [data, isLoading, sendData] = usePost('/players', () => navigate('/players'));
     const navigate = useNavigate();
-
-    useEffect(() => {
-        // if there is response data, redirect to players page
-        if (data) {
-            // console.log('data is true')
-            navigate('/players')
-        }
-    }, [data])
 
     const formHandler = async (event) => {
         event.preventDefault()
@@ -23,13 +15,8 @@ export default function CreatePlayer() {
             name: playerName,
         }
 
-        const requestOptions = {
-            method: 'POST',
-            body: JSON.stringify(payload)
-        }
-
         // makes the fetch using hook
-        setRequestOptions(requestOptions)
+        sendData(payload)
     }
 
     return (

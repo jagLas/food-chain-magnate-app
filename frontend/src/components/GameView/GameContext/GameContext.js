@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useReducer } from 'react';
 import { useParams } from 'react-router-dom';
 import gameReducer, {actions} from './GameReducer';
-import { useFetch } from '../../../utilities/auth';
+import { useGet } from '../../../utilities/auth';
 
 const GameContext = createContext(null);
 
@@ -23,7 +23,7 @@ export function GameProvider({ children }) {
     );
 
     const {gameId} = useParams()
-    const [gameData, isLoading] = useFetch(`/games/${gameId}`)
+    const [gameData, isLoading] = useGet(`/games/${gameId}`)
 
     useEffect(() => {
         if(gameData) {
