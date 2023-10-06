@@ -12,7 +12,7 @@ export default function LoginForm() {
     const { setIsAuthenticated } = useUserContext()
     const navigate = useNavigate();
 
-    const createPlayer = async (payload) => {
+    const login = async (payload) => {
         let data = await authFetch(`/auth/login`, {
             method: 'POST',
             body: payload
@@ -30,7 +30,7 @@ export default function LoginForm() {
         }
 
         try{
-            await createPlayer(JSON.stringify(payload));
+            await login(JSON.stringify(payload));
             setIsAuthenticated(true);
         } catch(error){
             navigate('/error', {state: { ...error }})
