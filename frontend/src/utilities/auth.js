@@ -45,20 +45,30 @@ export const authFetch = async (urlEndpoint, options={method: 'GET'}) => {
     throw e
 }
 
-export function useFetch(urlEndpoint) {
-    const [data, setData] = useState();
-    const [isLoading, setIsLoading] = useState(true);
+export function useFetch(urlEndpoint, delayFetch, initialValue) {
+    const [data, setData] = useState(initialValue);
+    const [isLoading, setIsLoading] = useState(false);
+    const [requestOptions, setRequestOptions] = useState(delayFetch ? null : {method: 'GET'});
     const navigate = useNavigate();
 
     useEffect(() => {
-        authFetch(urlEndpoint)
+        // checks if request options have been set. This allows for 'POST', 'PATCH', AND 'DELETE'
+        // request to be set after user input.
+        // Fetch will happen automatically if delayFetch is false as the request options will
+        // be set to {method: 'GET'}
+        if (requestOptions) {
+            setIsLoading(true)
+            authFetch(urlEndpoint, requestOptions)
             .then((res) => setData(res))
             .catch((error) => {
                 console.error(error)
                 navigate('/error', {state: { ...error }})
             })
             .finally(() => setIsLoading(false))
-    }, [urlEndpoint])
+        }
 
-    return [data, isLoading]
+
+    }, [urlEndpoint, requestOptions])
+
+    return [data, isLoading, setRequestOptions]
 }

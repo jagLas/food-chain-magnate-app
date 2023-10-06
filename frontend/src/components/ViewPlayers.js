@@ -156,7 +156,7 @@ function PlayerLink ({player, cardScheme}) {
 
 export default function ViewPlayers() {
     const navigate = useNavigate()
-    const [players, isLoading] = useFetch('/players');
+    const [players, isLoading] = useFetch('/players', false, []);
 
     return (
         <div id="view-players">

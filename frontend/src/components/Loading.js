@@ -1,10 +1,10 @@
 import './Loading.css'
 
-export default function Loading() {
+export default function Loading({message}) {
     return (
         <div className='loading'>
             <div className='sign'>
-                <h2>Loading</h2>
+                <h2>{message ? message : 'Loading'}</h2>
                 <div>Your Data:</div>
                 <div>Coming Soon!</div>
             </div>

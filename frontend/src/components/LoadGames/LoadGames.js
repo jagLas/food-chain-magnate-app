@@ -6,7 +6,7 @@ import Loading from '../Loading'
 
 
 const LoadGames = () => {
-    const [games, isLoading] = useFetch('/games/')
+    const [games, isLoading] = useFetch('/games/', false, [])
     const navigate = useNavigate()
 
     return (

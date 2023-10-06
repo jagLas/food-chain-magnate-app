@@ -26,7 +26,7 @@ export function GameProvider({ children }) {
     const [gameData, isLoading] = useFetch(`/games/${gameId}`)
 
     useEffect(() => {
-        if(!isLoading) {
+        if(gameData) {
             console.log('dispatching', gameData)
             dispatch({type: actions.FETCH_DATA,
                 payload: {
