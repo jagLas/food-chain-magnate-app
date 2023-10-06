@@ -1,8 +1,7 @@
 import { useUserContext } from "../App";
-import { authFetch } from "../utilities/auth";
+import { authFetch, usePost } from "../utilities/auth";
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-
+import ProcessingModal from "./ProcessingModal";
 
 export default function LoginForm() {
     const [email, setEmail] = useState('')
@@ -10,7 +9,12 @@ export default function LoginForm() {
     const [signup, setSignup] = useState(false)
     const [name, setName] = useState('');
     const { setIsAuthenticated } = useUserContext()
-    const navigate = useNavigate();
+
+    const dataProcessor = () => {
+        setIsAuthenticated(true)
+    }
+    const [loginData, loginIsLoading, loginPostData] = usePost(`/auth/login`, dataProcessor)
+    const [signupData, signupIsLoading, signupPostData] = usePost(`/auth/signup`, dataProcessor)
 
     const login = async (payload) => {
         let data = await authFetch(`/auth/login`, {
@@ -21,7 +25,7 @@ export default function LoginForm() {
         return data
     }
 
-    const loginFormHandler = async (event) => {
+    const loginFormHandler = (event) => {
         event.preventDefault()
 
         const payload = {
@@ -29,15 +33,10 @@ export default function LoginForm() {
             password
         }
 
-        try{
-            await login(JSON.stringify(payload));
-            setIsAuthenticated(true);
-        } catch(error){
-            navigate('/error', {state: { ...error }})
-        }
+        loginPostData(payload)
     }
 
-    const signupFormHandler = async (event) => {
+    const signupFormHandler = (event) => {
         event.preventDefault()
 
         if (!signup) {
@@ -50,22 +49,12 @@ export default function LoginForm() {
             name
         }
 
-        try {
-            const data = await authFetch('/auth/signup', {
-                method: 'POST',
-                body: JSON.stringify(payload)
-            })
-
-            console.log(data)
-
-            setIsAuthenticated(true);
-        } catch (e) {
-            navigate('/error', {state: { ...e }})
-        }
+        signupPostData(payload)
     }
 
     return (
         <>
+            {loginIsLoading || signupIsLoading ? <ProcessingModal /> : false}
             <form id='create-player'>
                 <div className="card-format">
                     <div className="card-top">

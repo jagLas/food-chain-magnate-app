@@ -3,7 +3,8 @@ export default function ProcessingModal () {
         <div
             className="modal"
             style={{
-                backgroundColor: 'rgba(100, 97, 86, .7)'
+                backgroundColor: 'rgba(255, 248, 219, .4)',
+                zIndex: '21'
             }}
         >
             <div className='loading'
@@ -11,7 +12,7 @@ export default function ProcessingModal () {
                     opacity: 1
                 }}
             >
-                <div className='sign'>
+                <div className='sign' style={{backgroundColor: 'rgba(255, 248, 219, .8)'}}>
                     <h2>Processing</h2>
                     <div>Your Data:</div>
                     <div>Coming Soon!</div>

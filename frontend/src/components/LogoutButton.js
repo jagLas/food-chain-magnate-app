@@ -1,27 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../App";
-import { authFetch } from "../utilities/auth";
+import { authFetch, usePost } from "../utilities/auth";
+import ProcessingModal from "./ProcessingModal";
 
 export default function LogoutButton () {
     const { setIsAuthenticated } = useUserContext();
     const navigate = useNavigate();
 
-    const logout = async () => {
-        const requestOptions = {
-            method: 'POST',
-        };
+    const dataProcessor = () => {
+        setIsAuthenticated(false);
+        navigate('/')
+    }
+    const [data, isProcessing, postData] = usePost(`/auth/logout`, dataProcessor)
 
-        try{
-            let data = await authFetch(`/auth/logout`, requestOptions);
-            console.log(data);
-            setIsAuthenticated(false);
-            navigate('/')
-        } catch(error) {
-            navigate('/error', {state: { ...error }})
-        }
+    const logout = () => {
+        postData()
     }
 
     return (
-        <button id='logout-button' onClick={logout}>Logout</button>
+        <>
+            <button id='logout-button' onClick={logout}>Logout</button>
+            {isProcessing ? <ProcessingModal /> : false}
+        </>
     )
 }
