@@ -37,7 +37,7 @@ const RoundRow = ({round}) => {
         }
     }
 
-    const [data, isLoading, sendData] = usePatch(`/games/${gameId}/rounds/${round.round_id}`, dataProcessor)
+    const [data, isProcessing, sendData] = usePatch(`/games/${gameId}/rounds/${round.round_id}`, dataProcessor)
 
     // delays the blur even to prevent update when tabbing between fields
     const blurEvent = useCallback((e) => {
@@ -97,7 +97,7 @@ const RoundRow = ({round}) => {
     )
 
     return (
-        <div onBlur={blurEvent} className="table-row">
+        <div onBlur={blurEvent} className={"table-row" + (isProcessing ? ' processing' : '')}>
             <div className='player-name-field'>{round.player_name}</div>
             <div  className="table-subgroup milestones" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
                 <div className="round-field">

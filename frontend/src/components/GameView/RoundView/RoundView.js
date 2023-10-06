@@ -23,7 +23,7 @@ export default function RoundView () {
         navigate(`../rounds/${data[0].round}`)
     }
 
-    const [data, isLoading, postData] = usePost(`/games/${gameId}/rounds`, dataProcessor)
+    const [data, isProcessing, postData] = usePost(`/games/${gameId}/rounds`, dataProcessor)
 
     const roundList = useMemo(() => {
         const numRounds = rounds.length / players.length
@@ -47,7 +47,10 @@ export default function RoundView () {
                 <h2>Round</h2>
                 <div id='round-nav'>
                     {roundList}
-                    <button className={'round-selector add-round-button'} onClick={formHandler}>+</button>
+                    <button 
+                        className={'round-selector add-round-button' + (isProcessing ? ' processing' : '')}
+                        onClick={formHandler}
+                    >+</button>
                 </div>
                 <RoundsTable />
             </div>

@@ -190,7 +190,7 @@ a {
   gap: 16px;
 }
 
-.processing {
+.processing, .table-row.processing>* {
   animation: flashing;
   animation-duration: .5s;
   animation-iteration-count: infinite;
@@ -204,6 +204,6 @@ a {
   }
 
   100% {
-      opacity: .2;
+      opacity: .5;
   }
 }
