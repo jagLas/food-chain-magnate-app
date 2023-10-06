@@ -63,11 +63,20 @@ export function usePost(urlEndpoint, action) {
 
 export function usePatch(urlEndpoint, action) {
     const {data, isLoading, sendData, resetData} = useFetch(urlEndpoint, false, null, action);
-    const postData = (payload) => {
+    const patchData = (payload) => {
         return sendData('PATCH', payload)
     }
 
-    return [data, isLoading, postData, resetData]
+    return [data, isLoading, patchData, resetData]
+}
+
+export function useDelete(urlEndpoint, action) {
+    const {data, isLoading, sendData, resetData} = useFetch(urlEndpoint, false, null, action);
+    const deleteData = (payload) => {
+        return sendData('DELETE', payload)
+    }
+
+    return [data, isLoading, deleteData, resetData]
 }
 
 export function useFetch(urlEndpoint, fetch, initialValue, action) {
