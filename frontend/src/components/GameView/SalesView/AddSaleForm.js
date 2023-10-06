@@ -43,6 +43,10 @@ export default function AddSaleForm() {
     const formHandler = async (event) => {
         event.preventDefault()
 
+        if (!playerId) {
+            return
+        }
+
         const payload = {
             player_id: parseInt(playerId),
             round: parseInt(roundNum),
