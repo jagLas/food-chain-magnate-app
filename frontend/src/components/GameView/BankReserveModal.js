@@ -3,13 +3,21 @@ import { useGame, useGameDispatch } from './GameContext/GameContext'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { actions } from './GameContext/GameReducer'
-import { authFetch } from '../../utilities/auth'
+import { authFetch, usePatch } from '../../utilities/auth'
 
 export default function BankReserveModal() {
     const {bank} = useGame()
     const [reserve, setReserve] = useState(bank.reserve)
     const {gameId} = useParams()
     const dispatch = useGameDispatch();
+
+    const dataProcessor = () => {
+        dispatch({
+            type: actions.UPDATE_BANK_RESERVE,
+            payload: data
+        })
+    }
+    const [data, isProcessing, postData] = usePatch(`/games/${gameId}/bank`, dataProcessor)
 
     // updates the form field after bank.reserve has been retrieved
     useEffect(() => {
@@ -22,18 +30,7 @@ export default function BankReserveModal() {
 
     const onClickHandler = async (e) => {
         e.preventDefault()
-
-        let data = await authFetch(`/games/${gameId}/bank`, {
-            method: 'PATCH',
-            body: JSON.stringify({
-                reserve
-            })
-        })
-
-        dispatch({
-            type: actions.UPDATE_BANK_RESERVE,
-            payload: data
-        })
+        postData({reserve})
     }
 
     return (
