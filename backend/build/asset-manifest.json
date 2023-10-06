@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.9bcb0120.css",
-    "main.js": "/static/js/main.9c1b30cd.js",
+    "main.css": "/static/css/main.92d0e94a.css",
+    "main.js": "/static/js/main.a4c7cdc3.js",
     "static/js/787.c8bb31c0.chunk.js": "/static/js/787.c8bb31c0.chunk.js",
     "static/media/food-chain-logo-final.png": "/static/media/food-chain-logo-final.6fabd51ab94e247d0b58.png",
     "static/media/Bazooka-Regular.ttf.svg": "/static/media/Bazooka-Regular.ttf.b67b76fe1b91067bafd8.svg",
@@ -11,12 +11,12 @@
     "static/media/Anja-Eliane-accent-Nornal.ttf.woff": "/static/media/Anja-Eliane-accent-Nornal.ttf.7a85bae62b5e1a5a269c.woff",
     "static/media/Bazooka-Regular.ttf.woff": "/static/media/Bazooka-Regular.ttf.467e7ebb87943eae2e5e.woff",
     "index.html": "/index.html",
-    "main.9bcb0120.css.map": "/static/css/main.9bcb0120.css.map",
-    "main.9c1b30cd.js.map": "/static/js/main.9c1b30cd.js.map",
+    "main.92d0e94a.css.map": "/static/css/main.92d0e94a.css.map",
+    "main.a4c7cdc3.js.map": "/static/js/main.a4c7cdc3.js.map",
     "787.c8bb31c0.chunk.js.map": "/static/js/787.c8bb31c0.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9bcb0120.css",
-    "static/js/main.9c1b30cd.js"
+    "static/css/main.92d0e94a.css",
+    "static/js/main.a4c7cdc3.js"
   ]
 }

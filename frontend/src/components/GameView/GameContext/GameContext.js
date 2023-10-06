@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useReducer } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import gameReducer, {actions} from './GameReducer';
-import { authFetch } from '../../../utilities/auth';
+import { useGet } from '../../../utilities/auth';
 
 const GameContext = createContext(null);
 
@@ -17,42 +17,31 @@ const initialGameState = {
 };
 
 export function GameProvider({ children }) {
-    const navigate = useNavigate()
-
     const [game, dispatch] = useReducer(
         gameReducer,
         initialGameState
     );
 
     const {gameId} = useParams()
+    const [gameData, isLoading] = useGet(`/games/${gameId}`)
 
-    // fetches game data from api service and dispatches to the game state
     useEffect(() => {
-        const fetchRounds = async () => {
-            try{
-                let gameData = await authFetch(`/games/${gameId}`)
-
-                dispatch({type: actions.FETCH_DATA,
-                    payload: {
-                        salesData: gameData.sales,
-                        roundData: gameData.rounds,
-                        playersData: gameData.players,
-                        bankData: gameData.bank}})
-            } catch(error) {
-                if (error.statusCode === 401) {
-                    navigate('/error')
-                }
-                console.log(error)
-            }
+        if(gameData) {
+            console.log('dispatching', gameData)
+            dispatch({type: actions.FETCH_DATA,
+                payload: {
+                    salesData: gameData.sales,
+                    roundData: gameData.rounds,
+                    playersData: gameData.players,
+                    bankData: gameData.bank}})
         }
-        fetchRounds()
-    }, [gameId])
+    }, [gameData, isLoading])
 
     return (
         <GameContext.Provider value={game}>
-        <GameDispatchContext.Provider value={dispatch}>
-            {children}
-        </GameDispatchContext.Provider>
+            <GameDispatchContext.Provider value={dispatch}>
+                {children}
+            </GameDispatchContext.Provider>
         </GameContext.Provider>
     );
 }

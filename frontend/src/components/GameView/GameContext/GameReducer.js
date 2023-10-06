@@ -29,7 +29,6 @@ export default function gameReducer(game, action) {
     const {type, payload} = action
     switch (type) {
         case actions.FETCH_DATA:
-            // console.log('retrieving data', payload)
             return {
                 rounds: payload.roundData.sort(roundSortingFn),
                 sales: payload.salesData,

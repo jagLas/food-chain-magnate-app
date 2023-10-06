@@ -153,7 +153,7 @@ a {
   right: 0;
   top: 0;
   width: 100%;
-  z-index: 100;
+  z-index: 20;
 }
 
 .hidden {
@@ -188,4 +188,22 @@ a {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.processing, .table-row.processing>* {
+  animation: flashing;
+  animation-duration: .5s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: linear;
+}
+
+@keyframes flashing {
+  0% {
+      opacity: 1;
+  }
+
+  100% {
+      opacity: .5;
+  }
 }

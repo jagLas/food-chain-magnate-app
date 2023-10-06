@@ -23,6 +23,7 @@
     height: unset;
     margin: unset;
     padding: 4px 4px;
+    cursor: pointer;
 }
 
 .all-rounds-tab {

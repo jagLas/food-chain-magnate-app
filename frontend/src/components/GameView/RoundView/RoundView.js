@@ -4,7 +4,7 @@ import SalesView from "../SalesView/SalesView"
 import { useMemo } from "react"
 import { useGame, useGameDispatch } from "../GameContext/GameContext"
 import { actions } from "../GameContext/GameReducer"
-import { authFetch } from "../../../utilities/auth"
+import { usePost } from "../../../utilities/auth"
 import './RoundView.css'
 import './RoundNav.css'
 
@@ -14,6 +14,16 @@ export default function RoundView () {
     const dispatch = useGameDispatch()
     const navigate = useNavigate()
 
+    const dataProcessor = () => {
+        dispatch({
+            type: actions.ADD_ROUNDS,
+            payload: data
+        })
+
+        navigate(`../rounds/${data[0].round}`)
+    }
+
+    const [data, isProcessing, postData] = usePost(`/games/${gameId}/rounds`, dataProcessor)
 
     const roundList = useMemo(() => {
         const numRounds = rounds.length / players.length
@@ -26,25 +36,9 @@ export default function RoundView () {
         return roundsArray
     }, [rounds.length, players.length])
 
-
     const formHandler = async (event) => {
         event.preventDefault()
-
-        try {
-            let data = await authFetch(`/games/${gameId}/rounds`, {
-                method: 'POST'
-            })
-    
-            dispatch({
-                type: actions.ADD_ROUNDS,
-                payload: data
-            })
-    
-            navigate(`../rounds/${data[0].round}`)
-
-        } catch (error) {
-            console.log(error)
-        }
+        postData()
     }
 
     return (
@@ -53,7 +47,10 @@ export default function RoundView () {
                 <h2>Round</h2>
                 <div id='round-nav'>
                     {roundList}
-                    <button className={'round-selector add-round-button'} onClick={formHandler}>+</button>
+                    <button 
+                        className={'round-selector add-round-button' + (isProcessing ? ' processing' : '')}
+                        onClick={formHandler}
+                    >+</button>
                 </div>
                 <RoundsTable />
             </div>

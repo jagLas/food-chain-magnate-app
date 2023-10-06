@@ -2,13 +2,21 @@ import { useParams } from "react-router-dom"
 import { useGame, useGameDispatch } from "../GameContext/GameContext"
 import { useEffect, useState } from "react"
 import { actions } from "../GameContext/GameReducer"
-import { authFetch } from "../../../utilities/auth"
+import { usePatch } from "../../../utilities/auth"
 
 export default function Bank ({totals}) {
     const {bank} = useGame()
     const [reserve, setReserve] = useState(bank.reserve)
     const {gameId} = useParams()
     const dispatch = useGameDispatch();
+
+    const dataProcessor = () => {
+        dispatch({
+            type: actions.UPDATE_BANK_RESERVE,
+            payload: data
+        })
+    }
+    const [data, isProcessing, postData] = usePatch(`/games/${gameId}/bank`, dataProcessor)
 
     // updates the form field after bank.reserve has been retrieved
     useEffect(() => {
@@ -19,22 +27,12 @@ export default function Bank ({totals}) {
         setReserve(e.target.value)
     }
 
-    const onBlurHandler = async () => {
-        let data = await authFetch(`/games/${gameId}/bank`, {
-            method: 'PATCH',
-            body: JSON.stringify({
-                reserve
-            })
-        })
-        
-        dispatch({
-            type: actions.UPDATE_BANK_RESERVE,
-            payload: data
-        })
+    const onBlurHandler = () => {
+        postData({reserve})
     }
 
     return (
-        <div className="table-row">
+        <div className={"table-row"  + (isProcessing ? ' processing' : '')}>
             <div style={{fontWeight: 700}}>
                 Bank
                 <div style={{fontWeight: 400}} className="details">

@@ -1,19 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useGame, useGameDispatch } from "../GameContext/GameContext"
 import { actions } from "../GameContext/GameReducer"
-import { authFetch } from "../../../utilities/auth";
+import { useDelete } from "../../../utilities/auth";
 
 export default function SaleRow({sale}) {
     const dispatch = useGameDispatch();
     const {gameId} = useParams();
     const {players} = useGame();
 
-    const deleteSale = async () => {
-        console.log(sale.sale_id)
-        let data = await authFetch(`/games/${gameId}/sales/${sale.sale_id}`,{
-            method: 'DELETE'
-        });
-
+    const dataProcessor = () => {
         dispatch({
             type: actions.DELETE_SALE,
             payload: sale.sale_id
@@ -25,8 +20,14 @@ export default function SaleRow({sale}) {
         })
     }
 
+    const [data, isProcessing, deleteData] = useDelete(`/games/${gameId}/sales/${sale.sale_id}`, dataProcessor)
+
+    const deleteSale = async () => {
+        deleteData()
+    }
+
     return (
-        <div className="table-row">
+        <div className={`table-row`}>
             <div className="player-name-field">
                 {players.find(player => player.id === sale.player_id).name}
             </div>
@@ -83,7 +84,7 @@ export default function SaleRow({sale}) {
             </div>
             <div className="table-subgroup" style={{padding: '4px'}}>
                 <button
-                    className="delete-sale"
+                    className={`delete-sale` + (isProcessing ? ' processing' : '')}
                     onClick={deleteSale}
                 >
                     delete

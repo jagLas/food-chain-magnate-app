@@ -2,7 +2,7 @@ import { useCallback, useState } from "react"
 import { useGameDispatch } from "../GameContext/GameContext"
 import { useParams } from "react-router-dom"
 import { actions } from "../GameContext/GameReducer";
-import { authFetch } from "../../../utilities/auth";
+import { usePatch } from "../../../utilities/auth";
 
 
 
@@ -19,6 +19,25 @@ const RoundRow = ({round}) => {
 
     const {gameId} = useParams();
     const dispatch = useGameDispatch();
+
+    const dataProcessor = () => {
+        // add dispatch for round record returned
+        dispatch({
+            type: actions.UPDATE_ROUND,
+            payload: data.round
+        })
+
+        // add dispatch for sales records if sales have been returned
+        // dispatching when no sales have been returned causes an error
+        if (data.sales.length) {
+            dispatch({
+                type: actions.UPDATE_SALES,
+                payload: data.sales
+            })
+        }
+    }
+
+    const [data, isProcessing, sendData] = usePatch(`/games/${gameId}/rounds/${round.round_id}`, dataProcessor)
 
     // delays the blur even to prevent update when tabbing between fields
     const blurEvent = useCallback((e) => {
@@ -49,7 +68,7 @@ const RoundRow = ({round}) => {
             }
         }
 
-        async function updateRound() {
+        function updateRound() {
             const payload = {
                 round_id: round.round_id,
                 first_burger: firstBurger,
@@ -62,27 +81,7 @@ const RoundRow = ({round}) => {
                 salaries_paid: salariesPaid
             }
     
-            // fetch statement code here post PATCH round to api
-            let data = await authFetch(`/games/${gameId}/rounds/${round.round_id}`, {
-                method: 'PATCH',
-                body: JSON.stringify(payload)
-            })
-
-    
-            // add dispatch for round record returned
-            dispatch({
-                type: actions.UPDATE_ROUND,
-                payload: data.round
-            })
-    
-            // add dispatch for sales records if sales have been returned
-            // dispatching when no sales have been returned causes an error
-            if (data.sales.length) {
-                dispatch({
-                    type: actions.UPDATE_SALES,
-                    payload: data.sales
-                })
-            }
+            sendData(payload)
         }
 
         const currentTarget = e.currentTarget;
@@ -92,13 +91,13 @@ const RoundRow = ({round}) => {
                 checkForChange();
             }
         })
-    }, [round, gameId, dispatch,
+    }, [round,
         firstBurger, firstPizza, firstDrink, firstWaitress,
-        cfo, unitPrice, salariesPaid, waitresses]
+        cfo, unitPrice, salariesPaid, waitresses, sendData]
     )
 
     return (
-        <div onBlur={blurEvent} className="table-row">
+        <div onBlur={blurEvent} className={"table-row" + (isProcessing ? ' processing' : '')}>
             <div className='player-name-field'>{round.player_name}</div>
             <div  className="table-subgroup milestones" style={{gridTemplateColumns: 'repeat(5, 1fr)'}}>
                 <div className="round-field">

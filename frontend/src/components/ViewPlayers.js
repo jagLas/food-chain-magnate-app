@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react"
-import { authFetch } from "../utilities/auth";
+import { authFetch, useGet } from "../utilities/auth";
 import { useNavigate } from "react-router-dom";
 import { CardColor } from "../utilities/card-schemes";
 import Loading from "./Loading";
@@ -156,40 +156,23 @@ function PlayerLink ({player, cardScheme}) {
 
 export default function ViewPlayers() {
     const navigate = useNavigate()
-    const [isLoading, setIsLoading] = useState(false);
-    const [players, setPlayers] = useState([]);
-
-    useEffect(() => {
-        const fetchPlayers = async () => {
-            setIsLoading(true)
-            console.log('Fetching Players')
-            try {
-                let data = await authFetch(`/players`);
-                setPlayers(data)
-            } catch(error) {
-                navigate('/error', {state: { ...error }})
-            }
-            setIsLoading(false)
-        }
-
-        fetchPlayers()
-    }, [navigate])
-
+    const [players, isLoading] = useGet('/players', []);
 
     return (
         <div id="view-players">
             <h2 className="menu-header">Players</h2>
             {isLoading ? <Loading /> :
             <ul className="card-list">
-                {players.length ? players.map((player, i) => {
-                    return <PlayerLink
-                                key={player.id}
-                                player={player}
-                                cardScheme={CardColor.getCardScheme(i)}
-                            />
-                })
+                {players.length ?
+                    players.map((player, i) => {
+                        return <PlayerLink
+                                    key={player.id}
+                                    player={player}
+                                    cardScheme={CardColor.getCardScheme(i)}
+                                />
+                    })
                 :
-                <h3>You do not currently have any players!</h3>
+                    <h3>You do not currently have any players!</h3>
                 }
             </ul>}
             <button className="menu-button" onClick={()=> navigate('create-player')}>Create a Player</button>
