@@ -3,7 +3,7 @@ import { useGame, useGameDispatch } from './GameContext/GameContext'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { actions } from './GameContext/GameReducer'
-import { authFetch, usePatch } from '../../utilities/auth'
+import { usePatch } from '../../utilities/auth'
 
 export default function BankReserveModal() {
     const {bank} = useGame()
