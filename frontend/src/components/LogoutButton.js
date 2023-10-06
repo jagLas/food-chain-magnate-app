@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../App";
-import { authFetch, usePost } from "../utilities/auth";
+import { usePost } from "../utilities/auth";
 import ProcessingModal from "./ProcessingModal";
 
 export default function LogoutButton () {

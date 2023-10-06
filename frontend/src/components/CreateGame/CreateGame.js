@@ -2,7 +2,7 @@ import { useState } from "react"
 import PlayerField from "./PlayerField"
 import { useNavigate } from "react-router-dom"
 import { CardColor } from "../../utilities/card-schemes"
-import { authFetch, useGet, usePost } from "../../utilities/auth"
+import { useGet, usePost } from "../../utilities/auth"
 import Loading from "../Loading"
 
 const CreateGameForm = () => {

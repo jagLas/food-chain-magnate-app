@@ -16,15 +16,6 @@ export default function LoginForm() {
     const [loginData, loginIsLoading, loginPostData] = usePost(`/auth/login`, dataProcessor)
     const [signupData, signupIsLoading, signupPostData] = usePost(`/auth/signup`, dataProcessor)
 
-    const login = async (payload) => {
-        let data = await authFetch(`/auth/login`, {
-            method: 'POST',
-            body: payload
-        })
-
-        return data
-    }
-
     const loginFormHandler = (event) => {
         event.preventDefault()
 
