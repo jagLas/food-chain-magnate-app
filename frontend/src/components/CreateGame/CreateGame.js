@@ -2,7 +2,7 @@ import { useState } from "react"
 import PlayerField from "./PlayerField"
 import { useNavigate } from "react-router-dom"
 import { CardColor } from "../../utilities/card-schemes"
-import { authFetch, useGet } from "../../utilities/auth"
+import { authFetch, useGet, usePost } from "../../utilities/auth"
 
 const CreateGameForm = () => {
     const [playerList, isLoading] = useGet('/players')
@@ -14,15 +14,11 @@ const CreateGameForm = () => {
     const [player5, setPlayer5] = useState('')
     const navigate = useNavigate();
 
-    const createGame = async (payload) => {
-            let data = await authFetch(`/games/`, {
-                method: 'POST',
-                body: payload
-            })
-
-            return data
+    const dataProcessor = () => {
+        navigate(`/games/${data.id}/rounds/1`)
     }
 
+    const [data, isProcessing, postData] = usePost(`/games/`, dataProcessor)
 
     const formHandler = async (event) => {
         event.preventDefault()
@@ -43,14 +39,8 @@ const CreateGameForm = () => {
             player_ids,
             bank_start: player_ids.length * 50
         }
-        try{
-            const gameData = await createGame(JSON.stringify(payload));
 
-            navigate(`/games/${gameData.id}/rounds/1`);
-
-        } catch(error){
-            navigate('/error', {state: { ...error }})
-        }
+        postData(payload)
     }
 
     
