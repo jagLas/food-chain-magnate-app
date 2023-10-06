@@ -32,7 +32,7 @@ export default function Bank ({totals}) {
     }
 
     return (
-        <div className="table-row">
+        <div className={"table-row"  + (isProcessing ? ' processing' : '')}>
             <div style={{fontWeight: 700}}>
                 Bank
                 <div style={{fontWeight: 400}} className="details">

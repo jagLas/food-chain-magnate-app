@@ -8,10 +8,7 @@ export default function Loading({message}) {
                 <div>Your Data:</div>
                 <div>Coming Soon!</div>
             </div>
-            <div className='sign-post'>
-                
-            </div>
+            <div className='sign-post'></div>
         </div>
-        
     )
 }

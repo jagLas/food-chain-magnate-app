@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { actions } from './GameContext/GameReducer'
 import { usePatch } from '../../utilities/auth'
+import ProcessingModal from '../ProcessingModal'
 
 export default function BankReserveModal() {
     const {bank} = useGame()
@@ -35,36 +36,38 @@ export default function BankReserveModal() {
 
     return (
         <>
-            {bank.reserve || bank.total >= 0 ? null : 
-            <div id="reserve-modal" className="modal">
-                <div className='table-container'>
-                    <h1>Bank Broken!</h1>
-                    <p>
-                        The bank has broken! Please reveal the reserve cards now
-                        and enter their total below.
+            {bank.reserve || bank.total >= 0 ? null :
+            
+            <>{isProcessing ? <ProcessingModal /> :
+                <div id="reserve-modal" className="modal">
+                    <div className='table-container'>
+                        <h1>Bank Broken!</h1>
+                        <p>
+                            The bank has broken! Please reveal the reserve cards now
+                            and enter their total below.
 
-                        If you need to change this later due to an error, hover over the bank field
-                        of the Game Totals table to update.
-                    </p>
-                    <form>
-                        <label style={{fontWeight: '600'}}htmlFor='add-reserve-field'>
-                            Bank Reserve
-                        </label>
-                        <input 
-                            id='add-reserve-field'
-                            value={reserve}
-                            type='number'
-                            step={100}
-                            min={0}
-                            max={1800}
-                            onChange={onChangeHandler}
-                        />          
-                        <button onClick={onClickHandler}>Update Reserve</button>
-                    </form>
+                            If you need to change this later due to an error, hover over the bank field
+                            of the Game Totals table to update.
+                        </p>
+                        <form>
+                            <label style={{fontWeight: '600'}}htmlFor='add-reserve-field'>
+                                Bank Reserve
+                            </label>
+                            <input 
+                                id='add-reserve-field'
+                                value={reserve}
+                                type='number'
+                                step={100}
+                                min={0}
+                                max={1800}
+                                onChange={onChangeHandler}
+                            />          
+                            <button onClick={onClickHandler}>Update Reserve</button>
+                        </form>
+                    </div>
                 </div>
-            </div>}
-        </>
-
-        
+            }</>
+            }
+        </>        
     )
 }
