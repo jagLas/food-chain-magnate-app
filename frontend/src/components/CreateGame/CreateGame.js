@@ -3,6 +3,7 @@ import PlayerField from "./PlayerField"
 import { useNavigate } from "react-router-dom"
 import { CardColor } from "../../utilities/card-schemes"
 import { authFetch, useGet, usePost } from "../../utilities/auth"
+import Loading from "../Loading"
 
 const CreateGameForm = () => {
     const [playerList, isLoading] = useGet('/players')
@@ -67,7 +68,10 @@ const CreateGameForm = () => {
 
     return (
         <div>
+            {isProcessing ? <Loading message='Processing'/> :
+            <>
             <h2 className="menu-header">Create a Game</h2>
+            
             <form id="create-game">
                 <ul className="card-list">
                     {playerFields}
@@ -78,6 +82,7 @@ const CreateGameForm = () => {
                     onClick={() => navigate('/players/create-player')}
                 >Create a player</button>
             </form>
+            </>}
         </div>
     )
 }

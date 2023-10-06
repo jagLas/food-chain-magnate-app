@@ -4,7 +4,6 @@ import { useGame, useGameDispatch } from "../GameContext/GameContext"
 import { actions } from "../GameContext/GameReducer"
 import { usePost } from "../../../utilities/auth"
 import './AddSaleForm.css'
-import Loading from "../../Loading"
 
 function SalePlayerfield({player}){
     return (
@@ -38,7 +37,7 @@ export default function AddSaleForm() {
         })
     }
 
-    const [data, isLoading, sendData] = usePost(`/games/${gameId}/sales`, dataProcessor)
+    const [data, isProcessing, sendData] = usePost(`/games/${gameId}/sales`, dataProcessor)
      
     const formHandler = async (event) => {
         event.preventDefault()
@@ -72,12 +71,8 @@ export default function AddSaleForm() {
         options.push(<SalePlayerfield key={player.id} player={player}/>)
     }
 
-    if (isLoading) {
-        return <Loading message='Processing' />
-    }
-
     return (
-        <>
+        <div id='add-sale' className={isProcessing ? 'processing' : null}>
         <h3>Add a Sale</h3>
         <form id='add-sale-form'>
             <label>Player:
@@ -144,6 +139,6 @@ export default function AddSaleForm() {
                 <button onClick={formHandler}>Submit</button>
             </div>
         </form>
-        </>
+        </div>
     )
 }

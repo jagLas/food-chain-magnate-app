@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useGame, useGameDispatch } from "../GameContext/GameContext"
 import { actions } from "../GameContext/GameReducer"
-import { authFetch, useDelete } from "../../../utilities/auth";
+import { useDelete } from "../../../utilities/auth";
 
 export default function SaleRow({sale}) {
     const dispatch = useGameDispatch();
@@ -27,7 +27,7 @@ export default function SaleRow({sale}) {
     }
 
     return (
-        <div className="table-row">
+        <div className={`table-row`}>
             <div className="player-name-field">
                 {players.find(player => player.id === sale.player_id).name}
             </div>
@@ -84,7 +84,7 @@ export default function SaleRow({sale}) {
             </div>
             <div className="table-subgroup" style={{padding: '4px'}}>
                 <button
-                    className="delete-sale"
+                    className={`delete-sale` + (isProcessing ? ' processing' : '')}
                     onClick={deleteSale}
                 >
                     delete
