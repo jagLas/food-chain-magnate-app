@@ -9,8 +9,6 @@ const Totals = () => {
     const dispatch = useGameDispatch();
 
     const totals = useMemo(() => {
-      console.log('Recalculating totals')
-      // creates totals object with total property
       const totals = {
         total: {
           name: 'total',
@@ -79,7 +77,7 @@ const Totals = () => {
       // updates the bank values if it has been initialized
       const newBankTotal = bank.start + bank.reserve - totals.total.income
 
-      console.log('dispatching', newBankTotal)
+      // console.log('dispatching', newBankTotal)
       dispatch({
         type: actions.UPDATE_BANK_TOTAL,
         payload: newBankTotal
